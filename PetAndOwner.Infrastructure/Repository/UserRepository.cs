@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PetAndOwner.Domain.Interface.Repository;
 using PetAndOwner.Infrastructure.Data;
 
@@ -17,12 +18,17 @@ public class UserRepository : IUserRepository
         var result = await _userManager.UpdateAsync(user);
         if (!result.Succeeded)
         {
-            throw new Exception("An error occured while updating gthe user.");
+            throw new Exception("An error occured while updating the user.");
         }
     }
 
-    public Task GetUserByIdAsync(Guid id)
+    public async Task<ApplicationUser> GetUserByIdAsync(Guid id)
     {
-        return _userManager.FindByIdAsync(id.ToString());
+        return await _userManager.FindByIdAsync(id.ToString());
+    }
+
+    public async Task<List<ApplicationUser>> GetAllUsersAsync()
+    {
+        return await _userManager.Users.ToListAsync();
     }
 }

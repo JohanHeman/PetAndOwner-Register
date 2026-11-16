@@ -31,19 +31,19 @@ public class PetRepository : IPetRepository
         await _context.SaveChangesAsync();
     }
 
-    public Task<Pet?> GetPetByIdAsync(Guid id)
+    public async Task<Pet?> GetPetByIdAsync(Guid id)
     {
-         return _context.Pets.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+         return await _context.Pets.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public Task<List<Pet>> GetPetsAsync()
+    public async Task<List<Pet>> GetPetsAsync()
     {
-        return _context.Pets.AsNoTracking().ToListAsync();
+        return await _context.Pets.AsNoTracking().ToListAsync();
     }
 
-    public Task<List<Pet>> GetPetsByUserIdAsync(Guid userId)
+    public async Task<List<Pet>> GetPetsByUserIdAsync(Guid userId)
     {
-        return _context.Pets
+        return await  _context.Pets
             .AsNoTracking()
             .Where(p => p.Users.Any(u => u.Id == userId))
             .ToListAsync();

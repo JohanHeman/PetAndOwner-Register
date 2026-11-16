@@ -6,5 +6,6 @@ public interface IUserRepository
 {
     //crud
     public Task UpdateUserAsync(ApplicationUser user);
-    public Task GetUserByIdAsync(Guid id);
+    public Task<ApplicationUser> GetUserByIdAsync(Guid id);
+    public Task<List<ApplicationUser>> GetAllUsersAsync();
 }
