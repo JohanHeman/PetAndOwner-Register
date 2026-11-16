@@ -30,5 +30,4 @@ public class Pet
     public AnimalType AnimalType { get; set; }
     public ICollection<Allergy> Allergies { get; set; } = new List<Allergy>();
     public ICollection<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
-
 }
