@@ -3,7 +3,7 @@ using PetAndOwner.Domain.Entities;
 
 namespace PetAndOwner.Infrastructure.Data;
 
-public class ApplicationUser : IdentityUser
+public class ApplicationUser : IdentityUser<Guid>
 {
     public string Name { get; set; }
     public int Age { get; set; }
