@@ -6,5 +6,5 @@ namespace PetAndOwner.Infrastructure.Repository;
 
 public class CountryRepository : BaseRepository<Country>, ICountryRepository
 {
-  public CountryRepository(ApplicationDbContext context) : base(context) {}
+    public CountryRepository(ApplicationDbContext context) : base(context) { }
 }

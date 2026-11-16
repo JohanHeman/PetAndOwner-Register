@@ -3,20 +3,20 @@ using PetAndOwner.Infrastructure.Data;
 
 namespace PetAndOwner.Domain.Interface.Repository;
 
-public abstract class BaseRepository<T> :IBaseRepository<T> where T : class 
+public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
 {
     protected readonly ApplicationDbContext _context;
-    
+
     public BaseRepository(ApplicationDbContext context)
     {
         _context = context;
     }
 
     private DbSet<T> _dbSet;
-    
+
     public async Task CreateAsync(T tEntity)
     {
-        await _dbSet.AddAsync(tEntity); 
+        await _dbSet.AddAsync(tEntity);
         await _context.SaveChangesAsync();
     }
 

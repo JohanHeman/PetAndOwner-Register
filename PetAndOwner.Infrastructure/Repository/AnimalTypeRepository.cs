@@ -4,7 +4,7 @@ using PetAndOwner.Infrastructure.Data;
 
 namespace PetAndOwner.Infrastructure.Repository;
 
-public class AnimalTypeRepository : BaseRepository<AnimalType> , IAnimalTypeRepository
+public class AnimalTypeRepository : BaseRepository<AnimalType>, IAnimalTypeRepository
 {
-   public AnimalTypeRepository(ApplicationDbContext context) : base(context) {}
+    public AnimalTypeRepository(ApplicationDbContext context) : base(context) { }
 }

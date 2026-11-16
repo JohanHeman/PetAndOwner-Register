@@ -6,5 +6,5 @@ namespace PetAndOwner.Infrastructure.Repository;
 
 public class FoodBrandRepository : BaseRepository<FoodBrand>, IFoodBrandRepository
 {
-    public FoodBrandRepository(ApplicationDbContext context) : base(context){}
+    public FoodBrandRepository(ApplicationDbContext context) : base(context) { }
 }

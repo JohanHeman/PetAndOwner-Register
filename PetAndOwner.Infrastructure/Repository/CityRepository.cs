@@ -6,5 +6,5 @@ namespace PetAndOwner.Infrastructure.Repository;
 
 public class CityRepository : BaseRepository<City>, ICityRepository
 {
-   public CityRepository( ApplicationDbContext context) : base(context){}
+    public CityRepository(ApplicationDbContext context) : base(context) { }
 }

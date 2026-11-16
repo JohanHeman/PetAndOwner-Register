@@ -5,7 +5,7 @@ using PetAndOwner.Infrastructure.Data;
 
 namespace PetAndOwner.Infrastructure.Repository;
 
-public class PetRepository : BaseRepository<Pet> ,IPetRepository 
+public class PetRepository : BaseRepository<Pet>, IPetRepository
 {
     public PetRepository(ApplicationDbContext context) : base(context)
     {
