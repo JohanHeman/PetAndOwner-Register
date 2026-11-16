@@ -20,7 +20,7 @@ public class DomainTests
         // Assert
         Assert.Equal(expectedMessage, actual.Message);
     }
-    
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]
@@ -37,7 +37,7 @@ public class DomainTests
         // Assert
         Assert.Equal(expectedMessage, actual.Message);
     }
-    
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]
@@ -54,7 +54,7 @@ public class DomainTests
         // Assert
         Assert.Equal(expectedMessage, actual.Message);
     }
-    
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]
@@ -71,7 +71,7 @@ public class DomainTests
         // Assert
         Assert.Equal(expectedMessage, actual.Message);
     }
-    
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]
@@ -105,7 +105,7 @@ public class DomainTests
         var actual = Assert.Throws<ArgumentException>(() => pet.Name = name);
 
         // Assert
-        
+
         Assert.Equal(expectedMessage, actual.Message);
     }
 
@@ -121,6 +121,6 @@ public class DomainTests
         var actual = Assert.Throws<ArgumentException>(() => pet.Age = age);
 
         // Assert 
-        Assert.Equal(expectedMessage, actual.Message); 
+        Assert.Equal(expectedMessage, actual.Message);
     }
 }
