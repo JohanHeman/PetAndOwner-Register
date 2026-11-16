@@ -3,4 +3,5 @@
   <Project Path="PetAndOwner.Application/PetAndOwner.Application.csproj" />
   <Project Path="PetAndOwner.Domain/PetAndOwner.Domain.csproj" />
   <Project Path="PetAndOwner.Infrastructure/PetAndOwner.Infrastructure.csproj" />
+  <Project Path="PetAndOwner.Tests/PetAndOwner.Tests.csproj" />
 </Solution>
