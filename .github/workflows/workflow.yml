@@ -11,7 +11,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -25,10 +24,21 @@ jobs:
             dotnet-version: ${{ matrix.dotnet-version }}
         - name: build project
           run: dotnet build
-        - name: format code
-          run: dotnet format
-        - name: test
-          run: dotnet test
+  format_and_test:
+    
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '8.0.x', '9.0.x', '10.0.x']
+      - name: checkout
+        uses: actions/checkout@v6
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+      - name: format code
+      run: dotnet format
+      - name: test
+      run: dotnet test
         
   
     
