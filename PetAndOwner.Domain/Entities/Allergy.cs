@@ -3,7 +3,7 @@ namespace PetAndOwner.Domain.Entities;
 public class Allergy
 {
     public Guid Id { get; set; }
-    private string _name  { get; set; }
+    private string _name { get; set; }
     public string Name
     {
         get => _name;

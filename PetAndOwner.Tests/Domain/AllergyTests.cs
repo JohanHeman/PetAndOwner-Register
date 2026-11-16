@@ -8,11 +8,11 @@ public class AllergyTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData(" ")]
-    public void AllergyName_ShouldThrowArgumentException_whenNameIsNullorWhiteSpace(string name)
+    public void AllergyName_ShouldThrowArgumentException_whenNameIsNullorWhiteSpace(string? name)
     {
         // Arrange
-        Allergy allergy = new Allergy(); 
-        var expectedMessage = "Name cannot be null or whitespace."; 
+        Allergy allergy = new Allergy();
+        var expectedMessage = "Name cannot be null or whitespace.";
 
         // Act
         var actual = Assert.Throws<ArgumentException>(() => allergy.Name = name);
@@ -20,5 +20,5 @@ public class AllergyTests
         // Assert
         Assert.Equal(expectedMessage, actual.Message);
     }
-    
+
 }
