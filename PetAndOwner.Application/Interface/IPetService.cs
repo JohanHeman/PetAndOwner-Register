@@ -9,6 +9,6 @@ public interface IPetService
     public Task SetPetOwnerAsync(ApplicationUser user, Pet pet);
     public Task UpdatePetAsync(Guid petId);
     public Task DeletePetAsync(Guid petId);
-    public Task<List<Pet>>  GetPetsAsync();
+    public Task<List<Pet>> GetPetsAsync();
     public Task<Pet> GetPetByIdAsync(Guid id);
 }
