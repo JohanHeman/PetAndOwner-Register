@@ -25,6 +25,8 @@ jobs:
             dotnet-version: ${{ matrix.dotnet-version }}
         - name: build project
           run: dotnet build
+        - name: format code
+          run: dotnet format
         
   
     
