@@ -110,7 +110,6 @@ public class DomainTests
     }
 
     [Theory]
-    [InlineData(null)]
     [InlineData(0)]
     [InlineData(-55)]
     public void PetAge_ShouldThrowArgumentException_WhenAgeIsInvalid(int age)
