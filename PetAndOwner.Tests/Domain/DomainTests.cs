@@ -4,22 +4,6 @@ namespace PetAndOwner.Tests;
 
 public class DomainTests
 {
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData(" ")]
-    public void AllergyName_ShouldThrowArgumentException_WhenNameIsNullorWhiteSpace(string? name)
-    {
-        // Arrange
-        Allergy allergy = new Allergy();
-        var expectedMessage = "Name can't be null or whitespace.";
-
-        // Act
-        var actual = Assert.Throws<ArgumentException>(() => allergy.Name = name);
-
-        // Assert
-        Assert.Equal(expectedMessage, actual.Message);
-    }
 
     [Theory]
     [InlineData(null)]
@@ -55,39 +39,6 @@ public class DomainTests
         Assert.Equal(expectedMessage, actual.Message);
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData(" ")]
-    public void FoodName_ShouldThrowArgumentException_WhenNameIsNullorWhiteSpace(string? name)
-    {
-        // Arrange
-        Food food = new Food();
-        var expectedMessage = "Name can't be null or whitespace";
-
-        // Act
-        var actual = Assert.Throws<ArgumentException>(() => food.Name = name);
-
-        // Assert
-        Assert.Equal(expectedMessage, actual.Message);
-    }
-
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData(" ")]
-    public void FoodBrandName_ShouldThrowArgumentException_WhenNameIsNullorWhiteSpace(string? name)
-    {
-        // Arrange
-        FoodBrand foodBrand = new FoodBrand();
-        var expectedMessage = "Name can't be null or whitespace";
-
-        // Act
-        var actual = Assert.Throws<ArgumentException>(() => foodBrand.Name = name);
-
-        // Assert
-        Assert.Equal(expectedMessage, actual.Message);
-    }
 
     [Theory]
     [InlineData(null)]

@@ -27,9 +27,6 @@ public class Pet : IEntity
         }
     }
     public Gender Gender { get; set; }
-    public Guid FoodId { get; set; }
-    public Food Food { get; set; }
     public AnimalType AnimalType { get; set; }
-    public ICollection<Allergy> Allergies { get; set; } = new List<Allergy>();
     public ICollection<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
 }
