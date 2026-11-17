@@ -7,7 +7,7 @@ public class ApplicationUser : IdentityUser<Guid>
 {
     public string Name { get; set; }
     public int Age { get; set; }
-    public string PhoneNumber { get; set; }
+    public string? PhoneNumber { get; set; }
     public Guid CityId { get; set; }
     public City City { get; set; }
     public Gender Gender { get; set; }
