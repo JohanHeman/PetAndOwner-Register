@@ -1,6 +1,6 @@
 namespace PetAndOwner.Domain.Entities;
 
-public class FoodBrand
+public class FoodBrand : IEntity
 {
     public Guid Id { get; set; }
     private string _name;

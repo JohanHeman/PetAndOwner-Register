@@ -1,6 +1,6 @@
 namespace PetAndOwner.Domain.Entities;
 
-public class Allergy
+public class Allergy : IEntity
 {
     public Guid Id { get; set; }
     private string _name { get; set; }

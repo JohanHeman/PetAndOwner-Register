@@ -1,6 +1,6 @@
 namespace PetAndOwner.Domain.Entities;
 
-public class Country
+public class Country : IEntity
 {
     public Guid Id { get; set; }
     private string _name;
