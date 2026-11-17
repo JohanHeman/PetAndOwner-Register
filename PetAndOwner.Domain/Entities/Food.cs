@@ -2,7 +2,7 @@ using PetAndOwner.Infrastructure.Data;
 
 namespace PetAndOwner.Domain.Entities;
 
-public class Food :IEntity
+public class Food : IEntity
 {
     public Guid Id { get; set; }
     private string _name;

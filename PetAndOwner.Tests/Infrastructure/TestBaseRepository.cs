@@ -5,9 +5,9 @@ using PetAndOwner.Infrastructure.Data;
 
 namespace PetAndOwner.Tests.Infrastructure;
 
-public class TestBaseRepository<T> : BaseRepository<T> where T : class 
-{  
+public class TestBaseRepository<T> : BaseRepository<T> where T : class
+{
     public TestBaseRepository(ApplicationDbContext context) : base(context)
-    {}
-    
+    { }
+
 }

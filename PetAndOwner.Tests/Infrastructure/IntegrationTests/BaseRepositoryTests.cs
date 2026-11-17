@@ -6,14 +6,14 @@ using PetAndOwner.Infrastructure.Repository;
 
 namespace PetAndOwner.Tests.Infrastructure.IntegrationTests;
 
-public abstract class BaseRepositoryTests<TEntity> where TEntity : class, IEntity, new() 
+public abstract class BaseRepositoryTests<TEntity> where TEntity : class, IEntity, new()
 {
     protected readonly ApplicationDbContext _dbContext;
-    
+
     protected readonly TestBaseRepository<TEntity> _sut;
-    
+
     protected abstract TEntity CreateEntity();
-    
+
     public BaseRepositoryTests()
     {
         var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("TestDB").Options;
@@ -33,7 +33,7 @@ public abstract class BaseRepositoryTests<TEntity> where TEntity : class, IEntit
         await _sut.CreateAsync(entity);
         // Assert
         var result = await _dbContext.Set<TEntity>().FindAsync((entity.Id));
-        
+
         Assert.NotNull(entity);
     }
 
@@ -51,5 +51,5 @@ public abstract class BaseRepositoryTests<TEntity> where TEntity : class, IEntit
         var result = await _dbContext.Set<TEntity>().FindAsync((entity.Id));
         Assert.Null(result);
     }
-    
+
 }

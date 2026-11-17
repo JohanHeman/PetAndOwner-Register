@@ -7,7 +7,7 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
 {
     protected readonly ApplicationDbContext _context;
     private DbSet<T> _dbSet;
-    
+
     public BaseRepository(ApplicationDbContext context)
     {
         _context = context;
