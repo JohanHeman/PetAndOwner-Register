@@ -2,7 +2,7 @@ using PetAndOwner.Infrastructure.Data;
 
 namespace PetAndOwner.Domain.Entities;
 
-public class City
+public class City : IEntity
 {
     public Guid Id { get; set; }
     private string _name;

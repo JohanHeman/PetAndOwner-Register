@@ -1,6 +1,6 @@
 namespace PetAndOwner.Domain.Entities;
 
-public class AnimalType
+public class AnimalType : IEntity
 {
     public Guid Id { get; set; }
     private string _name;
