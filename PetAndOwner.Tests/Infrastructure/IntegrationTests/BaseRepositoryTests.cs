@@ -16,10 +16,8 @@ public abstract class BaseRepositoryTests<TEntity> where TEntity : class, IEntit
 
     public BaseRepositoryTests()
     {
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("TestDB").Options;
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
         _dbContext = new ApplicationDbContext(options);
-        _dbContext.Database.EnsureDeleted();
-        _dbContext.Database.EnsureCreated();
 
         _sut = new TestBaseRepository<TEntity>(_dbContext);
     }
@@ -34,7 +32,7 @@ public abstract class BaseRepositoryTests<TEntity> where TEntity : class, IEntit
         // Assert
         var result = await _dbContext.Set<TEntity>().FindAsync((entity.Id));
 
-        Assert.NotNull(entity);
+        Assert.NotNull(result);
     }
 
     [Fact]
