@@ -294,7 +294,7 @@ namespace PetAndOwner.Infrastructure.Migrations
                     b.Property<Guid>("AnimalTypeId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("FoodId")
+                    b.Property<Guid>("FoodId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Gender")
@@ -339,9 +339,6 @@ namespace PetAndOwner.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid?>("FoodId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
 
@@ -367,7 +364,6 @@ namespace PetAndOwner.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("PhoneNumberConfirmed")
@@ -386,8 +382,6 @@ namespace PetAndOwner.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
-
-                    b.HasIndex("FoodId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -510,11 +504,15 @@ namespace PetAndOwner.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PetAndOwner.Domain.Entities.Food", null)
+                    b.HasOne("PetAndOwner.Domain.Entities.Food", "Food")
                         .WithMany("Pets")
-                        .HasForeignKey("FoodId");
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AnimalType");
+
+                    b.Navigation("Food");
                 });
 
             modelBuilder.Entity("PetAndOwner.Infrastructure.Data.ApplicationUser", b =>
@@ -524,10 +522,6 @@ namespace PetAndOwner.Infrastructure.Migrations
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("PetAndOwner.Domain.Entities.Food", null)
-                        .WithMany("Owners")
-                        .HasForeignKey("FoodId");
 
                     b.Navigation("City");
                 });
@@ -544,8 +538,6 @@ namespace PetAndOwner.Infrastructure.Migrations
 
             modelBuilder.Entity("PetAndOwner.Domain.Entities.Food", b =>
                 {
-                    b.Navigation("Owners");
-
                     b.Navigation("Pets");
                 });
 #pragma warning restore 612, 618
