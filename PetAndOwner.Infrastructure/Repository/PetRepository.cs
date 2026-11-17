@@ -15,7 +15,12 @@ public class PetRepository : BaseRepository<Pet>, IPetRepository
     {
         return await _context.Pets
             .AsNoTracking()
-            .Where(p => p.Users.Any(u => u.Id == userId))
+            .Where(p => p.Owners.Any(u => u.Id == userId))
             .ToListAsync();
+    }
+
+    public async Task<List<ApplicationUser>> GetOwnersByPetIdAsync(Guid petId)
+    {
+        return await _context.Users.Where(u => u.Pets.Any(p => p.Id == petId)).ToListAsync();
     }
 }
