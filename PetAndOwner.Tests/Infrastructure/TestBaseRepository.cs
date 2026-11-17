@@ -1,9 +1,13 @@
 using Moq;
+using PetAndOwner.Domain.Entities;
 using PetAndOwner.Domain.Interface.Repository;
+using PetAndOwner.Infrastructure.Data;
 
 namespace PetAndOwner.Tests.Infrastructure;
 
-public class AnimalTypeRepositoryTests
+public class TestBaseRepository<T> : BaseRepository<T> where T : class 
 {  
-    private readonly Mock<IBaseRepository<>> _animalTypeRepository;
+    public TestBaseRepository(ApplicationDbContext context) : base(context)
+    {}
+    
 }
