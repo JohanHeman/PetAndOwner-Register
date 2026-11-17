@@ -6,13 +6,14 @@ namespace PetAndOwner.Domain.Interface.Repository;
 public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
 {
     protected readonly ApplicationDbContext _context;
-
+    private DbSet<T> _dbSet;
+    
     public BaseRepository(ApplicationDbContext context)
     {
         _context = context;
+        _dbSet = _context.Set<T>();
     }
 
-    private DbSet<T> _dbSet;
 
     public async Task CreateAsync(T tEntity)
     {
