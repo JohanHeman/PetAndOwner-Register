@@ -28,5 +28,5 @@ public class Pet : IEntity
     }
     public Gender Gender { get; set; }
     public AnimalType AnimalType { get; set; }
-    public ICollection<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
+    public ICollection<ApplicationUser> Owners { get; set; } = new List<ApplicationUser>();
 }
