@@ -32,7 +32,7 @@ public abstract class BaseRepositoryTests<TEntity> where TEntity : class, IEntit
         // Assert
         var result = await _dbContext.Set<TEntity>().FindAsync((entity.Id));
 
-        Assert.NotNull(entity);
+        Assert.NotNull(result);
     }
 
     [Fact]
