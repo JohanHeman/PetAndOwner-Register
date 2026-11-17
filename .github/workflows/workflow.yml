@@ -8,34 +8,36 @@ on:
     branches:
       - main
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: ['9.0.x', '10.0.x']
     steps:
         - name: checkout
           uses: actions/checkout@v6
-        - name: Setup dotnet ${{ matrix.dotnet-version }}
+
+        - name: Setup dotnet 
           uses: actions/setup-dotnet@v4
           with:
-            dotnet-version: ${{ matrix.dotnet-version }}
+            dotnet-version: |
+              8.0.x
+              9.0.x
+              10.0.x
         - name: build project
           run: dotnet build
   format_and_test:
     
     needs: build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: [ '9.0.x', '10.0.x']
     steps:
       - name: checkout
         uses: actions/checkout@v6
-      - name: Setup dotnet ${{ matrix.dotnet-version }}
+      - name: Setup dotnet
         uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+              8.0.x
+              9.0.x
+              10.0.x
       - name: format code
         run: dotnet format
       - name: test
