@@ -9,5 +9,5 @@ public interface ILocationService
 
     public Task<IEnumerable<City>> GetCitiesInDbAsync();
     public Task<IEnumerable<Country>> GetCountriesInDbAsync();
-    
+
 }

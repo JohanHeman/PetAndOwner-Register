@@ -11,5 +11,5 @@ public interface IUserService
     public Task<ApplicationUser> GetUserByIdAsync(Guid id);
     public Task<List<ApplicationUser>> GetAllUsersAsync();
     Task<List<Pet>> GetUserPetsAsync(Guid userId);//UserPetsResponseDto instead of return List<Pet> maybe
-    
+
 }

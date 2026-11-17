@@ -10,8 +10,8 @@ public interface IPetService
     public Task RemovePetAsync(Guid petId);
     public Task<List<Pet>> GetAllPetsAsync();
     public Task<Pet> GetPetByIdAsync(Guid id);
-    public Task GetOwnersByPetAsync(Guid petId);   
-    public Task RemoveOwnerAsync(Guid petId, Guid ownerId);    
+    public Task GetOwnersByPetAsync(Guid petId);
+    public Task RemoveOwnerAsync(Guid petId, Guid ownerId);
     public Task AddOwnersAsync(Guid petId, Guid newOwnerId);
-    
+
 }
