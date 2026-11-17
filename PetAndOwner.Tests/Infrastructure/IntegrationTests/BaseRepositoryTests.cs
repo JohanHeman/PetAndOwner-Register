@@ -18,8 +18,6 @@ public abstract class BaseRepositoryTests<TEntity> where TEntity : class, IEntit
     {
         var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
         _dbContext = new ApplicationDbContext(options);
-        _dbContext.Database.EnsureDeleted();
-        _dbContext.Database.EnsureCreated();
 
         _sut = new TestBaseRepository<TEntity>(_dbContext);
     }
