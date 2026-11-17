@@ -39,7 +39,6 @@ public abstract class BaseRepositoryTests<TEntity> where TEntity : class, IEntit
     public async Task DeleteAsync_ShouldDeleteEntity_WhenValidId()
     {
         // Arrange
-
         TEntity entity = CreateEntity();
         await _sut.CreateAsync(entity);
         // Act
