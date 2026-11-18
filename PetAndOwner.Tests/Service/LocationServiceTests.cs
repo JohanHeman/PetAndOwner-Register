@@ -1,6 +1,7 @@
 using Moq;
 using PetAndOwner.Application;
 using PetAndOwner.Application.Interface;
+using PetAndOwner.Domain.Entities;
 using PetAndOwner.Domain.Interface.Repository;
 
 namespace PetAndOwner.Tests.Service;
@@ -34,6 +35,43 @@ public class LocationServiceTests
         // Assert
         Assert.Equal(expected, actual.Message);
     }
+
+    [Fact]
+    public async Task GetOrSaveCityAsync_ShouldReturnCity_WhenMatchFound()
+    {
+        // Arrange
+        var city = new City()
+        {
+            Name = "cityName"
+        };
+
+        var expectedName = "cityName";
+        
+        _cityRepo.Setup(x => x.GetCityByNameAsync(city.Name)).ReturnsAsync(city);
+
+        // Act
+        var actual = await _sut.GetOrSaveCityAsync(city.Name);
+
+        // Assert
+        
+        _cityRepo.Verify(x => x.GetCityByNameAsync(city.Name), Times.Once);
+        Assert.Equal(actual.Name, expectedName);
+        _cityRepo.Verify(x => x.CreateAsync(It.IsAny<City>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task GetOrSaveCityAsync_ShouldCreateCity_WhenMatchNotFound()
+    {
+        // Arrange
+        var city = new City(){Name = "cityName"};
+        _cityRepo.Setup(x => x.GetCityByNameAsync(city.Name)).ReturnsAsync((City?)null);
+        // Act
+        var actual = await _sut.GetOrSaveCityAsync(city.Name);
+
+        // Assert
+        _cityRepo.Verify(x => x.CreateAsync(It.IsAny<City>()), Times.Once);
+    }
+    
     
     
 }
