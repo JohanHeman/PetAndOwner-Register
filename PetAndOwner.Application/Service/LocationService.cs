@@ -14,7 +14,7 @@ public class LocationService : ILocationService
         _countryRepository = countryRepository;
         _cityRepository = cityRepository;
     }
-    
+
     public async Task<City> GetOrSaveCityAsync(string cityName)
     {
         if (string.IsNullOrWhiteSpace(cityName)) throw new ArgumentException("Value cannot be null or whitespace");
@@ -43,7 +43,7 @@ public class LocationService : ILocationService
                 Id = Guid.NewGuid(),
                 Name = countryName,
             };
-            await _countryRepository.CreateAsync(newCountry); 
+            await _countryRepository.CreateAsync(newCountry);
             country = newCountry;
         }
         return country;
