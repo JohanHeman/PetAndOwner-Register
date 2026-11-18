@@ -187,7 +187,7 @@ public class PetServiceTests
     [Fact]
     public async Task AddOwnerAsync_ShouldThrowArgumentException_WhenOwnerDoesNotExist()
     {
-        
+
         // Arrange
         var petId = Guid.NewGuid();
         var userId = Guid.NewGuid();
@@ -214,7 +214,7 @@ public class PetServiceTests
         _repository.Verify(x => x.AddOwnerAsync(petId, applicationUser.Id), Times.Never);
         Assert.Equal(expected, actual.Message);
     }
-    
+
     [Fact]
     public async Task AddOwnerAsync_ShouldAddOwner_WhenPetAndOwnerExist()
     {

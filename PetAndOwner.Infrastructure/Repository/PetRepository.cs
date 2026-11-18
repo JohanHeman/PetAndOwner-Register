@@ -40,7 +40,7 @@ public class PetRepository : BaseRepository<Pet>, IPetRepository
     public async Task AddOwnerAsync(Guid petId, Guid ownerId)
     {
         var pet = await _context.Pets.Include(p => p.Owners).FirstOrDefaultAsync(p => p.Id == petId);
-        
+
         var owner = _context.Users.FirstOrDefault(u => u.Id == ownerId);
 
         if (owner != null)
