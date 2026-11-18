@@ -28,14 +28,14 @@ public class ApiService
                     Id = Guid.NewGuid(),
                     Name = countryDto.Country,
                 };
-                    
+
                 country.Cities = countryDto.Cities.Select(cityName => new City()
                 {
                     Id = Guid.NewGuid(),
                     Name = cityName,
                     Country = country,
                 }).ToList();
-                    
+
                 countries.Add(country);
             }
         }
