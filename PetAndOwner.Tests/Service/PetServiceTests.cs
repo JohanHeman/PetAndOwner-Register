@@ -17,18 +17,8 @@ public class PetServiceTests
     {
         _repository = new Mock<IPetRepository>();
         var store = new Mock<IUserStore<ApplicationUser>>();
-        
-        _userManager = new Mock<UserManager<ApplicationUser>>(
-            store.Object,
-            null!, // IOptions<IdentityOptions>
-            null!, // IPasswordHasher<TUser>
-            null!, // IEnumerable<IUserValidator<TUser>>
-            null!, // IEnumerable<IPasswordValidator<TUser>>
-            null!, // ILookupNormalizer
-            null!, // IdentityErrorDescriber
-            null!, // IServiceProvider
-            null! // ILogger<UserManager<TUser>>
-        );
+
+        _userManager = MockUserManager.Create();
         _sut = new PetService(_repository.Object, _userManager.Object);
     }
 
