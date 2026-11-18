@@ -127,5 +127,16 @@ public class PetServiceTests
         _repository.Verify(x => x.GetOwnersByPetIdAsync(pet.Id), Times.Once);
     }
 
+    [Fact]
+    public async Task RemoveOwnerAsync_ShouldRemoveOwner()
+    {
+        var owner = new ApplicationUser();
+        var owners = new List<ApplicationUser> { owner };
+        
+        _repository.Setup(x => x.GetOwnersByPetIdAsync(owner.Id)).ReturnsAsync(owners);
+        
+        
+    }
+
 
 }
