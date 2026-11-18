@@ -10,8 +10,6 @@ public class ApplicationUser : IdentityUser<Guid>
     public string? PhoneNumber { get; set; }
     public Guid CityId { get; set; }
     public City City { get; set; }
-    public Guid CountryId { get; set; }
-    public Country Country { get; set; }
     public Gender Gender { get; set; }
     public ICollection<Pet> Pets { get; set; } = new List<Pet>();
 }
