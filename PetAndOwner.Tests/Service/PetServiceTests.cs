@@ -166,8 +166,8 @@ public class PetServiceTests
         // Assert
         _repository.Verify(x => x.RemoveOwnerAsync(petId, userId), Times.Never);
         Assert.Equal(expected, actual.Message);
-    } 
-    
+    }
+
     [Fact]
     public async Task RemoveOwnerAsync_ShouldThrowArgumentException_WhenPetDoesntExist()
     {
@@ -182,5 +182,5 @@ public class PetServiceTests
         // Assert
         _repository.Verify(x => x.RemoveOwnerAsync(petId, applicationUser.Id), Times.Never);
         Assert.Equal(expected, actual.Message);
-    } 
+    }
 }
