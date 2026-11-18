@@ -6,14 +6,11 @@ namespace PetAndOwner.Tests;
 public static class TestUsers
 {
     public static ApplicationUser Nisse() => CreateTestUser(
-        name: "Nisse Svensson", age: 22, gender: Gender.Male ,email: "Nisse@example.com", cityName: "Stockholm",
-        pets: new List<Pet>() { 
-            new Pet { Name = "Pepperoni", Age = 4, Gender = Gender.Female, AnimalType = new AnimalType { Name = "cat" }}});
+        name: "Nisse Svensson", age: 22, gender: Gender.Male, email: "Nisse@example.com", cityName: "Stockholm");
 
     public static ApplicationUser Sigrid() => CreateTestUser(
         name: "Sigrid Sten", age: 52, gender: Gender.Female, email: "Sigrid@example.com", cityName: "Gothenburg",
-        pets: new List<Pet>() {
-            new Pet() { Name = "The Duke", Age = 1, Gender = Gender.Male, AnimalType = new AnimalType { Name = "Duck" }}});
+        pets: new List<Pet>() { new Pet() { Name = "The Duke", Age = 1, Gender = Gender.Male, AnimalType = new AnimalType { Name = "Duck" }}});
 
     public static ApplicationUser Barbro() => CreateTestUser(
         name: "Barbro BroBerg", age: 30, gender: Gender.Female, email: "Barbro@example.com", cityName: "Malmö");

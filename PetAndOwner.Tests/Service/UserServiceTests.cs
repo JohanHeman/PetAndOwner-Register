@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using PetAndOwner.Application;
+using PetAndOwner.Domain.Entities;
 using PetAndOwner.Domain.Interface.Repository;
 using PetAndOwner.Infrastructure.Data;
 
@@ -51,26 +52,79 @@ public class UserServiceTests
     }
 
     [Fact]
-    public async Task UpdateUserAsync()//figure out good name
+    public async Task UpdateUserAsync_ValidUser_CopiesAllowedFieldsAndSavesStoredUser()
     {
-        var user1 = TestUsers.Barbro();
-        var user2 = TestUsers.Barbro();
+        //arrange
+        var userInDb = TestUsers.Barbro(); 
+        var userUpdate = TestUsers.CreateTestUser(
+            id: userInDb.Id,
+            name: "new name",
+            age: 40,
+            gender: Gender.Male,
+            cityName: "new city");
+
+        _userManager.Setup(m => m.FindByIdAsync(userInDb.Id.ToString())).ReturnsAsync(userInDb);
+        _userManager.Setup(m => m.UpdateAsync(userInDb)).ReturnsAsync(IdentityResult.Success);
+
+        //act
+        await _sut.UpdateUserAsync(userUpdate);
+
+        //assert
+        Assert.Equal("new name", userInDb.Name);
+        Assert.Equal(40, userInDb.Age);
+        Assert.Equal(Gender.Male, userInDb.Gender);
+        Assert.Equal(userUpdate.CityId, userInDb.CityId);
+        _userManager.Verify(m => m.UpdateAsync(userInDb), Times.Once);
     }
-    /*
-    public async Task UpdateUserAsync(ApplicationUser user)
+
+    [Fact]
+    public async Task UpdateUserAsync_UserNotFound_ThrowsExceptionAndDoesNotUpdate()
     {
-        ArgumentNullException.ThrowIfNull(user);
+        //arrange
+        var wrongId = Guid.Empty;
+        var userUpdate = TestUsers.CreateTestUser(id: wrongId, name: "new name");
         
-        var existing = await FindUserOrThrowAsync(user.Id);
+        _userManager.Setup(m => m.FindByIdAsync(wrongId.ToString())).ReturnsAsync((ApplicationUser?)null);
         
-        // only change values that are allowed to change
-        existing.Name = user.Name;
-        existing.Age = user.Age;
-        existing.Gender = user.Gender;
-        existing.CityId = user.CityId;
-        
-        var result = await _userManager.UpdateAsync(user);
-        ThrowIfFailed(result, "update user");
+        //act + assert 
+        await Assert.ThrowsAsync<KeyNotFoundException>(() => _sut.UpdateUserAsync(userUpdate));
+        _userManager.Verify(m => m.UpdateAsync(userUpdate), Times.Never);
     }
-    */
+
+    [Fact]
+    public async Task DeleteUserAsync_IsNotFound_ThrowsException()
+    {
+        //arrange
+        var wrongId = Guid.Empty;
+        var userDelete = TestUsers.CreateTestUser(id: wrongId, name: "bad name");
+        
+        _userManager.Setup(m => m.FindByIdAsync(wrongId.ToString())).ReturnsAsync((ApplicationUser?)null);
+
+        //act + assert
+        await Assert.ThrowsAsync<KeyNotFoundException>(() => _sut.DeleteUserAsync(userDelete.Id));
+        _userManager.Verify(m => m.DeleteAsync(userDelete), Times.Never);
+    }
+
+    [Fact]
+    public async Task GetUserPetsAsync_ReturnsUserPets()
+    {
+        //arrange
+        var pets = new List<Pet>()
+        {
+            new Pet { Name = "Pepperoni", Age = 4, Gender = Gender.Female, AnimalType = new AnimalType { Name = "cat" } },
+            new Pet { Name = "Tangerine", Age = 2, Gender = Gender.Male, AnimalType = new AnimalType { Name = "cat" } }
+        };
+        var user = TestUsers.Nisse();
+        user.Pets = pets;
+        _userManager.Setup(m => m.FindByIdAsync(user.Id.ToString())).ReturnsAsync(user);
+        _petRepo.Setup(r => r.GetPetsByUserIdAsync(user.Id)).ReturnsAsync((List<Pet>)user.Pets);
+
+        //act
+        await _sut.GetUserPetsAsync(user.Id);
+
+        //assert
+        _userManager.Verify(m => m.FindByIdAsync(user.Id.ToString()), Times.Once);
+        _petRepo.Verify(r => r.GetPetsByUserIdAsync(user.Id), Times.Once);
+        Assert.Equal(user.Pets, pets);
+    }
 }
