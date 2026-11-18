@@ -5,7 +5,6 @@ namespace PetAndOwner.Application.Interface;
 
 public interface IUserService
 {
-    public Task RegisterNewUserAsync(ApplicationUser user);
     public Task DeleteUserAsync(Guid userId);
     public Task UpdateUserAsync(ApplicationUser user);
     public Task<ApplicationUser> GetUserByIdAsync(Guid id);
