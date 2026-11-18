@@ -125,8 +125,61 @@ public class LocationServiceTests
         _countryRepo.Verify(x => x.CreateAsync(It.IsAny<Country>()), Times.Once);
         Assert.Equal(actual.Name, country.Name);
     }
+
+    [Fact]
+    public async Task GetCitiesInDbAsync_ShouldReturnCitiesInDb()
+    {
+        // Arrange
+        var cities = new List<City>()
+        {
+            new City
+            {
+                Name = "Stockholm",
+                Country = new Country { Name = "Sweden" }
+            },
+            new City
+            {
+                Name = "Malmö",
+                Country = new Country { Name = "Sweden" }
+            },
+            new City
+            {
+                Name = "Berlin",
+                Country = new Country { Name = "Germany" }
+            }
+        };
+        
+        _cityRepo.Setup(x => x.GetAllAsync()).ReturnsAsync(cities);
+        // Act
+        
+        var actual = await _sut.GetCitiesInDbAsync();
+        
+        // Assert
+        _cityRepo.Verify(x => x.GetAllAsync(), Times.Once);
+        Assert.Equal(actual.Count(), cities.Count);
+    }
     
-    
+    [Fact]
+    public async Task GetCountriesInDbAsync_ShouldReturnCountriesInDb()
+    {
+        // Arrange
+        var countries = new List<Country>()
+        {
+            new Country { Name = "Sweden" },
+            new Country { Name = "Germany" },
+            new Country { Name = "Norway" }
+
+        };
+        
+        _countryRepo.Setup(x => x.GetAllAsync()).ReturnsAsync(countries);
+        // Act
+        
+        var actual = await _sut.GetCountriesInDbAsync();
+        
+        // Assert
+        _countryRepo.Verify(x => x.GetAllAsync(), Times.Once);
+        Assert.Equal(actual.Count(), countries.Count);
+    }
     
     
     

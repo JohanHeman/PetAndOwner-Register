@@ -49,13 +49,13 @@ public class LocationService : ILocationService
         return country;
     }
 
-    public Task<IEnumerable<City>> GetCitiesInDbAsync()
+    public async Task<List<City>> GetCitiesInDbAsync()
     {
-        throw new NotImplementedException();
+        return await _cityRepository.GetAllAsync();
     }
 
-    public Task<IEnumerable<Country>> GetCountriesInDbAsync()
+    public async Task<List<Country>> GetCountriesInDbAsync()
     {
-        throw new NotImplementedException();
+        return await _countryRepository.GetAllAsync();
     }
 }
