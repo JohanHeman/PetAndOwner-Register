@@ -14,7 +14,7 @@ public class LocationService : ILocationService
         _countryRepository = countryRepository;
         _cityRepository = cityRepository;
     }
-    
+
     public async Task<City> GetOrSaveCityAsync(string cityName)
     {
         if (string.IsNullOrWhiteSpace(cityName)) throw new ArgumentException("Value cannot be null or whitespace");
@@ -32,18 +32,30 @@ public class LocationService : ILocationService
         return city;
     }
 
-    public Task<Country> GetOrSaveCountryAsync(string countryName)
+    public async Task<Country> GetOrSaveCountryAsync(string countryName)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(countryName)) throw new ArgumentException("Value cannot be null or whitespace");
+        var country = await _countryRepository.GetCountryByNameAsync(countryName);
+        if (country == null)
+        {
+            Country newCountry = new Country()
+            {
+                Id = Guid.NewGuid(),
+                Name = countryName,
+            };
+            await _countryRepository.CreateAsync(newCountry);
+            country = newCountry;
+        }
+        return country;
     }
 
-    public Task<IEnumerable<City>> GetCitiesInDbAsync()
+    public async Task<List<City>> GetCitiesInDbAsync()
     {
-        throw new NotImplementedException();
+        return await _cityRepository.GetAllAsync();
     }
 
-    public Task<IEnumerable<Country>> GetCountriesInDbAsync()
+    public async Task<List<Country>> GetCountriesInDbAsync()
     {
-        throw new NotImplementedException();
+        return await _countryRepository.GetAllAsync();
     }
 }
