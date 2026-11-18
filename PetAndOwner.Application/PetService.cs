@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PetAndOwner.Application.Interface;
 using PetAndOwner.Domain.Entities;
 using PetAndOwner.Domain.Interface.Repository;
@@ -8,10 +10,12 @@ namespace PetAndOwner.Application;
 public class PetService : IPetService
 {
     private readonly IPetRepository _repository;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public PetService(IPetRepository repository)
+    public PetService(IPetRepository repository,  UserManager<ApplicationUser> userManager)
     {
         _repository = repository;
+        _userManager = userManager;
     }
 
     public async Task RegisterPetAsync(Pet pet)
@@ -46,9 +50,13 @@ public class PetService : IPetService
         return await _repository.GetOwnersByPetIdAsync(petId);
     }
 
-    public Task RemoveOwnerAsync(Guid petId, Guid ownerId)
+    public async Task RemoveOwnerAsync(Guid petId, Guid ownerId)
     {
-        throw new NotImplementedException();
+        var owner = await _userManager.FindByIdAsync(ownerId.ToString());
+        if(owner == null) throw new ArgumentException("Owner not found");
+        var pet = await _repository.GetByIdAsync(petId);
+        if (pet == null) throw new ArgumentException("Pet not found");
+        await _repository.RemoveOwnerAsync(petId, ownerId);
     }
 
     public Task AddOwnersAsync(Guid petId, Guid newOwnerId)
