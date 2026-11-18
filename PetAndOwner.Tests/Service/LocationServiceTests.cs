@@ -72,6 +72,63 @@ public class LocationServiceTests
         _cityRepo.Verify(x => x.CreateAsync(It.IsAny<City>()), Times.Once);
     }
     
+    [Theory]
+    [InlineData(null)] 
+    [InlineData("")] 
+    [InlineData("         ")] 
+    public async Task GetOrSaveCountryAsync_ShouldThrowArgumentException_WhenCountryNameIsNullOrWhiteSpace(string input)
+    {
+        // Arrange
+        var expected = "Value cannot be null or whitespace"; 
+
+        // Act
+        var actual = await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetOrSaveCountryAsync(input));
+
+        // Assert
+        Assert.Equal(expected, actual.Message);
+    }
+    
+    [Fact]
+    public async Task GetOrSaveCountryAsync_ShouldReturnCountry_WhenMatchFound()
+    {
+        // Arrange
+        var country = new Country()
+        {
+            Name = "countryName"
+        };
+
+        var expectedName = "countryName";
+        
+        _countryRepo.Setup(x => x.GetCountryByNameAsync(country.Name)).ReturnsAsync(country);
+
+        // Act
+        var actual = await _sut.GetOrSaveCountryAsync(country.Name);
+
+        // Assert
+        
+        _countryRepo.Verify(x => x.GetCountryByNameAsync(country.Name), Times.Once);
+        Assert.Equal(actual.Name, expectedName);
+        _countryRepo.Verify(x => x.CreateAsync(It.IsAny<Country>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task GetOrSaveCountryAsync_ShouldCreateCountry_WhenMatchNotFound()
+    {
+        // Arrange
+        var country = new Country(){Name = "countryName"};
+        _countryRepo.Setup(x => x.GetCountryByNameAsync(country.Name)).ReturnsAsync((Country?)null);
+        
+        // Act
+        var actual = await _sut.GetOrSaveCountryAsync(country.Name);
+
+        // Assert
+        _countryRepo.Verify(x => x.CreateAsync(It.IsAny<Country>()), Times.Once);
+        Assert.Equal(actual.Name, country.Name);
+    }
+    
+    
+    
+    
     
     
 }

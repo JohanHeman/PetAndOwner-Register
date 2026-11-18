@@ -32,9 +32,21 @@ public class LocationService : ILocationService
         return city;
     }
 
-    public Task<Country> GetOrSaveCountryAsync(string countryName)
+    public async Task<Country> GetOrSaveCountryAsync(string countryName)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(countryName)) throw new ArgumentException("Value cannot be null or whitespace");
+        var country = await _countryRepository.GetCountryByNameAsync(countryName);
+        if (country == null)
+        {
+            Country newCountry = new Country()
+            {
+                Id = Guid.NewGuid(),
+                Name = countryName,
+            };
+            await _countryRepository.CreateAsync(newCountry); 
+            country = newCountry;
+        }
+        return country;
     }
 
     public Task<IEnumerable<City>> GetCitiesInDbAsync()
