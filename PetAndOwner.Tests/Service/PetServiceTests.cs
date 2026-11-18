@@ -183,4 +183,20 @@ public class PetServiceTests
         _repository.Verify(x => x.RemoveOwnerAsync(petId, applicationUser.Id), Times.Never);
         Assert.Equal(expected, actual.Message);
     }
+
+    [Fact]
+    public async Task AddOwnerAsync_ShoulThrowArgumentException_WhenOwnerDoesntExist()
+    {
+        
+        // Arrange
+        var petId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+        var expected = "Owner not found";
+        // Act
+        var actual = await Assert.ThrowsAsync<ArgumentException>(() => _sut.AddOwnerAsync(petId, userId));
+
+        // Assert
+        _repository.Verify(x => x.RemoveOwnerAsync(petId, userId), Times.Never);
+        Assert.Equal(expected, actual.Message);
+    }
 }
