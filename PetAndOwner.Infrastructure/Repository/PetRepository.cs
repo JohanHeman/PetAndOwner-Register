@@ -26,13 +26,26 @@ public class PetRepository : BaseRepository<Pet>, IPetRepository
 
     public async Task RemoveOwnerAsync(Guid petId, Guid ownerId)
     {
-        var pet = _context.Pets.Include(p => p.Owners).FirstOrDefault(p => p.Id == petId);
+        var pet = await _context.Pets.Include(p => p.Owners).FirstOrDefaultAsync(p => p.Id == petId);
 
         var owner = _context.Users.FirstOrDefault(u => u.Id == ownerId);
 
         if (owner != null)
         {
             pet.Owners.Remove(owner);
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    public async Task AddOwnerAsync(Guid petId, Guid ownerId)
+    {
+        var pet = await _context.Pets.Include(p => p.Owners).FirstOrDefaultAsync(p => p.Id == petId);
+        
+        var owner = _context.Users.FirstOrDefault(u => u.Id == ownerId);
+
+        if (owner != null)
+        {
+            pet.Owners.Add(owner);
             await _context.SaveChangesAsync();
         }
     }
