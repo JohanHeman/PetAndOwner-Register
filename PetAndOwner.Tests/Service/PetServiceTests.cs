@@ -154,7 +154,7 @@ public class PetServiceTests
         _repository.Verify(x => x.RemoveOwnerAsync(pet.Id, owner.Id), Times.Once);
     }
     [Fact]
-    public async Task RemoveOwnerAsync_ShouldThrowArgumentException_WhenOwnerDoesntExist()
+    public async Task RemoveOwnerAsync_ShouldThrowArgumentException_WhenOwnerDoesNotExist()
     {
         // Arrange
         var petId = Guid.NewGuid();
@@ -169,7 +169,7 @@ public class PetServiceTests
     }
 
     [Fact]
-    public async Task RemoveOwnerAsync_ShouldThrowArgumentException_WhenPetDoesntExist()
+    public async Task RemoveOwnerAsync_ShouldThrowArgumentException_WhenPetDoesNotExist()
     {
         // Arrange
         var petId = Guid.NewGuid();
@@ -185,7 +185,7 @@ public class PetServiceTests
     }
 
     [Fact]
-    public async Task AddOwnerAsync_ShoulThrowArgumentException_WhenOwnerDoesntExist()
+    public async Task AddOwnerAsync_ShouldThrowArgumentException_WhenOwnerDoesNotExist()
     {
         
         // Arrange
@@ -198,5 +198,42 @@ public class PetServiceTests
         // Assert
         _repository.Verify(x => x.RemoveOwnerAsync(petId, userId), Times.Never);
         Assert.Equal(expected, actual.Message);
+    }
+
+    [Fact]
+    public async Task AddOwnerAsync_ShouldThrowArgumentException_WhenPetDoesNotExist()
+    {
+        var petId = Guid.NewGuid();
+        var applicationUser = TestUsers.CreateTestUser();
+        var expected = "Pet not found";
+        _userManager.Setup(x => x.FindByIdAsync(applicationUser.Id.ToString())).ReturnsAsync(applicationUser);
+        // Act
+        var actual = await Assert.ThrowsAsync<ArgumentException>(() => _sut.AddOwnerAsync(petId, applicationUser.Id));
+
+        // Assert
+        _repository.Verify(x => x.AddOwnerAsync(petId, applicationUser.Id), Times.Never);
+        Assert.Equal(expected, actual.Message);
+    }
+    
+    [Fact]
+    public async Task AddOwnerAsync_ShouldAddOwner_WhenPetAndOwnerExist()
+    {
+        // Arrange
+        var owner = TestUsers.CreateTestUser();
+
+        var pet = new Pet()
+        {
+            Id = Guid.NewGuid(),
+        };
+
+        _userManager.Setup(x => x.FindByIdAsync(owner.Id.ToString())).ReturnsAsync(owner);
+        _repository.Setup(x => x.GetByIdAsync(pet.Id)).ReturnsAsync(pet);
+
+        // Act
+
+        await _sut.AddOwnerAsync(pet.Id, owner.Id);
+
+        // Assert
+        _repository.Verify(x => x.AddOwnerAsync(pet.Id, owner.Id), Times.Once);
     }
 }

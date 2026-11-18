@@ -57,6 +57,7 @@ public class PetRepositoryTests : BaseRepositoryTests<Pet>
         Assert.DoesNotContain(updatedUser.Pets, p => p.Id == pet.Id);
 
     }
+    
     [Fact]
     public async Task AddOwnerAsync_ShouldAddOwner_WhenPetAndOwnerExist()
     {

@@ -63,5 +63,8 @@ public class PetService : IPetService
     {
         var owner = await _userManager.FindByIdAsync(newOwnerId.ToString());
         if (owner == null) throw new ArgumentException("Owner not found");
+        var pet = await _repository.GetByIdAsync(petId);
+        if (pet == null) throw new ArgumentException("Pet not found");
+        await _repository.AddOwnerAsync(petId, newOwnerId);
     }
 }
