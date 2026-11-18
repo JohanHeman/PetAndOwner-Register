@@ -153,4 +153,34 @@ public class PetServiceTests
         // Assert
         _repository.Verify(x => x.RemoveOwnerAsync(pet.Id, owner.Id), Times.Once);
     }
+    [Fact]
+    public async Task RemoveOwnerAsync_ShouldThrowArgumentException_WhenOwnerDoesntExist()
+    {
+        // Arrange
+        var petId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
+        var expected = "Owner not found";
+        // Act
+        var actual = await Assert.ThrowsAsync<ArgumentException>(() => _sut.RemoveOwnerAsync(petId, userId));
+
+        // Assert
+        _repository.Verify(x => x.RemoveOwnerAsync(petId, userId), Times.Never);
+        Assert.Equal(expected, actual.Message);
+    } 
+    
+    [Fact]
+    public async Task RemoveOwnerAsync_ShouldThrowArgumentException_WhenPetDoesntExist()
+    {
+        // Arrange
+        var petId = Guid.NewGuid();
+        var applicationUser = TestUsers.CreateTestUser();
+        var expected = "Pet not found";
+        _userManager.Setup(x => x.FindByIdAsync(applicationUser.Id.ToString())).ReturnsAsync(applicationUser);
+        // Act
+        var actual = await Assert.ThrowsAsync<ArgumentException>(() => _sut.RemoveOwnerAsync(petId, applicationUser.Id));
+
+        // Assert
+        _repository.Verify(x => x.RemoveOwnerAsync(petId, applicationUser.Id), Times.Never);
+        Assert.Equal(expected, actual.Message);
+    } 
 }
