@@ -57,4 +57,34 @@ public class PetRepositoryTests : BaseRepositoryTests<Pet>
         Assert.DoesNotContain(updatedUser.Pets, p => p.Id == pet.Id);
 
     }
+
+    [Fact]
+    public async Task AddOwnerAsync_ShouldAddOwner_WhenPetAndOwnerExist()
+    {
+        // Arrange
+        var pet = new Pet()
+        {
+            Id = Guid.NewGuid(),
+            Name = "Pet",
+            Age = 5,
+        };
+
+        var owner = new ApplicationUser()
+        {
+            Name = "Owner",
+            Id = Guid.NewGuid(),
+            Age = 20,
+        };
+
+        await _sut.CreateAsync(pet);
+        owner.Pets.Add(pet);
+        await _dbContext.Users.AddAsync(owner);
+        await _dbContext.SaveChangesAsync();
+        // Act
+        await _repo.AddOwnerAsync(pet.Id, owner.Id);
+
+        // Assert
+        var updatedUser = await _dbContext.Users.FirstAsync(u => u.Id == owner.Id);
+        Assert.Contains(updatedUser.Pets, p => p.Id == pet.Id);
+    }
 }

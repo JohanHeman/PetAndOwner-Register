@@ -59,8 +59,12 @@ public class PetService : IPetService
         await _repository.RemoveOwnerAsync(petId, ownerId);
     }
 
-    public Task AddOwnersAsync(Guid petId, Guid newOwnerId)
+    public async Task AddOwnerAsync(Guid petId, Guid newOwnerId)
     {
-        throw new NotImplementedException();
+        var owner = await _userManager.FindByIdAsync(newOwnerId.ToString());
+        if (owner == null) throw new ArgumentException("Owner not found");
+        var pet = await _repository.GetByIdAsync(petId);
+        if (pet == null) throw new ArgumentException("Pet not found");
+        await _repository.AddOwnerAsync(petId, newOwnerId);
     }
 }
