@@ -37,8 +37,6 @@ public static class TestUsers
             Age = age,
             City = city,
             CityId = city.Id,
-            CountryId = country.Id,
-            Country =  country,
             Gender = default//
         };
     }
