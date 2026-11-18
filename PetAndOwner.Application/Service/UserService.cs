@@ -39,7 +39,7 @@ public class UserService : IUserService
         existing.Gender = user.Gender;
         existing.CityId = user.CityId;
 
-        var result = await _userManager.UpdateAsync(user);
+        var result = await _userManager.UpdateAsync(existing);
         ThrowIfFailed(result, "update user");
     }
 
