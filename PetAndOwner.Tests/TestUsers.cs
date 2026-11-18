@@ -16,7 +16,7 @@ public static class TestUsers
 
     public static ApplicationUser BadUser() => CreateTestUser(
         name: "Bad User", age: 50000, email: "mybadmail.com", cityName: "noooooooooo");
-    
+
     public static ApplicationUser CreateTestUser(
         string name = "Test User",
         int age = 30,

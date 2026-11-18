@@ -18,10 +18,10 @@ public class PetRepositoryTests : BaseRepositoryTests<Pet>
         };
     }
 
-    private PetRepository _repo; 
+    private PetRepository _repo;
     public PetRepositoryTests()
     {
-       _repo = new PetRepository(_dbContext); 
+        _repo = new PetRepository(_dbContext);
     }
 
     [Fact]
@@ -41,20 +41,20 @@ public class PetRepositoryTests : BaseRepositoryTests<Pet>
             Id = Guid.NewGuid(),
             Age = 20,
         };
-        
+
         await _sut.CreateAsync(pet);
         owner.Pets.Add(pet);
         await _dbContext.Users.AddAsync(owner);
         await _dbContext.SaveChangesAsync();
-        
+
         // Act
         await _repo.RemoveOwnerAsync(pet.Id, owner.Id);
         // Assert 
-        
+
         // Includes the users pets to verify that the pet was removed
-        var updatedUser = await _dbContext.Users.Include( u => u.Pets)
+        var updatedUser = await _dbContext.Users.Include(u => u.Pets)
             .FirstAsync(u => u.Id == owner.Id);
-        Assert.DoesNotContain(updatedUser.Pets, p => p.Id == pet.Id); 
-        
+        Assert.DoesNotContain(updatedUser.Pets, p => p.Id == pet.Id);
+
     }
 }

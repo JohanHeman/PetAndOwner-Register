@@ -27,7 +27,7 @@ public class PetRepository : BaseRepository<Pet>, IPetRepository
     public async Task RemoveOwnerAsync(Guid petId, Guid ownerId)
     {
         var pet = _context.Pets.Include(p => p.Owners).FirstOrDefault(p => p.Id == petId);
-        
+
         var owner = _context.Users.FirstOrDefault(u => u.Id == ownerId);
 
         if (owner != null)

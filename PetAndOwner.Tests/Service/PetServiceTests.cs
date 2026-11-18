@@ -137,17 +137,17 @@ public class PetServiceTests
     {
         // Arrange
         var owner = TestUsers.CreateTestUser();
-        
+
         var pet = new Pet()
         {
             Id = Guid.NewGuid(),
         };
-        
+
         _userManager.Setup(x => x.FindByIdAsync(owner.Id.ToString())).ReturnsAsync(owner);
         _repository.Setup(x => x.GetByIdAsync(pet.Id)).ReturnsAsync(pet);
-        
+
         // Act
-        
+
         await _sut.RemoveOwnerAsync(pet.Id, owner.Id);
 
         // Assert

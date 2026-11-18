@@ -11,14 +11,14 @@ public class UserServiceTests
     private readonly Mock<UserManager<ApplicationUser>> _userManager;
     private readonly Mock<IPetRepository> _petRepo;
     private readonly UserService _sut;
-    
+
     public UserServiceTests()
     {
         _userManager = MockUserManager.Create();
-        _petRepo = new  Mock<IPetRepository>();
+        _petRepo = new Mock<IPetRepository>();
         _sut = new UserService(_userManager.Object, _petRepo.Object); //instanciate a new UserService for the tests using mock repos
     }
-    
+
     [Fact]
     public async Task GetUserByIdAsync_UserExists_ReturnsUser()
     {
@@ -35,7 +35,7 @@ public class UserServiceTests
         _userManager.Verify(u => u.FindByIdAsync(testId.ToString()), Times.Once);
         Assert.Equal(testId, result.Id);
     }
-    
+
     [Fact]
     public async Task GetUserByIdAsync_UserIsNull_ThrowsException()
     {

@@ -12,7 +12,7 @@ public class PetService : IPetService
     private readonly IPetRepository _repository;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public PetService(IPetRepository repository,  UserManager<ApplicationUser> userManager)
+    public PetService(IPetRepository repository, UserManager<ApplicationUser> userManager)
     {
         _repository = repository;
         _userManager = userManager;
@@ -53,7 +53,7 @@ public class PetService : IPetService
     public async Task RemoveOwnerAsync(Guid petId, Guid ownerId)
     {
         var owner = await _userManager.FindByIdAsync(ownerId.ToString());
-        if(owner == null) throw new ArgumentException("Owner not found");
+        if (owner == null) throw new ArgumentException("Owner not found");
         var pet = await _repository.GetByIdAsync(petId);
         if (pet == null) throw new ArgumentException("Pet not found");
         await _repository.RemoveOwnerAsync(petId, ownerId);
