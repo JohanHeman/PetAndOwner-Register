@@ -10,14 +10,14 @@ public static class TestUsers
 
     public static ApplicationUser Sigrid() => CreateTestUser(
         name: "Sigrid Sten", age: 52, gender: Gender.Female, email: "Sigrid@example.com", cityName: "Gothenburg",
-        pets: new List<Pet>() { new Pet() { Name = "The Duke", Age = 1, Gender = Gender.Male, AnimalType = new AnimalType { Name = "Duck" }}});
+        pets: new List<Pet>() { new Pet() { Name = "The Duke", Age = 1, Gender = Gender.Male, AnimalType = new AnimalType { Name = "Duck" } } });
 
     public static ApplicationUser Barbro() => CreateTestUser(
         name: "Barbro BroBerg", age: 30, gender: Gender.Female, email: "Barbro@example.com", cityName: "Malmö");
 
     public static ApplicationUser BadUser() => CreateTestUser(
         name: "Bad User", age: 50000, gender: Gender.Female, email: "mybadmail.com", cityName: "noooooooooo");
-    
+
     public static ApplicationUser CreateTestUser(
         string name = "Test User",
         int age = 30,

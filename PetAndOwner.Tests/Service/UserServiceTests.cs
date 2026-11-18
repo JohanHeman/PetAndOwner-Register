@@ -55,7 +55,7 @@ public class UserServiceTests
     public async Task UpdateUserAsync_ValidUser_CopiesAllowedFieldsAndSavesStoredUser()
     {
         //arrange
-        var userInDb = TestUsers.Barbro(); 
+        var userInDb = TestUsers.Barbro();
         var userUpdate = TestUsers.CreateTestUser(
             id: userInDb.Id,
             name: "new name",
@@ -83,9 +83,9 @@ public class UserServiceTests
         //arrange
         var wrongId = Guid.Empty;
         var userUpdate = TestUsers.CreateTestUser(id: wrongId, name: "new name");
-        
+
         _userManager.Setup(m => m.FindByIdAsync(wrongId.ToString())).ReturnsAsync((ApplicationUser?)null);
-        
+
         //act + assert 
         await Assert.ThrowsAsync<KeyNotFoundException>(() => _sut.UpdateUserAsync(userUpdate));
         _userManager.Verify(m => m.UpdateAsync(userUpdate), Times.Never);
@@ -97,7 +97,7 @@ public class UserServiceTests
         //arrange
         var wrongId = Guid.Empty;
         var userDelete = TestUsers.CreateTestUser(id: wrongId, name: "bad name");
-        
+
         _userManager.Setup(m => m.FindByIdAsync(wrongId.ToString())).ReturnsAsync((ApplicationUser?)null);
 
         //act + assert
