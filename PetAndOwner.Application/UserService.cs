@@ -13,7 +13,7 @@ public class UserService : IUserService
     private readonly IPetRepository _petRepository;
     public UserService(UserManager<ApplicationUser> manager, IPetRepository petRepository)
     {
-        _userManager = manager; 
+        _userManager = manager;
         _petRepository = petRepository;
     }
 
@@ -21,28 +21,28 @@ public class UserService : IUserService
     {
         return await FindUserOrThrowAsync(id);
     }
-    
+
     public async Task<List<ApplicationUser>> GetAllUsersAsync()
     {
         return await _userManager.Users.AsNoTracking().ToListAsync();
     }
-    
+
     public async Task UpdateUserAsync(ApplicationUser user)
     {
         ArgumentNullException.ThrowIfNull(user);
-        
+
         var existing = await FindUserOrThrowAsync(user.Id);
-        
+
         // only change values that are allowed to change
         existing.Name = user.Name;
         existing.Age = user.Age;
         existing.Gender = user.Gender;
         existing.CityId = user.CityId;
-        
+
         var result = await _userManager.UpdateAsync(user);
         ThrowIfFailed(result, "update user");
     }
-    
+
     public async Task DeleteUserAsync(Guid userId)
     {
         var user = await FindUserOrThrowAsync(userId);
@@ -62,17 +62,17 @@ public class UserService : IUserService
         await FindUserOrThrowAsync(userId);
         return await _petRepository.GetPetsByUserIdAsync(userId);
     }
-    
+
     // there are several parts that need a check that checks if user exists before trying to take further action
     private async Task<ApplicationUser> FindUserOrThrowAsync(Guid id)
     {
         return await _userManager.FindByIdAsync(id.ToString()) ?? throw new KeyNotFoundException($"User '{id}' was not found.");
     }
-    
+
     // UserManager reports failures through IdentityResult instead of throwing, so an
     // unchecked result lets a failed update or delete pass silently as a success.
     // the choice to put it into a method is to avoid repeating code
-    private static void ThrowIfFailed(IdentityResult result, string action) 
+    private static void ThrowIfFailed(IdentityResult result, string action)
     {
         if (result.Succeeded) return;
 

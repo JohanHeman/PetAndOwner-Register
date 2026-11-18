@@ -23,4 +23,17 @@ public class PetRepository : BaseRepository<Pet>, IPetRepository
     {
         return await _context.Users.Where(u => u.Pets.Any(p => p.Id == petId)).ToListAsync();
     }
+
+    public async Task RemoveOwnerAsync(Guid petId, Guid ownerId)
+    {
+        var pet = _context.Pets.Include(p => p.Owners).FirstOrDefault(p => p.Id == petId);
+
+        var owner = _context.Users.FirstOrDefault(u => u.Id == ownerId);
+
+        if (owner != null)
+        {
+            pet.Owners.Remove(owner);
+            await _context.SaveChangesAsync();
+        }
+    }
 }

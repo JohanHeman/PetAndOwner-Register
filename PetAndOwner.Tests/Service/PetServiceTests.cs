@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using PetAndOwner.Application;
 using PetAndOwner.Domain.Entities;
@@ -10,11 +12,14 @@ public class PetServiceTests
 {
     private readonly Mock<IPetRepository> _repository;
     private readonly PetService _sut;
-
+    private readonly Mock<UserManager<ApplicationUser>> _userManager;
     public PetServiceTests()
     {
         _repository = new Mock<IPetRepository>();
-        _sut = new PetService(_repository.Object);
+        var store = new Mock<IUserStore<ApplicationUser>>();
+
+        _userManager = MockUserManager.Create();
+        _sut = new PetService(_repository.Object, _userManager.Object);
     }
 
     [Fact]
@@ -127,5 +132,25 @@ public class PetServiceTests
         _repository.Verify(x => x.GetOwnersByPetIdAsync(pet.Id), Times.Once);
     }
 
+    [Fact]
+    public async Task RemoveOwnerAsync_ShouldRemoveOwner_WhenPetAndOwnerExist()
+    {
+        // Arrange
+        var owner = TestUsers.CreateTestUser();
 
+        var pet = new Pet()
+        {
+            Id = Guid.NewGuid(),
+        };
+
+        _userManager.Setup(x => x.FindByIdAsync(owner.Id.ToString())).ReturnsAsync(owner);
+        _repository.Setup(x => x.GetByIdAsync(pet.Id)).ReturnsAsync(pet);
+
+        // Act
+
+        await _sut.RemoveOwnerAsync(pet.Id, owner.Id);
+
+        // Assert
+        _repository.Verify(x => x.RemoveOwnerAsync(pet.Id, owner.Id), Times.Once);
+    }
 }
