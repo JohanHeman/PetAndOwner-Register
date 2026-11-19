@@ -4,8 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using PetAndOwner.Api.Dto;
 using PetAndOwner.Application;
 using PetAndOwner.Application.Api;
+using PetAndOwner.Application.Interface;
 using PetAndOwner.Domain.Entities;
+using PetAndOwner.Domain.Interface.Repository;
 using PetAndOwner.Infrastructure.Data;
+using PetAndOwner.Infrastructure.Repository;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,12 +17,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+
+builder.Services.AddScoped<IPetRepository, PetRepository>();
+builder.Services.AddScoped<IPetService, PetService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<ILocationService, LocationService>();
+
+
+
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DbConnection")));
+
 builder.Services.AddHttpClient<ApiService>(client =>
 {
     client.BaseAddress = new Uri("https://countriesnow.space/api/v0.1");
 });
-
 
 builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -39,9 +53,9 @@ app.UseHttpsRedirection();
 app.MapIdentityApi<ApplicationUser>();
 
 
-app.MapPatch("/api/profile", async (ClaimsPrincipal claims, UserManager<ApplicationUser> manager, SetupProfileDto profileDto, LocationService locationService) =>
+app.MapPatch("/api/profile", async (ClaimsPrincipal claims, UserManager<ApplicationUser> userManager, SetupProfileDto profileDto, LocationService locationService) =>
 {
-    var user = await manager.GetUserAsync(claims);
+    var user = await userManager.GetUserAsync(claims);
 
     if (user == null)
     {
@@ -58,7 +72,7 @@ app.MapPatch("/api/profile", async (ClaimsPrincipal claims, UserManager<Applicat
         user.Age = profileDto.Age;
         user.City = city;
 
-        await manager.UpdateAsync(user);
+        await userManager.UpdateAsync(user);
     }
     catch (Exception e)
     {
