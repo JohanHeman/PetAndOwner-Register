@@ -19,7 +19,7 @@ public class PetRepository : BaseRepository<Pet>, IPetRepository
             .ToListAsync();
     }
 
-    public async Task<List<ApplicationUser>> GetOwnersByPetIdAsync(Guid petId)
+    public async Task<IReadOnlyList<ApplicationUser>> GetOwnersByPetIdAsync(Guid petId)
     {
         return await _context.Users.Where(u => u.Pets.Any(p => p.Id == petId)).ToListAsync();
     }

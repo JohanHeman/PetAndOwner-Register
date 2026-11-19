@@ -6,5 +6,5 @@ public interface IBaseRepository<T> where T : class
     public Task UpdateAsync(T tEntity);
     public Task DeleteAsync(T tEntity);
     public Task<T?> GetByIdAsync(Guid id);
-    public Task<List<T>> GetAllAsync();
+    public Task<IReadOnlyList<T>> GetAllAsync();
 }

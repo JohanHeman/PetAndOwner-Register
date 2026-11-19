@@ -35,7 +35,7 @@ public class PetService : IPetService
         await _repository.DeleteAsync(pet);
     }
 
-    public Task<List<Pet>> GetAllPetsAsync()
+    public Task<IReadOnlyList<Pet>> GetAllPetsAsync()
     {
         return _repository.GetAllAsync();
     }
@@ -45,7 +45,7 @@ public class PetService : IPetService
         return _repository.GetByIdAsync(id);
     }
 
-    public async Task<List<ApplicationUser>> GetOwnersByPetIdAsync(Guid petId)
+    public async Task<IReadOnlyList<ApplicationUser>> GetOwnersByPetIdAsync(Guid petId)
     {
         return await _repository.GetOwnersByPetIdAsync(petId);
     }
