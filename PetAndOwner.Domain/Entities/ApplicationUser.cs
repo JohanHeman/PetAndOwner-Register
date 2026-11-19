@@ -5,7 +5,17 @@ namespace PetAndOwner.Infrastructure.Data;
 
 public class ApplicationUser : IdentityUser<Guid>
 {
-    public string Name { get; set; }
+    private string _name{ get; set; }
+    public string Name
+    {
+        get => _name;
+        set
+        {
+            if(_name.Length > 30 || _name.Length < 1) throw new ArgumentOutOfRangeException("The name must be between 1 and 30 characters");
+            _name = value;
+        }
+    }
+
     public int Age { get; set; }
     public string? PhoneNumber { get; set; }
     public Guid CityId { get; set; }
