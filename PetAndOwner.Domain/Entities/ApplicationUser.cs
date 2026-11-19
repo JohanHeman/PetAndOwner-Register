@@ -11,7 +11,7 @@ public class ApplicationUser : IdentityUser<Guid>
         get => _name;
         set
         {
-            if(string.IsNullOrWhiteSpace(value) || value.Length > 30) throw new ArgumentException("The name must be between 1 and 30 characters");
+            if (string.IsNullOrWhiteSpace(value) || value.Length > 30) throw new ArgumentException("The name must be between 1 and 30 characters");
             _name = value;
         }
     }

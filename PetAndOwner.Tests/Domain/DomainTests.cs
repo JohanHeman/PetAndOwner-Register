@@ -86,12 +86,12 @@ public class DomainTests
         var user = TestUsers.CreateTestUser();
         var expectedMessage = "The name must be between 1 and 30 characters";
         // Act
-        var actual = Assert.Throws<ArgumentException>( () => user.Name = userName );
+        var actual = Assert.Throws<ArgumentException>(() => user.Name = userName);
 
         // Assert
         Assert.Equal(expectedMessage, actual.Message);
     }
-    
-    
-    
+
+
+
 }
