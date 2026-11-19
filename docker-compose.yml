@@ -1,0 +1,41 @@
+name: petandownerapi
+services:
+  webapi:
+    image: jojodevdocker/petandownerapi:latest
+    pull_policy: always
+    container_name: petandowner-webapi
+    networks: 
+      - petandownerapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__PetAndOwnerApi=Server=postgres;Port=5432;Database=${POSTGRES_DB};User Id=${POSTGRES_USER}; Password=${POSTGRES_PASSWORD}
+    ports:
+      - 5080:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: on-failure
+
+  postgres:
+    container_name: postgres
+    image: postgres:15-alpine
+    networks:
+      - petandownerapi
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}  
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgresdata:
+
+networks:
+  petandownerapi:
+    name: petandownerapi
