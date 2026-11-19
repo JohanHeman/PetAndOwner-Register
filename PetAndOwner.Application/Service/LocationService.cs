@@ -49,12 +49,12 @@ public class LocationService : ILocationService
         return country;
     }
 
-    public async Task<List<City>> GetCitiesInDbAsync()
+    public async Task<IReadOnlyList<City>> GetCitiesInDbAsync()
     {
         return await _cityRepository.GetAllAsync();
     }
 
-    public async Task<List<Country>> GetCountriesInDbAsync()
+    public async Task<IReadOnlyList<Country>> GetCountriesInDbAsync()
     {
         return await _countryRepository.GetAllAsync();
     }

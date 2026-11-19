@@ -38,7 +38,7 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
         return await _dbSet.FindAsync(id);
     }
 
-    public async Task<List<T>> GetAllAsync()
+    public async Task<IReadOnlyList<T>> GetAllAsync()
     {
         return await _dbSet.ToListAsync();
     }
