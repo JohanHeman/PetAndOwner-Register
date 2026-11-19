@@ -1,4 +1,5 @@
 using PetAndOwner.Domain.Entities;
+using PetAndOwner.Infrastructure.Data;
 
 namespace PetAndOwner.Tests;
 
@@ -74,4 +75,23 @@ public class DomainTests
         // Assert 
         Assert.Equal(expectedMessage, actual.Message);
     }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("aaaaaaaaaaalaaaaaaaaaaaaaaaaaaaaaaaaaaaaaddddd")]
+    [InlineData("abjdwdhawjdwadwakdhwadkjwahdkwajdwakdhwkdhadkjwadwadwakdhwakjdhwakdhwakjdhwad")]
+    public void UserName_ShouldThrowArgumentOutOfRangeException_WhenUserNameIsInvalid(string userName)
+    {
+        // Arrange
+        var user = TestUsers.CreateTestUser();
+        var expectedMessage = "The name must be between 1 and 30 characters";
+        // Act
+        var actual = Assert.Throws<ArgumentException>( () => user.Name = userName );
+
+        // Assert
+        Assert.Equal(expectedMessage, actual.Message);
+    }
+    
+    
+    
 }
