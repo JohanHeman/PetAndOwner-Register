@@ -6,20 +6,20 @@ namespace PetAndOwner.Infrastructure.Data;
 public class ApplicationUser : IdentityUser<Guid>
 {
     private string _name;
-    public string Name
+    public string? Name
     {
         get => _name;
         set
         {
-            if(string.IsNullOrWhiteSpace(value) || value.Length > 30) throw new ArgumentException("The name must be between 1 and 30 characters");
+            if (string.IsNullOrWhiteSpace(value) || value.Length > 30) throw new ArgumentException("The name must be between 1 and 30 characters");
             _name = value;
         }
     }
 
-    public int Age { get; set; }
+    public int? Age { get; set; }
     public string? PhoneNumber { get; set; }
-    public Guid CityId { get; set; }
-    public City City { get; set; }
+    public Guid? CityId { get; set; }
+    public City? City { get; set; }
     public Gender Gender { get; set; }
     public ICollection<Pet> Pets { get; set; } = new List<Pet>();
 }
