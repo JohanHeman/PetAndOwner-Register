@@ -24,9 +24,23 @@ public class UserService : IUserService
         return await FindUserOrThrowAsync(id);
     }
 
-    public async Task<List<ApplicationUser>> GetAllUsersAsync()
+    public async Task<List<ReturnProfileDto>> GetAllUsersAsync()
     {
-        return await _userManager.Users.AsNoTracking().ToListAsync();
+        var users = await _userManager.Users.Include(u => u.City)
+            .ThenInclude(C => C.Country).ToListAsync();
+        List<ReturnProfileDto> persons = new List<ReturnProfileDto>();
+        foreach (var user in users)
+        {
+            persons.Add(new ReturnProfileDto()
+            {
+                Name = user.Name,
+                BirthDate = user.BirthDate,
+                Gender = user.Gender.ToString(),
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+            });
+        }
+        return persons;
     }
 
     public async Task<bool> SetupUserProfileAsync(string userId, SetupProfileDto profileDto, City city)

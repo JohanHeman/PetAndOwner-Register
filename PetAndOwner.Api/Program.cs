@@ -35,7 +35,6 @@ builder.Services.AddScoped<IPetRepository, PetRepository>();
 builder.Services.AddScoped<IPetService, PetService>();
 
 
-
 builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -54,7 +53,7 @@ app.UseHttpsRedirection();
 app.MapIdentityApi<ApplicationUser>();
 
 
-app.MapPatch("/api/profile", async (ClaimsPrincipal claims, [FromServices] UserService userService, [FromBody] SetupProfileDto profileDto, [FromServices] LocationService locationService) =>
+app.MapPatch("/api/profile", async (ClaimsPrincipal claims, [FromServices] IUserService userService, [FromBody] SetupProfileDto profileDto, [FromServices] ILocationService locationService) =>
 {
     var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -71,6 +70,13 @@ app.MapPatch("/api/profile", async (ClaimsPrincipal claims, [FromServices] UserS
 
     return Results.NoContent();
 });
+
+
+app.MapGet("/api/persons", async ([FromServices] IUserService userService) => await userService.GetAllUsersAsync());
+
+
+
+
 
 
 app.Run();

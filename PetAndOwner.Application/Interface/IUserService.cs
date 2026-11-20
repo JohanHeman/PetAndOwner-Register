@@ -8,7 +8,7 @@ public interface IUserService
     public Task DeleteUserAsync(Guid userId);
     public Task UpdateUserAsync(ApplicationUser user);
     public Task<ApplicationUser> GetUserByIdAsync(Guid id);
-    public Task<List<ApplicationUser>> GetAllUsersAsync();
+    public Task<List<ReturnProfileDto>> GetAllUsersAsync();
     Task<List<Pet>> GetUserPetsAsync(Guid userId);//UserPetsResponseDto instead of return List<Pet> maybe
     public Task<bool> SetupUserProfileAsync(string userId, SetupProfileDto profileDto, City city);
 
