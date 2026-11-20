@@ -2,7 +2,7 @@ using PetAndOwner.Application.Interface;
 using PetAndOwner.Domain.Entities;
 using PetAndOwner.Domain.Interface.Repository;
 
-namespace PetAndOwner.Application;
+namespace PetAndOwner.Application.Service;
 
 public class LocationService : ILocationService
 {

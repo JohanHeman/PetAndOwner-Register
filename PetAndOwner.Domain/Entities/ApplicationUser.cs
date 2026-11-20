@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
-using PetAndOwner.Domain.Entities;
+using PetAndOwner.Domain.Enum;
 
-namespace PetAndOwner.Infrastructure.Data;
+namespace PetAndOwner.Domain.Entities;
 
 public class ApplicationUser : IdentityUser<Guid>
 {

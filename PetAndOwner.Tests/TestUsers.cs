@@ -1,4 +1,5 @@
 using PetAndOwner.Domain.Entities;
+using PetAndOwner.Domain.Enum;
 using PetAndOwner.Infrastructure.Data;
 
 namespace PetAndOwner.Tests;

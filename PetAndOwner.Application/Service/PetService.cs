@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using PetAndOwner.Application.Interface;
 using PetAndOwner.Domain.Entities;
 using PetAndOwner.Domain.Interface.Repository;
-using PetAndOwner.Infrastructure.Data;
 
-namespace PetAndOwner.Application;
+namespace PetAndOwner.Application.Service;
 
 public class PetService : IPetService
 {

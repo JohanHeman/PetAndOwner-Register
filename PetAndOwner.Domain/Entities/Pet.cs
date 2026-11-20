@@ -1,4 +1,4 @@
-using PetAndOwner.Infrastructure.Data;
+using PetAndOwner.Domain.Enum;
 
 namespace PetAndOwner.Domain.Entities;
 

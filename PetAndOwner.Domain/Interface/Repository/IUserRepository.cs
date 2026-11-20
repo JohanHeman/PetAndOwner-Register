@@ -1,4 +1,4 @@
-using PetAndOwner.Infrastructure.Data;
+using PetAndOwner.Domain.Entities;
 
 namespace PetAndOwner.Domain.Interface.Repository;
 

@@ -1,5 +1,3 @@
-using PetAndOwner.Infrastructure.Data;
-
 namespace PetAndOwner.Domain.Entities;
 
 public class City : IEntity

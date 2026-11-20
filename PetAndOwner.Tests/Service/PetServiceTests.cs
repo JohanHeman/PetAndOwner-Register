@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using PetAndOwner.Application;
+using PetAndOwner.Application.Service;
 using PetAndOwner.Domain.Entities;
 using PetAndOwner.Domain.Interface.Repository;
 using PetAndOwner.Infrastructure.Data;

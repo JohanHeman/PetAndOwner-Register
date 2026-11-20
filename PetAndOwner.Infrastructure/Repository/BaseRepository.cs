@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using PetAndOwner.Domain.Interface.Repository;
 using PetAndOwner.Infrastructure.Data;
 
-namespace PetAndOwner.Domain.Interface.Repository;
+namespace PetAndOwner.Infrastructure.Repository;
 
 public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
 {

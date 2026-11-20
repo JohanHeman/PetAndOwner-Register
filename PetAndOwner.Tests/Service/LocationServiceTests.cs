@@ -1,6 +1,7 @@
 using Moq;
 using PetAndOwner.Application;
 using PetAndOwner.Application.Interface;
+using PetAndOwner.Application.Service;
 using PetAndOwner.Domain.Entities;
 using PetAndOwner.Domain.Interface.Repository;
 
