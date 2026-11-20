@@ -16,7 +16,22 @@ public class ApplicationUser : IdentityUser<Guid>
         }
     }
 
-    public int? Age { get; set; }
+    public DateOnly? BirthDate { get; set; }
+    public int? Age
+    {
+        get
+        {
+            if (BirthDate is null) return null;
+
+            var today = DateOnly.FromDateTime(DateTime.Today);
+            var age = today.Year - BirthDate.Value.Year;
+            
+            // Subtract one year if this year's birthday hasn't happened yet
+            if (BirthDate.Value > today.AddYears(-age)) age--;
+            return age;
+        }
+    }
+
     public string? PhoneNumber { get; set; }
     public Guid? CityId { get; set; }
     public City? City { get; set; }

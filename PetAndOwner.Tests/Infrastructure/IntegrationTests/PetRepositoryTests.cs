@@ -39,7 +39,7 @@ public class PetRepositoryTests : BaseRepositoryTests<Pet>
         {
             Name = "Owner",
             Id = Guid.NewGuid(),
-            Age = 20,
+            BirthDate = DateOnly.FromDateTime(DateTime.Today).AddMonths(6).AddYears(-30),
         };
 
         await _sut.CreateAsync(pet);
@@ -73,7 +73,6 @@ public class PetRepositoryTests : BaseRepositoryTests<Pet>
         {
             Name = "Owner",
             Id = Guid.NewGuid(),
-            Age = 20,
         };
 
         await _sut.CreateAsync(pet);
