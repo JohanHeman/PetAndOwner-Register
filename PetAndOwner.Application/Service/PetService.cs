@@ -27,10 +27,10 @@ public class PetService : IPetService
             Name = pet.Name,
             Gender = pet.Gender,
             Age = pet.Age,
-            AnimalType = new AnimalType(){Id = Guid.NewGuid(), Name = pet.AnimalType}
+            AnimalType = new AnimalType() { Id = Guid.NewGuid(), Name = pet.AnimalType }
         };
         await _repository.CreateAsync(newPet);
-        
+
         await _repository.AddOwnerAsync(newPet.Id, user.Id);
     }
 
