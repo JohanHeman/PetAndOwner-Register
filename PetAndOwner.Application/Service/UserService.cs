@@ -41,7 +41,7 @@ public class UserService : IUserService
         user.Name = profileDto.Name;
         user.Gender = (Gender)profileDto.Gender;
         user.PhoneNumber = profileDto.PhoneNumber;
-        user.Age = profileDto.Age;
+        user.BirthDate = profileDto.BirthDate;
         user.City = city;
 
         await _userManager.UpdateAsync(user);
@@ -56,7 +56,7 @@ public class UserService : IUserService
 
         // only change values that are allowed to change
         existing.Name = user.Name;
-        existing.Age = user.Age;
+        existing.BirthDate = user.BirthDate;
         existing.Gender = user.Gender;
         existing.CityId = user.CityId;
 

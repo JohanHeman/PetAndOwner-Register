@@ -16,7 +16,7 @@ public static class TestUsers
         name: "Barbro BroBerg", age: 30, gender: Gender.Female, email: "Barbro@example.com", cityName: "Malmö");
 
     public static ApplicationUser BadUser() => CreateTestUser(
-        name: "Bad User", age: 50000, gender: Gender.Female, email: "mybadmail.com", cityName: "noooooooooo");
+        name: "Bad User", age: 5000, gender: Gender.Female, email: "mybadmail.com", cityName: "noooooooooo");
 
     public static ApplicationUser CreateTestUser(
         string name = "Test User",
@@ -37,11 +37,17 @@ public static class TestUsers
             UserName = email,
             Email = email,
             Name = name,
-            Age = age,
+            BirthDate = SetAge(age),
             City = city,
             CityId = city.Id,
             Gender = gender,
             Pets = pets ?? new List<Pet>(),
         };
     }
+    private static DateOnly SetAge(int age)
+    {
+        var today = DateOnly.FromDateTime(DateTime.Today); 
+        return today.AddMonths(6).AddYears(-(age + 1)); //just set their birthday half a year from today
+    }
 }
+
