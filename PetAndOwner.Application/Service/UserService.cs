@@ -38,7 +38,7 @@ public class UserService : IUserService
                 Gender = user.Gender.ToString(),
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-            });     
+            });
         }
         return persons;
     }
