@@ -1,6 +1,5 @@
-using Microsoft.AspNetCore.Identity;
 
-namespace PetAndOwner.Api.Dto;
+namespace PetAndOwner.Application.Dto;
 
 public class SetupProfileDto
 {

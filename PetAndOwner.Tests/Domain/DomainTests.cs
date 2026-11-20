@@ -1,7 +1,6 @@
 using PetAndOwner.Domain.Entities;
-using PetAndOwner.Infrastructure.Data;
 
-namespace PetAndOwner.Tests;
+namespace PetAndOwner.Tests.Domain;
 
 public class DomainTests
 {

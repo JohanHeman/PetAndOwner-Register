@@ -1,6 +1,5 @@
-using PetAndOwner.Api.Dto;
+using PetAndOwner.Application.Dto;
 using PetAndOwner.Domain.Entities;
-using PetAndOwner.Infrastructure.Data;
 
 namespace PetAndOwner.Application.Interface;
 

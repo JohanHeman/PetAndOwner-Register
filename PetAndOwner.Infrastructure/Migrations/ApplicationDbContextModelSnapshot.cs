@@ -22,32 +22,17 @@ namespace PetAndOwner.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("AllergyPet", b =>
-                {
-                    b.Property<Guid>("AllergiesId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("PetsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("AllergiesId", "PetsId");
-
-                    b.HasIndex("PetsId");
-
-                    b.ToTable("AllergyPet");
-                });
-
             modelBuilder.Entity("ApplicationUserPet", b =>
                 {
+                    b.Property<Guid>("OwnersId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("PetsId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("UsersId")
-                        .HasColumnType("uuid");
+                    b.HasKey("OwnersId", "PetsId");
 
-                    b.HasKey("PetsId", "UsersId");
-
-                    b.HasIndex("UsersId");
+                    b.HasIndex("PetsId");
 
                     b.ToTable("ApplicationUserPet");
                 });
@@ -182,21 +167,6 @@ namespace PetAndOwner.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PetAndOwner.Domain.Entities.Allergy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Allergies");
-                });
-
             modelBuilder.Entity("PetAndOwner.Domain.Entities.AnimalType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -247,41 +217,6 @@ namespace PetAndOwner.Infrastructure.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("PetAndOwner.Domain.Entities.Food", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("FoodBrandId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FoodBrandId");
-
-                    b.ToTable("Foods");
-                });
-
-            modelBuilder.Entity("PetAndOwner.Domain.Entities.FoodBrand", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FoodBrands");
-                });
-
             modelBuilder.Entity("PetAndOwner.Domain.Entities.Pet", b =>
                 {
                     b.Property<Guid>("Id")
@@ -292,9 +227,6 @@ namespace PetAndOwner.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<Guid>("AnimalTypeId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("FoodId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Gender")
@@ -308,8 +240,6 @@ namespace PetAndOwner.Infrastructure.Migrations
 
                     b.HasIndex("AnimalTypeId");
 
-                    b.HasIndex("FoodId");
-
                     b.ToTable("Pets");
                 });
 
@@ -322,10 +252,10 @@ namespace PetAndOwner.Infrastructure.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Age")
-                        .HasColumnType("integer");
+                    b.Property<DateOnly?>("BirthDate")
+                        .HasColumnType("date");
 
-                    b.Property<Guid>("CityId")
+                    b.Property<Guid?>("CityId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -349,7 +279,6 @@ namespace PetAndOwner.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("NormalizedEmail")
@@ -393,32 +322,17 @@ namespace PetAndOwner.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("AllergyPet", b =>
-                {
-                    b.HasOne("PetAndOwner.Domain.Entities.Allergy", null)
-                        .WithMany()
-                        .HasForeignKey("AllergiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PetAndOwner.Domain.Entities.Pet", null)
-                        .WithMany()
-                        .HasForeignKey("PetsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ApplicationUserPet", b =>
                 {
-                    b.HasOne("PetAndOwner.Domain.Entities.Pet", null)
+                    b.HasOne("PetAndOwner.Infrastructure.Data.ApplicationUser", null)
                         .WithMany()
-                        .HasForeignKey("PetsId")
+                        .HasForeignKey("OwnersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PetAndOwner.Infrastructure.Data.ApplicationUser", null)
+                    b.HasOne("PetAndOwner.Domain.Entities.Pet", null)
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("PetsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -485,17 +399,6 @@ namespace PetAndOwner.Infrastructure.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("PetAndOwner.Domain.Entities.Food", b =>
-                {
-                    b.HasOne("PetAndOwner.Domain.Entities.FoodBrand", "FoodBrand")
-                        .WithMany()
-                        .HasForeignKey("FoodBrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FoodBrand");
-                });
-
             modelBuilder.Entity("PetAndOwner.Domain.Entities.Pet", b =>
                 {
                     b.HasOne("PetAndOwner.Domain.Entities.AnimalType", "AnimalType")
@@ -504,24 +407,14 @@ namespace PetAndOwner.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PetAndOwner.Domain.Entities.Food", "Food")
-                        .WithMany("Pets")
-                        .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("AnimalType");
-
-                    b.Navigation("Food");
                 });
 
             modelBuilder.Entity("PetAndOwner.Infrastructure.Data.ApplicationUser", b =>
                 {
                     b.HasOne("PetAndOwner.Domain.Entities.City", "City")
                         .WithMany("Users")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CityId");
 
                     b.Navigation("City");
                 });
@@ -534,11 +427,6 @@ namespace PetAndOwner.Infrastructure.Migrations
             modelBuilder.Entity("PetAndOwner.Domain.Entities.Country", b =>
                 {
                     b.Navigation("Cities");
-                });
-
-            modelBuilder.Entity("PetAndOwner.Domain.Entities.Food", b =>
-                {
-                    b.Navigation("Pets");
                 });
 #pragma warning restore 612, 618
         }

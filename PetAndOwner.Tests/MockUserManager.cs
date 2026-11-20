@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Moq;
+using PetAndOwner.Domain.Entities;
 using PetAndOwner.Infrastructure.Data;
 
 namespace PetAndOwner.Tests;

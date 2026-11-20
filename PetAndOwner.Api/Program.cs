@@ -1,10 +1,12 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PetAndOwner.Api.Dto;
 using PetAndOwner.Application;
 using PetAndOwner.Application.Api;
+using PetAndOwner.Application.Dto;
 using PetAndOwner.Application.Interface;
+using PetAndOwner.Application.Service;
 using PetAndOwner.Domain.Entities;
 using PetAndOwner.Domain.Interface.Repository;
 using PetAndOwner.Infrastructure.Data;
@@ -52,7 +54,7 @@ app.UseHttpsRedirection();
 app.MapIdentityApi<ApplicationUser>();
 
 
-app.MapPatch("/api/profile", async (ClaimsPrincipal claims, UserService userService, SetupProfileDto profileDto, LocationService locationService) =>
+app.MapPatch("/api/profile", async (ClaimsPrincipal claims, [FromServices] UserService userService, [FromBody] SetupProfileDto profileDto, [FromServices] LocationService locationService) =>
 {
     var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
 

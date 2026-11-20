@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PetAndOwner.Domain.Entities;
 using PetAndOwner.Domain.Interface.Repository;
 using PetAndOwner.Infrastructure.Data;
 
