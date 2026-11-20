@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using PetAndOwner.Application.Dto;
 using PetAndOwner.Application.Interface;
 using PetAndOwner.Domain.Entities;
 using PetAndOwner.Domain.Interface.Repository;
@@ -16,9 +17,23 @@ public class PetService : IPetService
         _userManager = userManager;
     }
 
-    public async Task RegisterPetAsync(Pet pet)
+    public async Task RegisterPetAsync(ReturnPetDto pet, ApplicationUser user)
     {
-        await _repository.CreateAsync(pet);
+        if (user == null) throw new ArgumentException("Owner not found");
+
+        var newPet = new Pet
+        {
+            Id = Guid.NewGuid(),
+            Name = pet.Name,
+            Gender = pet.Gender,
+            Age = pet.Age,
+            AnimalType = new AnimalType(){Id = Guid.NewGuid(), Name = pet.AnimalType}
+        };
+        await _repository.CreateAsync(newPet);
+        //var checkPet = await _repository.GetByIdAsync(newPet.Id);
+        //if (checkPet == null) throw new ArgumentException("Pet not created");
+        
+        await _repository.AddOwnerAsync(newPet.Id, user.Id);
     }
 
     public async Task UpdatePetAsync(Pet pet)

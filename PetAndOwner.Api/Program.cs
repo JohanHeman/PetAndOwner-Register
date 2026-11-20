@@ -34,12 +34,15 @@ builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 builder.Services.AddScoped<IPetRepository, PetRepository>();
 builder.Services.AddScoped<IPetService, PetService>();
 
+builder.Services.AddAuthorization();
 
 builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 var app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -75,7 +78,29 @@ app.MapPatch("/api/profile", async (ClaimsPrincipal claims, [FromServices] IUser
 app.MapGet("/api/persons", async ([FromServices] IUserService userService) => await userService.GetAllUsersAsync());
 
 
+app.MapGet("/api/profile", async (ClaimsPrincipal claims, [FromServices] IUserService userService) =>
+{
+    var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
+    if (!Guid.TryParse(userId, out var id))
+        return Results.Unauthorized();
 
+    try
+    {
+        var user = await userService.GetUserByIdAsync(id);
+        return Results.Ok(user);
+    }
+    catch (Exception e)
+    {
+        return Results.BadRequest(e.Message);
+    }
+});
+
+app.MapPost("/api/profile/pet", async (ClaimsPrincipal claims, UserManager<ApplicationUser> manager, [FromServices] IPetService petService, [FromBody] ReturnPetDto pet) =>
+{
+    var user = await manager.GetUserAsync(claims);
+
+    await petService.RegisterPetAsync(pet, user);
+});
 
 
 
