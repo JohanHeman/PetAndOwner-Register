@@ -47,7 +47,7 @@ public static class TestUsers
     }
     private static DateOnly SetAge(int age)
     {
-        var today = DateOnly.FromDateTime(DateTime.Today); 
+        var today = DateOnly.FromDateTime(DateTime.Today);
         return today.AddMonths(6).AddYears(-(age + 1)); //just set their birthday half a year from today
     }
 }

@@ -25,7 +25,7 @@ public class ApplicationUser : IdentityUser<Guid>
 
             var today = DateOnly.FromDateTime(DateTime.Today);
             var age = today.Year - BirthDate.Value.Year;
-            
+
             // Subtract one year if this year's birthday hasn't happened yet
             if (BirthDate.Value > today.AddYears(-age)) age--;
             return age;
