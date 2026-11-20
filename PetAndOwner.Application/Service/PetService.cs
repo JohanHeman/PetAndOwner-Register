@@ -30,8 +30,6 @@ public class PetService : IPetService
             AnimalType = new AnimalType(){Id = Guid.NewGuid(), Name = pet.AnimalType}
         };
         await _repository.CreateAsync(newPet);
-        //var checkPet = await _repository.GetByIdAsync(newPet.Id);
-        //if (checkPet == null) throw new ArgumentException("Pet not created");
         
         await _repository.AddOwnerAsync(newPet.Id, user.Id);
     }
@@ -70,14 +68,5 @@ public class PetService : IPetService
         var pet = await _repository.GetByIdAsync(petId);
         if (pet == null) throw new ArgumentException("Pet not found");
         await _repository.RemoveOwnerAsync(petId, ownerId);
-    }
-
-    public async Task AddOwnerAsync(Guid petId, Guid newOwnerId)
-    {
-        var owner = await _userManager.FindByIdAsync(newOwnerId.ToString());
-        if (owner == null) throw new ArgumentException("Owner not found");
-        var pet = await _repository.GetByIdAsync(petId);
-        if (pet == null) throw new ArgumentException("Pet not found");
-        await _repository.AddOwnerAsync(petId, newOwnerId);
     }
 }
