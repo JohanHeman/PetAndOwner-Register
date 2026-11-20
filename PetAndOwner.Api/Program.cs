@@ -39,26 +39,15 @@ app.UseHttpsRedirection();
 app.MapIdentityApi<ApplicationUser>();
 
 
-app.MapPatch("/api/profile", async (ClaimsPrincipal claims, UserManager<ApplicationUser> manager, SetupProfileDto profileDto, LocationService locationService) =>
+app.MapPatch("/api/profile", async (ClaimsPrincipal claims, UserService userService, SetupProfileDto profileDto, LocationService locationService) =>
 {
-    var user = await manager.GetUserAsync(claims);
+    var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
 
-    if (user == null)
-    {
-        return Results.Unauthorized();
-    }
+    var city = await locationService.GetOrSaveCityAsync(profileDto.CityName);
 
     try
     {
-        var city = await locationService.GetOrSaveCityAsync(profileDto.CityName);
-
-        user.Name = profileDto.Name;
-        user.Gender = (Gender)profileDto.Gender;
-        user.PhoneNumber = profileDto.PhoneNumber;
-        user.Age = profileDto.Age;
-        user.City = city;
-
-        await manager.UpdateAsync(user);
+        await userService.SetupUserProfileAsync(userId, profileDto, city);
     }
     catch (Exception e)
     {

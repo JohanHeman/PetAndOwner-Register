@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PetAndOwner.Api.Dto;
 using PetAndOwner.Application.Interface;
 using PetAndOwner.Domain.Entities;
 using PetAndOwner.Domain.Interface.Repository;
@@ -11,6 +12,7 @@ public class UserService : IUserService
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IPetRepository _petRepository;
+
     public UserService(UserManager<ApplicationUser> manager, IPetRepository petRepository)
     {
         _userManager = manager;
@@ -25,6 +27,25 @@ public class UserService : IUserService
     public async Task<List<ApplicationUser>> GetAllUsersAsync()
     {
         return await _userManager.Users.AsNoTracking().ToListAsync();
+    }
+
+    public async Task<bool> SetupUserProfileAsync(string userId, SetupProfileDto profileDto, City city)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user == null)
+        {
+            return false;
+        }
+
+        user.Name = profileDto.Name;
+        user.Gender = (Gender)profileDto.Gender;
+        user.PhoneNumber = profileDto.PhoneNumber;
+        user.Age = profileDto.Age;
+        user.City = city;
+
+        await _userManager.UpdateAsync(user);
+        return true;
     }
 
     public async Task UpdateUserAsync(ApplicationUser user)
