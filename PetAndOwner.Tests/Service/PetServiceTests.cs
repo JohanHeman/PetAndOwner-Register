@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using PetAndOwner.Application;
+using PetAndOwner.Application.Dto;
 using PetAndOwner.Application.Service;
 using PetAndOwner.Domain.Entities;
 using PetAndOwner.Domain.Interface.Repository;
@@ -27,17 +28,20 @@ public class PetServiceTests
     public async Task RegisterPetAsync_ShouldCreatePet()
     {
         // Arrange
-        var pet = new Pet()
+        var user = TestUsers.CreateTestUser();
+        var pet = new ReturnPetDto()
         {
-            Id = Guid.NewGuid(),
-            Age = 4
+            Name = "PetName",
+            Age = 4,
+            Gender = default,
+            AnimalType = "animal"
         };
 
         // Act
-        await _sut.RegisterPetAsync(pet);
+        await _sut.RegisterPetAsync(pet, user);
 
         // Assert 
-        _repository.Verify(x => x.CreateAsync(pet), Times.Once);
+        _repository.Verify(x => x.CreateAsync(It.IsAny<Pet>()), Times.Once);
     }
 
     [Fact]
