@@ -57,22 +57,11 @@ app.MapPatch("/api/profile", async (ClaimsPrincipal claims, UserManager<Applicat
 {
     var user = await userManager.GetUserAsync(claims);
 
-    if (user == null)
-    {
-        return Results.Unauthorized();
-    }
+    var city = await locationService.GetOrSaveCityAsync(profileDto.CityName);
 
     try
     {
-        var city = await locationService.GetOrSaveCityAsync(profileDto.CityName);
-
-        user.Name = profileDto.Name;
-        user.Gender = (Gender)profileDto.Gender;
-        user.PhoneNumber = profileDto.PhoneNumber;
-        user.Age = profileDto.Age;
-        user.City = city;
-
-        await userManager.UpdateAsync(user);
+        await userService.SetupUserProfileAsync(userId, profileDto, city);
     }
     catch (Exception e)
     {
