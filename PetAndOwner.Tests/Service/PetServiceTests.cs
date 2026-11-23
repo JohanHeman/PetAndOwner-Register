@@ -87,11 +87,15 @@ public class PetServiceTests
     public async Task GetAllPetsASinglePet_ShouldReturnAllPets()
     {
         // Arrange
-        var petOne = new Pet();
-        var petTwo = new Pet();
-        var petThree = new Pet();
-        var pets = new List<Pet>() { petOne, petTwo, petThree };
-        _repository.Setup(x => x.GetAllAsync()).ReturnsAsync(pets);
+        var dogType = new AnimalType { Name = "Dog" };
+
+        var pets = new List<Pet>
+        {
+            new Pet { Name = "animal1",   Age = 3, AnimalType = dogType },
+            new Pet { Name = "animal2",  Age = 5, AnimalType = dogType },
+            new Pet { Name = "animal3", Age = 2, AnimalType = dogType },
+        };
+        _repository.Setup(x => x.GetAllPetsAsync()).ReturnsAsync(pets);
 
         var expected = pets.Count;
         // Act
