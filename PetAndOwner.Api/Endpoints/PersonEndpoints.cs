@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using PetAndOwner.Application.Dto;
 using PetAndOwner.Application.Interface;
+using PetAndOwner.Application.Service;
 
 namespace PetAndOwner.Api;
 
@@ -46,6 +47,17 @@ public static class PersonEndpoints
             return Results.NoContent();
         });
 
+
+        app.MapDelete("/api/profile", async (ClaimsPrincipal claims, [FromServices] IUserService userService) =>
+        {
+            var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            if(userId == null) return Results.Unauthorized();
+            
+            await userService.DeleteUserAsync(Guid.Parse(userId));
+            
+            return Results.NoContent();
+        });
 
     }
 }
