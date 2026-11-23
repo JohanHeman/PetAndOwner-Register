@@ -14,12 +14,10 @@ public static class PersonEndpoints
         app.MapGet("/api/profile", async (ClaimsPrincipal claims, [FromServices] IUserService userService) =>
         {
             var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (!Guid.TryParse(userId, out var id))
-                return Results.Unauthorized();
 
             try
             {
-                var user = await userService.GetUserByIdAsync(id);
+                var user = await userService.GetUserByIdAsync(Guid.Parse(userId));
                 return Results.Ok(user);
             }
             catch (Exception e)
