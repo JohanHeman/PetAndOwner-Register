@@ -1,8 +1,10 @@
 #this image includes tools to build and publish the project
 FROM mcr.microsoft.com/dotnet/sdk:10.0 as build
 WORKDIR /app
-COPY . ./ 
-RUN dotnet restore
+
+COPY . .
+
+RUN dotnet restore PetAndOwner.Api/PetAndOwner.Api.csproj
 RUN dotnet publish PetAndOwner.Api/PetAndOwner.Api.csproj -o /app/out
 
 # image containing all the tools for runtime purposes

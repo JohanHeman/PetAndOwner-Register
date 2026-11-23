@@ -1,6 +1,7 @@
 # .NET
 bin/
 obj/
+PetAndOwner.Tests/
 
 # IDE
 .vscode/
