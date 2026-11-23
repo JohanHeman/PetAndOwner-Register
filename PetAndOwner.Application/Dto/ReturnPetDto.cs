@@ -5,6 +5,7 @@ namespace PetAndOwner.Application.Dto;
 
 public class ReturnPetDto
 {
+    public Guid PetId { get; set; }
     public string? Name { get; set; }
     public int Age { get; set; }
     public Gender Gender { get; set; }

@@ -8,12 +8,13 @@ namespace PetAndOwner.Application.Service;
 
 public class PetService : IPetService
 {
-    private readonly IPetRepository _repository;
+    private readonly IPetRepository _petRepository;
+    private readonly IAnimalTypeRepository _typeRepository;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public PetService(IPetRepository repository, UserManager<ApplicationUser> userManager)
+    public PetService(IPetRepository petRepository, UserManager<ApplicationUser> userManager)
     {
-        _repository = repository;
+        _petRepository = petRepository;
         _userManager = userManager;
     }
 
@@ -29,58 +30,73 @@ public class PetService : IPetService
             Age = pet.Age,
             AnimalType = new AnimalType() { Id = Guid.NewGuid(), Name = pet.AnimalType }
         };
-        await _repository.CreateAsync(newPet);
+        await _petRepository.CreateAsync(newPet);
 
-        await _repository.AddOwnerAsync(newPet.Id, user.Id);
+        await _petRepository.AddOwnerAsync(newPet.Id, user.Id);
     }
 
-    public async Task UpdatePetAsync(Pet pet)
+
+    public async Task UpdatePetAsync(UpdatePetDto dto)
     {
-        await _repository.UpdateAsync(pet);
+        //check if owner is right
+        var pet = await _petRepository.GetByIdAsync(dto.PetId) ?? throw new Exception("Pet not found.");
+
+        pet.Name = dto.Name ?? pet.Name;
+        pet.Age = dto.Age ?? pet.Age;
+        pet.Gender = dto.Gender ?? pet.Gender;
+        pet.AnimalType = (dto.AnimalType == null) ? pet.AnimalType : await _typeRepository.GetByNameAsync(dto.AnimalType) ?? await CreateAndReturnTypeAsync(dto.AnimalType);
+
+        await _petRepository.UpdateAsync(pet);
     }
 
+    private async Task<AnimalType> CreateAndReturnTypeAsync(string newTypeName)
+    {
+        await _typeRepository.CreateAsync(new AnimalType() { Id = Guid.NewGuid(), Name = newTypeName });
+        return await _typeRepository.GetByNameAsync(newTypeName);
+    }
     public async Task RemovePetAsync(Guid petId)
     {
-        var pet = await _repository.GetByIdAsync(petId);
+        var pet = await _petRepository.GetByIdAsync(petId);
         if (pet == null) throw new Exception("The pet does not exist");
-        await _repository.DeleteAsync(pet);
+        await _petRepository.DeleteAsync(pet);
     }
 
     public async Task<IReadOnlyList<ReturnPetDto>> GetAllPetsAsync()
     {
-        var pets = await _repository.GetAllPetsAsync();
+        var pets = await _petRepository.GetAllPetsAsync();
         var response = new List<ReturnPetDto>();
         foreach (var pet in pets)
         {
             response.Add(new ReturnPetDto
             {
+                PetId = pet.Id,
                 Name = pet.Name,
                 Age = pet.Age,
                 Gender = pet.Gender,
                 AnimalType = pet.AnimalType.Name,
             });
         }
-        
+
         return response;
     }
-    
+
 
     public Task<Pet> GetPetByIdAsync(Guid id)
     {
-        return _repository.GetByIdAsync(id);
+        return _petRepository.GetByIdAsync(id);
     }
 
     public async Task<IReadOnlyList<ApplicationUser>> GetOwnersByPetIdAsync(Guid petId)
     {
-        return await _repository.GetOwnersByPetIdAsync(petId);
+        return await _petRepository.GetOwnersByPetIdAsync(petId);
     }
 
     public async Task RemoveOwnerAsync(Guid petId, Guid ownerId)
     {
         var owner = await _userManager.FindByIdAsync(ownerId.ToString());
         if (owner == null) throw new ArgumentException("Owner not found");
-        var pet = await _repository.GetByIdAsync(petId);
+        var pet = await _petRepository.GetByIdAsync(petId);
         if (pet == null) throw new ArgumentException("Pet not found");
-        await _repository.RemoveOwnerAsync(petId, ownerId);
+        await _petRepository.RemoveOwnerAsync(petId, ownerId);
     }
 }
