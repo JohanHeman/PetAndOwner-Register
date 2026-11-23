@@ -62,7 +62,7 @@ public class UserServiceTests
             Id = Guid.NewGuid(),
             Name = "new city",
         };
-        var profileDto = new UserProfileDto()
+        var profileDto = new UpdateUserProfileDto()
         {
             Name = "new name",
             BirthDate = new DateOnly(2001, 05, 01),
@@ -91,7 +91,7 @@ public class UserServiceTests
         var wrongId = Guid.Empty;
         var userUpdate = TestUsers.CreateTestUser(id: wrongId, name: "new name");
 
-        var profileDto = new UserProfileDto()
+        var profileDto = new UpdateUserProfileDto()
         {
             CityName = "new city",
             Country = "new country",

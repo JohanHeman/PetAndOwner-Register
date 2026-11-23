@@ -1,6 +1,6 @@
 namespace PetAndOwner.Application.Dto;
 
-public class UserProfileDto
+public class UpdateUserProfileDto
 {
     public string Name { get; set; }
     public DateOnly? BirthDate { get; set; }
