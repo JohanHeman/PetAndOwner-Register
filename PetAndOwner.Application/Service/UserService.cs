@@ -24,14 +24,14 @@ public class UserService : IUserService
         return await FindUserOrThrowAsync(id);
     }
 
-    public async Task<List<ReturnProfileDto>> GetAllUsersAsync()
+    public async Task<List<UserProfileDto>> GetAllUsersAsync()
     {
         var users = await _userManager.Users.Include(u => u.City)
             .ThenInclude(C => C.Country).ToListAsync();
-        List<ReturnProfileDto> persons = new List<ReturnProfileDto>();
+        List<UserProfileDto> persons = new List<UserProfileDto>();
         foreach (var user in users)
         {
-            persons.Add(new ReturnProfileDto()
+            persons.Add(new UserProfileDto()
             {
                 Name = user.Name,
                 BirthDate = user.BirthDate,
@@ -62,18 +62,20 @@ public class UserService : IUserService
         return true;
     }
 
-    public async Task UpdateUserAsync(ApplicationUser user)
+    public async Task UpdateUserAsync(UserProfileDto profileDto, ApplicationUser user, City city)
     {
-        ArgumentNullException.ThrowIfNull(user);
-
         var existing = await FindUserOrThrowAsync(user.Id);
 
-        // only change values that are allowed to change
-        existing.Name = user.Name;
-        existing.BirthDate = user.BirthDate;
-        existing.Gender = user.Gender;
-        existing.CityId = user.CityId;
+        if (existing == null) throw new Exception("User not found");
 
+        // only change values that are allowed to change
+        existing.Name = profileDto.Name;
+        existing.BirthDate = profileDto.BirthDate;
+        existing.Gender = Enum.Parse<Gender>(profileDto.Gender);
+        existing.Email = profileDto.Email;
+        existing.PhoneNumber = profileDto.PhoneNumber;
+        existing.BirthDate = profileDto.BirthDate;
+        existing.City = city;
         var result = await _userManager.UpdateAsync(existing);
         ThrowIfFailed(result, "update user");
     }
