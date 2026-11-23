@@ -24,26 +24,29 @@ public class UserService : IUserService
         return await FindUserOrThrowAsync(id);
     }
 
-    public async Task<List<UserProfileDto>> GetAllUsersAsync()
+    public async Task<List<ReturnUserProfileDto>> GetAllUsersAsync()
     {
         var users = await _userManager.Users.Include(u => u.City)
             .ThenInclude(C => C.Country).ToListAsync();
-        List<UserProfileDto> persons = new List<UserProfileDto>();
+        List<ReturnUserProfileDto> persons = new List<ReturnUserProfileDto>();
         foreach (var user in users)
         {
-            persons.Add(new UserProfileDto()
+            persons.Add(new ReturnUserProfileDto()
             {
                 Name = user.Name,
-                BirthDate = user.BirthDate,
+                BirthDate = user.BirthDate ?? throw new Exception("User must have birthdate"),
                 Gender = user.Gender.ToString(),
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
+                CityName = user.City.Name,
+                Country = user.City.Country.Name,
+                Age = user.Age ?? throw new Exception("User must have age"), 
             });
         }
         return persons;
     }
 
-    public async Task<bool> SetupUserProfileAsync(string userId, UserProfileDto profileDto, City city)
+    public async Task<bool> SetupUserProfileAsync(string userId, UpdateUserProfileDto profileDto, City city)
     {
         var user = await _userManager.FindByIdAsync(userId);
 
@@ -62,7 +65,7 @@ public class UserService : IUserService
         return true;
     }
 
-    public async Task UpdateUserAsync(UserProfileDto profileDto, ApplicationUser user, City city)
+    public async Task UpdateUserAsync(UpdateUserProfileDto profileDto, ApplicationUser user, City city)
     {
         var existing = await FindUserOrThrowAsync(user.Id);
 
