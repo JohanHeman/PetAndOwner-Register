@@ -1,7 +1,7 @@
 name: petandownerapi
 services:
   webapi:
-    image: jojodevdocker/petandownerapi:latest
+    image: jojodevdocker/petandowner-api:latest
     pull_policy: always
     container_name: petandowner-webapi
     networks: 
