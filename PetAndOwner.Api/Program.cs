@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PetAndOwner.Api;
 using PetAndOwner.Application;
 using PetAndOwner.Application.Api;
 using PetAndOwner.Application.Dto;
@@ -56,52 +57,8 @@ app.UseHttpsRedirection();
 app.MapIdentityApi<ApplicationUser>();
 
 
-app.MapPatch("/api/profile", async (ClaimsPrincipal claims, [FromServices] IUserService userService, [FromBody] SetupProfileDto profileDto, [FromServices] ILocationService locationService) =>
-{
-    var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
-
-    var city = await locationService.GetOrSaveCityAsync(profileDto.CityName);
-
-    try
-    {
-        await userService.SetupUserProfileAsync(userId, profileDto, city);
-    }
-    catch (Exception e)
-    {
-        return Results.BadRequest(e.Message);
-    }
-
-    return Results.NoContent();
-});
-
-
-app.MapGet("/api/persons", async ([FromServices] IUserService userService) => await userService.GetAllUsersAsync());
-
-
-app.MapGet("/api/profile", async (ClaimsPrincipal claims, [FromServices] IUserService userService) =>
-{
-    var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
-    if (!Guid.TryParse(userId, out var id))
-        return Results.Unauthorized();
-
-    try
-    {
-        var user = await userService.GetUserByIdAsync(id);
-        return Results.Ok(user);
-    }
-    catch (Exception e)
-    {
-        return Results.BadRequest(e.Message);
-    }
-});
-
-app.MapPost("/api/profile/pet", async (ClaimsPrincipal claims, UserManager<ApplicationUser> manager, [FromServices] IPetService petService, [FromBody] ReturnPetDto pet) =>
-{
-    var user = await manager.GetUserAsync(claims);
-
-    await petService.RegisterPetAsync(pet, user);
-});
-
+app.MapPersonEndpoints();
+app.MapPetEndpoints();
 
 
 app.Run();
