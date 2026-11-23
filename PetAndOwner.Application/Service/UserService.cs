@@ -24,14 +24,14 @@ public class UserService : IUserService
         return await FindUserOrThrowAsync(id);
     }
 
-    public async Task<List<ReturnProfileDto>> GetAllUsersAsync()
+    public async Task<List<UserProfileDto>> GetAllUsersAsync()
     {
         var users = await _userManager.Users.Include(u => u.City)
             .ThenInclude(C => C.Country).ToListAsync();
-        List<ReturnProfileDto> persons = new List<ReturnProfileDto>();
+        List<UserProfileDto> persons = new List<UserProfileDto>();
         foreach (var user in users)
         {
-            persons.Add(new ReturnProfileDto()
+            persons.Add(new UserProfileDto()
             {
                 Name = user.Name,
                 BirthDate = user.BirthDate,
@@ -62,7 +62,7 @@ public class UserService : IUserService
         return true;
     }
 
-    public async Task UpdateUserAsync(ReturnProfileDto profileDto, ApplicationUser user)
+    public async Task UpdateUserAsync(UserProfileDto profileDto, ApplicationUser user)
     {
         var existing = await FindUserOrThrowAsync(user.Id);
 

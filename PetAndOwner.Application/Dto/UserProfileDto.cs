@@ -1,6 +1,6 @@
 namespace PetAndOwner.Application.Dto;
 
-public class ReturnProfileDto
+public class UserProfileDto
 {
     public string Name { get; set; }
     public DateOnly? BirthDate { get; set; }

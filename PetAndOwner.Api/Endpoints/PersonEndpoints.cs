@@ -59,7 +59,7 @@ public static class PersonEndpoints
             return Results.NoContent();
         });
 
-        app.MapPatch("/api/profile", async (ClaimsPrincipal Claims, [FromServices] IUserService userService, ReturnProfileDto profileDto) =>
+        app.MapPatch("/api/profile", async (ClaimsPrincipal Claims, [FromServices] IUserService userService, UserProfileDto profileDto) =>
         {
             var userId = Claims.FindFirstValue(ClaimTypes.NameIdentifier);
             
