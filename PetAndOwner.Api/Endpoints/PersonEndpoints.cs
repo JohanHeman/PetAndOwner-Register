@@ -27,7 +27,7 @@ public static class PersonEndpoints
                 return Results.BadRequest(e.Message);
             }
         });
-        
+
         app.MapPatch("/api/profile", async (ClaimsPrincipal claims, [FromServices] IUserService userService, [FromBody] SetupProfileDto profileDto, [FromServices] ILocationService locationService) =>
         {
             var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -45,7 +45,7 @@ public static class PersonEndpoints
 
             return Results.NoContent();
         });
-        
-        
+
+
     }
 }
