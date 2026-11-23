@@ -15,17 +15,18 @@ public class LocationService : ILocationService
         _cityRepository = cityRepository;
     }
 
-    public async Task<City> GetOrSaveCityAsync(string cityName)
+    public async Task<City> GetOrSaveCityAsync(string cityName, string countryName)
     {
         if (string.IsNullOrWhiteSpace(cityName)) throw new ArgumentException("Value cannot be null or whitespace");
         var city = await _cityRepository.GetCityByNameAsync(cityName);
+        var country = await GetOrSaveCountryAsync(countryName);
         if (city == null)
         {
             City newCity = new City()
             {
                 Id = Guid.NewGuid(),
                 Name = cityName,
-                Country = new Country(),
+                Country = country,
             };
             await _cityRepository.CreateAsync(newCity);
         }

@@ -27,11 +27,11 @@ public static class PersonEndpoints
             }
         });
 
-        app.MapPatch("/api/profile/setup", async (ClaimsPrincipal claims, [FromServices] IUserService userService, [FromBody] SetupProfileDto profileDto, [FromServices] ILocationService locationService) =>
+        app.MapPatch("/api/profile/setup", async (ClaimsPrincipal claims, [FromServices] IUserService userService, [FromBody] UserProfileDto profileDto, [FromServices] ILocationService locationService) =>
         {
             var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var city = await locationService.GetOrSaveCityAsync(profileDto.CityName);
+            var city = await locationService.GetOrSaveCityAsync(profileDto.CityName, profileDto.Country);
 
             try
             {
@@ -63,7 +63,7 @@ public static class PersonEndpoints
 
             var user = await userService.GetUserByIdAsync(Guid.Parse(userId));
 
-            var city = await locationService.GetOrSaveCityAsync(profileDto.CityName);
+            var city = await locationService.GetOrSaveCityAsync(profileDto.CityName, profileDto.Country);
 
             await userService.UpdateUserAsync(profileDto, user, city);
         });

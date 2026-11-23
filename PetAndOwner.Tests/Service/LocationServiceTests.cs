@@ -31,7 +31,7 @@ public class LocationServiceTests
         var expected = "Value cannot be null or whitespace";
 
         // Act
-        var actual = await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetOrSaveCityAsync(input));
+        var actual = await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetOrSaveCityAsync(input, "Test"));
 
         // Assert
         Assert.Equal(expected, actual.Message);
@@ -51,7 +51,7 @@ public class LocationServiceTests
         _cityRepo.Setup(x => x.GetCityByNameAsync(city.Name)).ReturnsAsync(city);
 
         // Act
-        var actual = await _sut.GetOrSaveCityAsync(city.Name);
+        var actual = await _sut.GetOrSaveCityAsync(city.Name, "Test");
 
         // Assert
 
@@ -67,7 +67,7 @@ public class LocationServiceTests
         var city = new City() { Name = "cityName" };
         _cityRepo.Setup(x => x.GetCityByNameAsync(city.Name)).ReturnsAsync((City?)null);
         // Act
-        var actual = await _sut.GetOrSaveCityAsync(city.Name);
+        var actual = await _sut.GetOrSaveCityAsync(city.Name, "Test");
 
         // Assert
         _cityRepo.Verify(x => x.CreateAsync(It.IsAny<City>()), Times.Once);

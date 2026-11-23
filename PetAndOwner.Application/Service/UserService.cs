@@ -43,7 +43,7 @@ public class UserService : IUserService
         return persons;
     }
 
-    public async Task<bool> SetupUserProfileAsync(string userId, SetupProfileDto profileDto, City city)
+    public async Task<bool> SetupUserProfileAsync(string userId, UserProfileDto profileDto, City city)
     {
         var user = await _userManager.FindByIdAsync(userId);
 
@@ -53,7 +53,7 @@ public class UserService : IUserService
         }
 
         user.Name = profileDto.Name;
-        user.Gender = (Gender)profileDto.Gender;
+        user.Gender = Enum.Parse<Gender>(profileDto.Gender);
         user.PhoneNumber = profileDto.PhoneNumber;
         user.BirthDate = profileDto.BirthDate;
         user.City = city;

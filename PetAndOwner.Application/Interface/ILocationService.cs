@@ -4,7 +4,7 @@ namespace PetAndOwner.Application.Interface;
 
 public interface ILocationService
 {
-    public Task<City> GetOrSaveCityAsync(string cityName);
+    public Task<City> GetOrSaveCityAsync(string cityName, string countryName);
     public Task<Country> GetOrSaveCountryAsync(string countryName);
 
     public Task<IReadOnlyList<City>> GetCitiesInDbAsync();
