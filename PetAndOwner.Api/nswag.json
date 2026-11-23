@@ -1,8 +1,12 @@
 {
-  "runtime": "Net10",
+  "runtime": "Net100",
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "http://localhost:5253/openapi/v1.json"
+    }
+  },
   "codeGenerators": {
     "openApiToTypeScriptClient": {
-      "input": "http://localhost:5253/openapi/v1.json",
       "className": "ApiClient",
       "template": "Angular",
       "httpClass": "HttpClient",
