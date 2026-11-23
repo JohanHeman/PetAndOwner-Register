@@ -16,10 +16,24 @@ public static class PetEndpoints
             ClaimsPrincipal claims, 
             UserManager<ApplicationUser> manager, 
             [FromServices] IPetService petService, 
+            [FromServices] IUserService userService,
             [FromBody] ReturnPetDto pet) =>
         {
-            var user = await manager.GetUserAsync(claims);
-            await petService.RegisterPetAsync(pet, user);
+            var identifier = claims.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!Guid.TryParse(identifier, out var id))
+                return Results.Unauthorized();
+            //var user = await manager.GetUserAsync(claims);
+            
+            try
+            {
+                var user = await userService.GetUserByIdAsync(id);
+                await petService.RegisterPetAsync(pet, user);
+                return Results.Ok();
+            } 
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
         });
 
         app.MapGet("/api/profile/pet", async (
@@ -28,25 +42,27 @@ public static class PetEndpoints
             [FromServicesAttribute] IUserService userService) =>
         {
             var identifier = claims.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (!Guid.TryParse(identifier, out var userId))
+            if (!Guid.TryParse(identifier, out var id))
                 return Results.Unauthorized();
             
             try
             {
-                var pets = await userService.GetUserPetsAsync(userId);
-                var response = new List<ReturnPetDto>();
-                foreach (var pet in pets)
-                {
-                    response.Add(new ReturnPetDto
-                    {
-                        Name = pet.Name,
-                        Age = pet.Age,
-                        Gender = pet.Gender,
-                        AnimalType = pet.AnimalType.Name,
-                    });
-                }
+                var pets = await userService.GetUserPetsAsync(id);
+                return Results.Ok(pets);
+            }
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
+        });
 
-                return Results.Ok(response);
+        app.MapGet("/api/pets", async (
+            [FromServicesAttribute] IPetService petService) =>
+        {
+            try
+            {
+                var pets = await petService.GetAllPetsAsync();
+                return Results.Ok(pets);
             }
             catch (Exception e)
             {

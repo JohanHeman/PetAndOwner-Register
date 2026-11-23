@@ -8,4 +8,5 @@ public interface IPetRepository : IBaseRepository<Pet>
     public Task<IReadOnlyList<ApplicationUser>> GetOwnersByPetIdAsync(Guid petId);
     public Task RemoveOwnerAsync(Guid petId, Guid ownerId);
     public Task AddOwnerAsync(Guid petId, Guid ownerId);
+    public Task<List<Pet>> GetAllPetsAsync();
 }

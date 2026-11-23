@@ -11,12 +11,19 @@ public class PetRepository : BaseRepository<Pet>, IPetRepository
     {
     }
 
+    public async Task<List<Pet>> GetAllPetsAsync()
+    {
+        return await _context.Pets.Include(p => p.AnimalType).ToListAsync();
+    }
+
     public async Task<List<Pet>> GetPetsByUserIdAsync(Guid userId)
     {
         return await _context.Pets
             .AsNoTracking()
             .Where(p => p.Owners.Any(u => u.Id == userId))
+            .Include(p => p.AnimalType)
             .ToListAsync();
+            
     }
 
     public async Task<IReadOnlyList<ApplicationUser>> GetOwnersByPetIdAsync(Guid petId)

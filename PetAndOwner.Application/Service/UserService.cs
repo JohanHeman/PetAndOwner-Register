@@ -94,10 +94,22 @@ public class UserService : IUserService
         ThrowIfFailed(result, "delete user");
     }
 
-    public async Task<List<Pet>> GetUserPetsAsync(Guid userId)
+    public async Task<IReadOnlyList<ReturnPetDto>> GetUserPetsAsync(Guid userId)
     {
         await FindUserOrThrowAsync(userId);
-        return await _petRepository.GetPetsByUserIdAsync(userId);
+        var pets = await _petRepository.GetPetsByUserIdAsync(userId);
+        var response = new List<ReturnPetDto>();
+        foreach (var pet in pets)
+        {
+            response.Add(new ReturnPetDto
+            {
+                Name = pet.Name,
+                Age = pet.Age,
+                Gender = pet.Gender,
+                AnimalType = pet.AnimalType.Name,
+            });
+        }
+        return response;
     }
 
     // there are several parts that need a check that checks if user exists before trying to take further action

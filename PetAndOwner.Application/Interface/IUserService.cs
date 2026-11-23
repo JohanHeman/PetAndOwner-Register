@@ -9,7 +9,7 @@ public interface IUserService
     public Task UpdateUserAsync(UserProfileDto profileDto, ApplicationUser user, City city);
     public Task<ApplicationUser> GetUserByIdAsync(Guid id);
     public Task<List<UserProfileDto>> GetAllUsersAsync();
-    Task<List<Pet>> GetUserPetsAsync(Guid userId);//UserPetsResponseDto instead of return List<Pet> maybe
+    Task<IReadOnlyList<ReturnPetDto>> GetUserPetsAsync(Guid userId);//UserPetsResponseDto instead of return List<Pet> maybe
     public Task<bool> SetupUserProfileAsync(string userId, UserProfileDto profileDto, City city);
 
 }
