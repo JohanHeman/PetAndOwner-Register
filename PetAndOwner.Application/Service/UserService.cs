@@ -62,9 +62,11 @@ public class UserService : IUserService
         return true;
     }
 
-    public async Task UpdateUserAsync(UserProfileDto profileDto, ApplicationUser user)
+    public async Task UpdateUserAsync(UserProfileDto profileDto, ApplicationUser user, City city)
     {
         var existing = await FindUserOrThrowAsync(user.Id);
+
+        if (existing == null) throw new Exception("User not found");
 
         // only change values that are allowed to change
         existing.Name = profileDto.Name;
@@ -73,6 +75,7 @@ public class UserService : IUserService
         existing.Email = profileDto.Email;
         existing.PhoneNumber = profileDto.PhoneNumber;
         existing.BirthDate = profileDto.BirthDate;
+        existing.City = city;
         var result = await _userManager.UpdateAsync(existing);
         ThrowIfFailed(result, "update user");
     }

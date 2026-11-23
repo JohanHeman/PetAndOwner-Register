@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Moq;
+using PetAndOwner.Application.Dto;
 using PetAndOwner.Application.Service;
 using PetAndOwner.Domain.Entities;
 using PetAndOwner.Domain.Enum;
@@ -56,24 +57,30 @@ public class UserServiceTests
     {
         //arrange
         var userInDb = TestUsers.Barbro();
-        var userUpdate = TestUsers.CreateTestUser(
-            id: userInDb.Id,
-            name: "new name",
-            age: 40,
-            gender: Gender.Male,
-            cityName: "new city");
+        var city = new City()
+        {
+            Id = Guid.NewGuid(),
+            Name = "new city",
+        };
+        var profileDto = new UserProfileDto()
+        {
+            Name = "new name",
+            BirthDate = new DateOnly(2001, 05, 01),
+            Gender = Gender.Male.ToString(),
+            CityName = "new city"
+        };
 
         _userManager.Setup(m => m.FindByIdAsync(userInDb.Id.ToString())).ReturnsAsync(userInDb);
         _userManager.Setup(m => m.UpdateAsync(userInDb)).ReturnsAsync(IdentityResult.Success);
 
         //act
-        await _sut.UpdateUserAsync(userUpdate);
+        await _sut.UpdateUserAsync(profileDto, userInDb, city);
 
         //assert
         Assert.Equal("new name", userInDb.Name);
-        Assert.Equal(40, userInDb.Age);
+        Assert.Equal(25, userInDb.Age);
         Assert.Equal(Gender.Male, userInDb.Gender);
-        Assert.Equal(userUpdate.CityId, userInDb.CityId);
+        Assert.Equal(profileDto.CityName, userInDb.City.Name);
         _userManager.Verify(m => m.UpdateAsync(userInDb), Times.Once);
     }
 
@@ -84,10 +91,17 @@ public class UserServiceTests
         var wrongId = Guid.Empty;
         var userUpdate = TestUsers.CreateTestUser(id: wrongId, name: "new name");
 
+        var profileDto = new UserProfileDto()
+        {
+            CityName = "new city",
+            Country = "new country",
+            Name = "new name",
+            Gender = Gender.Female.ToString(),
+        };
         _userManager.Setup(m => m.FindByIdAsync(wrongId.ToString())).ReturnsAsync((ApplicationUser?)null);
 
         //act + assert 
-        await Assert.ThrowsAsync<KeyNotFoundException>(() => _sut.UpdateUserAsync(userUpdate));
+        await Assert.ThrowsAsync<KeyNotFoundException>(() => _sut.UpdateUserAsync(profileDto, userUpdate, new City()));
         _userManager.Verify(m => m.UpdateAsync(userUpdate), Times.Never);
     }
 

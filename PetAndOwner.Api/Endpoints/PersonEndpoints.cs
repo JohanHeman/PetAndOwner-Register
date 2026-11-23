@@ -59,14 +59,15 @@ public static class PersonEndpoints
             return Results.NoContent();
         });
 
-        app.MapPatch("/api/profile/update", async (ClaimsPrincipal Claims, [FromServices] IUserService userService, UserProfileDto profileDto) =>
+        app.MapPatch("/api/profile/update", async (ClaimsPrincipal Claims, [FromServices] IUserService userService, UserProfileDto profileDto, [FromServices] ILocationService locationService) =>
         {
             var userId = Claims.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var user = await userService.GetUserByIdAsync(Guid.Parse(userId));
 
-            await userService.UpdateUserAsync(profileDto, user);
+            var city = await locationService.GetOrSaveCityAsync(profileDto.CityName);
 
+            await userService.UpdateUserAsync(profileDto, user, city);
         });
     }
 }
