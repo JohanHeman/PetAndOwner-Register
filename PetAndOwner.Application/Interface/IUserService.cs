@@ -10,6 +10,6 @@ public interface IUserService
     public Task<ApplicationUser> GetUserByIdAsync(Guid id);
     public Task<List<UserProfileDto>> GetAllUsersAsync();
     Task<List<Pet>> GetUserPetsAsync(Guid userId);//UserPetsResponseDto instead of return List<Pet> maybe
-    public Task<bool> SetupUserProfileAsync(string userId, SetupProfileDto profileDto, City city);
+    public Task<bool> SetupUserProfileAsync(string userId, UserProfileDto profileDto, City city);
 
 }
