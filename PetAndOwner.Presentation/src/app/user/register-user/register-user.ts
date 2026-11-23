@@ -10,15 +10,21 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './register-user.html',
 })
 export class RegisterUser {
-  email = signal('');
-  password = signal('');
+  email = ""
+  password = "";
 
   private userService = inject(UserService);
 
   register() {
     const request: RegisterRequest = {
-      email: this.email(),
-      password: this.password(),
+      email: this.email,
+      password: this.password,
     };
+
+    this.userService.register(request).subscribe({
+      next: () => console.log("registration successful"),
+      error: error => console.log(error)
+    });
+
   }
 }
