@@ -29,7 +29,7 @@ public static class PersonEndpoints
             }
         });
 
-        app.MapPatch("/api/profile", async (ClaimsPrincipal claims, [FromServices] IUserService userService, [FromBody] SetupProfileDto profileDto, [FromServices] ILocationService locationService) =>
+        app.MapPatch("/api/profile/setup", async (ClaimsPrincipal claims, [FromServices] IUserService userService, [FromBody] SetupProfileDto profileDto, [FromServices] ILocationService locationService) =>
         {
             var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -51,22 +51,22 @@ public static class PersonEndpoints
         app.MapDelete("/api/profile", async (ClaimsPrincipal claims, [FromServices] IUserService userService) =>
         {
             var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
-            
-            if(userId == null) return Results.Unauthorized();
-            
+
+            if (userId == null) return Results.Unauthorized();
+
             await userService.DeleteUserAsync(Guid.Parse(userId));
-            
+
             return Results.NoContent();
         });
 
-        app.MapPatch("/api/profile", async (ClaimsPrincipal Claims, [FromServices] IUserService userService, UserProfileDto profileDto) =>
+        app.MapPatch("/api/profile/update", async (ClaimsPrincipal Claims, [FromServices] IUserService userService, UserProfileDto profileDto) =>
         {
             var userId = Claims.FindFirstValue(ClaimTypes.NameIdentifier);
-            
+
             var user = await userService.GetUserByIdAsync(Guid.Parse(userId));
-            
-            await  userService.UpdateUserAsync(profileDto, user);
-            
+
+            await userService.UpdateUserAsync(profileDto, user);
+
         });
     }
 }

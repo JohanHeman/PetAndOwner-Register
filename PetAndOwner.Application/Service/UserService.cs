@@ -72,7 +72,7 @@ public class UserService : IUserService
         existing.Gender = Enum.Parse<Gender>(profileDto.Gender);
         existing.Email = profileDto.Email;
         existing.PhoneNumber = profileDto.PhoneNumber;
-        existing.BirthDate = profileDto.BirthDate; 
+        existing.BirthDate = profileDto.BirthDate;
         var result = await _userManager.UpdateAsync(existing);
         ThrowIfFailed(result, "update user");
     }
