@@ -48,13 +48,32 @@ public class PetServiceTests
     public async Task UpdatePetAsync_ShouldUpdatePet()
     {
         // Arrange
-        var pet = new Pet();
+        var petId = Guid.NewGuid();
 
+        var dto = new UpdatePetDto
+        {
+            PetId = petId,
+            Name = "Rex",
+            Age = 5
+        };
+
+        var existingPet = new Pet
+        {
+            Id = petId,
+            Name = "Buddy",
+            Age = 3
+        };
+
+        _repository.Setup(x => x.GetByIdAsync(petId)).ReturnsAsync(existingPet);
         // Act
-        await _sut.UpdatePetAsync(pet);
+        
+        await _sut.UpdatePetAsync(dto);
 
         // Assert
-        _repository.Verify(x => x.UpdateAsync(pet), Times.Once);
+        _repository.Verify(x => x.UpdateAsync(It.Is<Pet>(p =>
+            p.Id == petId &&
+            p.Name == "Rex" &&
+            p.Age == 5)), Times.Once);    
     }
 
     [Fact]
