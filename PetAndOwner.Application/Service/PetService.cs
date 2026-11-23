@@ -54,6 +54,7 @@ public class PetService : IPetService
         {
             response.Add(new ReturnPetDto
             {
+                PetId = pet.Id,
                 Name = pet.Name,
                 Age = pet.Age,
                 Gender = pet.Gender,

@@ -106,6 +106,7 @@ public class UserService : IUserService
         {
             response.Add(new ReturnPetDto
             {
+                PetId = pet.Id,
                 Name = pet.Name,
                 Age = pet.Age,
                 Gender = pet.Gender,
