@@ -35,17 +35,17 @@ public class PetService : IPetService
         await _petRepository.AddOwnerAsync(newPet.Id, user.Id);
     }
 
-    
+
     public async Task UpdatePetAsync(UpdatePetDto dto)
     {
         //check if owner is right
         var pet = await _petRepository.GetByIdAsync(dto.PetId) ?? throw new Exception("Pet not found.");
-        
+
         pet.Name = dto.Name ?? pet.Name;
         pet.Age = dto.Age ?? pet.Age;
         pet.Gender = dto.Gender ?? pet.Gender;
         pet.AnimalType = (dto.AnimalType == null) ? pet.AnimalType : await _typeRepository.GetByNameAsync(dto.AnimalType) ?? await CreateAndReturnTypeAsync(dto.AnimalType);
-        
+
         await _petRepository.UpdateAsync(pet);
     }
 
@@ -76,10 +76,10 @@ public class PetService : IPetService
                 AnimalType = pet.AnimalType.Name,
             });
         }
-        
+
         return response;
     }
-    
+
 
     public Task<Pet> GetPetByIdAsync(Guid id)
     {

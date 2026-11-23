@@ -13,22 +13,22 @@ public static class PetEndpoints
     public static void MapPetEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapPost("/api/profile/pet", async (
-            ClaimsPrincipal claims, 
-            UserManager<ApplicationUser> manager, 
-            [FromServices] IPetService petService, 
+            ClaimsPrincipal claims,
+            UserManager<ApplicationUser> manager,
+            [FromServices] IPetService petService,
             [FromServices] IUserService userService,
             [FromBody] ReturnPetDto pet) =>
         {
             var identifier = claims.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!Guid.TryParse(identifier, out var id))
                 return Results.Unauthorized();
-            
+
             try
             {
                 var user = await userService.GetUserByIdAsync(id);
                 await petService.RegisterPetAsync(pet, user);
                 return Results.Ok();
-            } 
+            }
             catch (Exception e)
             {
                 return Results.BadRequest(e.Message);
@@ -43,7 +43,7 @@ public static class PetEndpoints
             var identifier = claims.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!Guid.TryParse(identifier, out var id))
                 return Results.Unauthorized();
-            
+
             try
             {
                 var pets = await userService.GetUserPetsAsync(id);
@@ -77,7 +77,7 @@ public static class PetEndpoints
             var identifier = claims.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!Guid.TryParse(identifier, out var id))
                 return Results.Unauthorized();
-            
+
             try
             {
                 await petService.UpdatePetAsync(pet);

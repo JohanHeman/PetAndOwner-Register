@@ -66,14 +66,14 @@ public class PetServiceTests
 
         _repository.Setup(x => x.GetByIdAsync(petId)).ReturnsAsync(existingPet);
         // Act
-        
+
         await _sut.UpdatePetAsync(dto);
 
         // Assert
         _repository.Verify(x => x.UpdateAsync(It.Is<Pet>(p =>
             p.Id == petId &&
             p.Name == "Rex" &&
-            p.Age == 5)), Times.Once);    
+            p.Age == 5)), Times.Once);
     }
 
     [Fact]

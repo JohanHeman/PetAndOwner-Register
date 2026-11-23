@@ -40,7 +40,7 @@ public class UserService : IUserService
                 PhoneNumber = user.PhoneNumber,
                 CityName = user.City.Name,
                 Country = user.City.Country.Name,
-                Age = user.Age ?? throw new Exception("User must have age"), 
+                Age = user.Age ?? throw new Exception("User must have age"),
             });
         }
         return persons;

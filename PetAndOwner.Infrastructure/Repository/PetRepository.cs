@@ -23,7 +23,7 @@ public class PetRepository : BaseRepository<Pet>, IPetRepository
             .Where(p => p.Owners.Any(u => u.Id == userId))
             .Include(p => p.AnimalType)
             .ToListAsync();
-            
+
     }
 
     public async Task<IReadOnlyList<ApplicationUser>> GetOwnersByPetIdAsync(Guid petId)
