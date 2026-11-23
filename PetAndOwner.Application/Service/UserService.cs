@@ -62,18 +62,17 @@ public class UserService : IUserService
         return true;
     }
 
-    public async Task UpdateUserAsync(ApplicationUser user)
+    public async Task UpdateUserAsync(ReturnProfileDto profileDto, ApplicationUser user)
     {
-        ArgumentNullException.ThrowIfNull(user);
-
         var existing = await FindUserOrThrowAsync(user.Id);
 
         // only change values that are allowed to change
-        existing.Name = user.Name;
-        existing.BirthDate = user.BirthDate;
-        existing.Gender = user.Gender;
-        existing.CityId = user.CityId;
-
+        existing.Name = profileDto.Name;
+        existing.BirthDate = profileDto.BirthDate;
+        existing.Gender = Enum.Parse<Gender>(profileDto.Gender);
+        existing.Email = profileDto.Email;
+        existing.PhoneNumber = profileDto.PhoneNumber;
+        existing.BirthDate = profileDto.BirthDate; 
         var result = await _userManager.UpdateAsync(existing);
         ThrowIfFailed(result, "update user");
     }

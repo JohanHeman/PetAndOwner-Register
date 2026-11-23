@@ -6,7 +6,7 @@ namespace PetAndOwner.Application.Interface;
 public interface IUserService
 {
     public Task DeleteUserAsync(Guid userId);
-    public Task UpdateUserAsync(ApplicationUser user);
+    public Task UpdateUserAsync(ReturnProfileDto profileDto, ApplicationUser user);
     public Task<ApplicationUser> GetUserByIdAsync(Guid id);
     public Task<List<ReturnProfileDto>> GetAllUsersAsync();
     Task<List<Pet>> GetUserPetsAsync(Guid userId);//UserPetsResponseDto instead of return List<Pet> maybe

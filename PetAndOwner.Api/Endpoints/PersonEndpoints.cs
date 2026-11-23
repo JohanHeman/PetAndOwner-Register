@@ -59,5 +59,14 @@ public static class PersonEndpoints
             return Results.NoContent();
         });
 
+        app.MapPatch("/api/profile", async (ClaimsPrincipal Claims, [FromServices] IUserService userService, ReturnProfileDto profileDto) =>
+        {
+            var userId = Claims.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            var user = await userService.GetUserByIdAsync(Guid.Parse(userId));
+            
+            await  userService.UpdateUserAsync(profileDto, user);
+            
+        });
     }
 }
