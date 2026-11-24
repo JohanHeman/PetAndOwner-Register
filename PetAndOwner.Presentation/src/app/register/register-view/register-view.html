@@ -1,0 +1,11 @@
+<p>register-view works!</p>
+
+<div>
+  <app-register-table [data]="tableData()"></app-register-table>
+
+  @if (pets()){<p>Pets: {{ pets() }}</p>}
+
+  @if (persons()){<p>Persons: {{ persons() }}</p>}
+
+  <button (click)="onClick()">click</button>
+</div>
