@@ -72,7 +72,7 @@ export class ApiClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ReturnUserProfileDto[]>([]);
+        return _observableOf<ReturnUserProfileDto[]>(null as any);
     }
 
     /**
@@ -375,7 +375,7 @@ export class ApiClient {
     /**
      * @return OK
      */
-    pets(): Observable<void> {
+    pets(): Observable<ReturnPetDto[]> {
         let url_ = this.baseUrl + "/api/pets";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -383,6 +383,7 @@ export class ApiClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "application/json"
             })
         };
 
@@ -393,14 +394,14 @@ export class ApiClient {
                 try {
                     return this.processPets(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<ReturnPetDto[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<ReturnPetDto[]>;
         }));
     }
 
-    protected processPets(response: HttpResponseBase): Observable<void> {
+    protected processPets(response: HttpResponseBase): Observable<ReturnPetDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -409,14 +410,16 @@ export class ApiClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ReturnPetDto[];
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(null as any);
+        return _observableOf<ReturnPetDto[]>(null as any);
     }
 
     /**
@@ -581,8 +584,8 @@ export class ApiClient {
     }
 
     /**
-     * @param useCookies (optional)
-     * @param useSessionCookies (optional)
+     * @param useCookies (optional) 
+     * @param useSessionCookies (optional) 
      * @return OK
      */
     login(body: LoginRequest, useCookies?: boolean | undefined, useSessionCookies?: boolean | undefined): Observable<AccessTokenResponse> {
@@ -699,7 +702,7 @@ export class ApiClient {
     }
 
     /**
-     * @param changedEmail (optional)
+     * @param changedEmail (optional) 
      * @return OK
      */
     mapIdentityApi_confirmEmail(userId: string, code: string, changedEmail?: string | undefined): Observable<void> {
