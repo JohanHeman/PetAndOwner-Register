@@ -69,7 +69,7 @@ public static class PetEndpoints
             }
         });
 
-        app.MapPut("/api/profile/pet/{id}", async (
+        app.MapPatch("/api/profile/pet/{id}", async (
             ClaimsPrincipal claims,
             [FromServices] IPetService petService,
             [FromBody] UpdatePetDto pet, Guid id) =>
