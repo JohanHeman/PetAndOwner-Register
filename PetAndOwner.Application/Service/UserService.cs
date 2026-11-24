@@ -19,9 +19,27 @@ public class UserService : IUserService
         _petRepository = petRepository;
     }
 
-    public async Task<ApplicationUser> GetUserByIdAsync(Guid id)
+    public async Task<ReturnUserProfileDto> GetUserReturnTypeByIdAsync(Guid id)
     {
-        return await FindUserOrThrowAsync(id);
+        var user = await FindUserOrThrowAsync(id);
+        ReturnUserProfileDto dto = new ReturnUserProfileDto()
+        {
+            Id = user.Id,
+            Name = user.Name,
+            BirthDate = user.BirthDate ?? throw new Exception("User must have birthdate"),
+            Gender = user.Gender.ToString(),
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            CityName = user.City.Name,
+            Country = user.City.Country.Name,
+            Age = user.Age ?? throw new Exception("User must have age"),
+        };
+        return dto;
+    }
+
+    public async Task<ApplicationUser> GetUserByIdAsync(Guid userId)
+    {
+        return await FindUserOrThrowAsync(userId);
     }
 
     public async Task<List<ReturnUserProfileDto>> GetAllUsersAsync()

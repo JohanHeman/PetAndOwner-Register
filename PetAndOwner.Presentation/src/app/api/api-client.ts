@@ -78,7 +78,7 @@ export class ApiClient {
     /**
      * @return OK
      */
-    profileGET(): Observable<void> {
+    profileGET(): Observable<ReturnUserProfileDto> {
         let url_ = this.baseUrl + "/api/profile";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -86,6 +86,7 @@ export class ApiClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "application/json"
             })
         };
 
@@ -96,14 +97,14 @@ export class ApiClient {
                 try {
                     return this.processProfileGET(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<ReturnUserProfileDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<ReturnUserProfileDto>;
         }));
     }
 
-    protected processProfileGET(response: HttpResponseBase): Observable<void> {
+    protected processProfileGET(response: HttpResponseBase): Observable<ReturnUserProfileDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -112,14 +113,16 @@ export class ApiClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ReturnUserProfileDto;
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(null as any);
+        return _observableOf<ReturnUserProfileDto>(null as any);
     }
 
     /**
@@ -1197,6 +1200,7 @@ export interface ReturnPetDto {
 }
 
 export interface ReturnUserProfileDto {
+    id?: string;
     name?: string;
     birthDate?: Date;
     age?: number;

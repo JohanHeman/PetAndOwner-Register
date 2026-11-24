@@ -28,8 +28,23 @@ export class LoginUser {
     next: (res) => {
         this.userService.storeToken(res.accessToken!);
         console.log('login successful');
+
+        this.userService.GetUser().subscribe({
+          next: (profile) => {
+            console.log(profile);
+          }
+        })
+
+        //call function to redirect user
+
     },
       error: error => console.log(error)
     });
   }
+
+    checkUserProfileAndRedirect(){
+
+
+
+    }
 }
