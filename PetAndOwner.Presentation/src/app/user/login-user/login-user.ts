@@ -13,12 +13,10 @@ import { Router } from '@angular/router';
 export class LoginUser {
   token = signal<string>('undefined');
 
-  router = inject(Router);
-
   email = '';
   password = '';
-
   navigateUser = '';
+
   private userService = inject(UserService);
   private router = inject(Router);
 
@@ -32,12 +30,11 @@ export class LoginUser {
       next: (res) => {
         this.userService.storeToken(res.accessToken!);
         console.log('login successful');
-        this.router.navigate(['/home-page']);//navigate to home page when logged in
 
         this.userService.setRedirectUserValue()?.subscribe({
           next: (profile) => {
             if (profile.isCompleted) {
-              this.navigateUser = '/home';
+              this.navigateUser = '/home-page';
             } else {
               this.navigateUser = '/setup-profile';
             }
