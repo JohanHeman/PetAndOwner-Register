@@ -27,13 +27,13 @@ public class UserService : IUserService
         {
             Id = user.Id,
             Name = user.Name,
-            BirthDate = user.BirthDate ?? throw new Exception("User must have birthdate"),
-            Gender = user.Gender.ToString(),
+            BirthDate = user.BirthDate,
+            Gender = user.Gender?.ToString(),
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
-            CityName = user.City.Name,
-            Country = user.City.Country.Name,
-            Age = user.Age ?? throw new Exception("User must have age"),
+            CityName = user.City?.Name,
+            Country = user.City?.Country?.Name,
+            Age = user.Age
         };
         
         //check for null in all the properties
