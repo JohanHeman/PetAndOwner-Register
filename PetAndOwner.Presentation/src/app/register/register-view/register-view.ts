@@ -14,26 +14,39 @@ export class RegisterView {
 
   tableData = signal<Record<string, unknown>[]>([])
 
-  pets = signal<string[]>([])
-  persons = signal<string[]>([])
+  currentTable = signal<string>("persons")
 
-  onClick(){
-    this.getPetsTable()
-    //this.getPersonTable()
+
+  ngOnInit() {
+    this.loadPersonTable();
   }
-  getPetsTable(){
-    this.apiClient.pets().subscribe({
-      next: (res) => {
-      console.log(res)},
+
+  loadPetsTable() {
+    return this.apiClient.pets().subscribe({
+      next: (data) => this.tableData.set(data),
       error: (err) => console.log(err),
     });
   }
 
-  getPersonTable(){
-    this.apiClient.persons().subscribe({
-      next: (res) => console.log(res),
+  loadPersonTable(){
+    return this.apiClient.persons().subscribe({
+      next: (data) => this.tableData.set(data),
       error: (err) => console.log(err),
     });
   }
-  
+
+  toggle(){
+    if (this.currentTable() == "persons"){
+      this.currentTable.set("pets")
+      this.loadPetsTable();
+    }
+    else if(this.currentTable() == "pets"){
+      this.currentTable.set("persons")
+      this.loadPersonTable();
+    }
+    else{
+      //error
+    }
+  }
+
 }

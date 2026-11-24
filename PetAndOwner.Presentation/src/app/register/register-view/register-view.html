@@ -1,11 +1,8 @@
-<p>register-view works!</p>
 
 <div>
+  <p>{{currentTable()}}</p>
+  <button (click)="toggle()">click me</button>
   <app-register-table [data]="tableData()"></app-register-table>
 
-  @if (pets()){<p>Pets: {{ pets() }}</p>}
 
-  @if (persons()){<p>Persons: {{ persons() }}</p>}
-
-  <button (click)="onClick()">click</button>
 </div>
