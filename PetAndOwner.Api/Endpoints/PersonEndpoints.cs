@@ -35,7 +35,7 @@ public static class PersonEndpoints
 
             try
             {
-                await userService.SetupUserProfileAsync(userId, profileDto, city);
+                await userService.SetupUserProfileAsync(Guid.Parse(userId), profileDto, city);
             }
             catch (Exception e)
             {
