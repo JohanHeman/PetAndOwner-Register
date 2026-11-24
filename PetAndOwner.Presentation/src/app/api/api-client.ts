@@ -22,7 +22,7 @@ export class ApiClient {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ?? "http://localhost:5253";
+        this.baseUrl = baseUrl ?? "http://localhost:5253/";
     }
 
     /**
@@ -72,7 +72,7 @@ export class ApiClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ReturnUserProfileDto[]>(null as any);
+        return _observableOf<ReturnUserProfileDto[]>([]);
     }
 
     /**
@@ -376,7 +376,7 @@ export class ApiClient {
      * @return OK
      */
     pets(): Observable<ReturnPetDto[]> {
-        let url_ = this.baseUrl + "/api/pets";
+        let url_ = this.baseUrl + "api/pets";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -419,7 +419,7 @@ export class ApiClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ReturnPetDto[]>(null as any);
+        return _observableOf<ReturnPetDto[]>([]);
     }
 
     /**
@@ -584,8 +584,8 @@ export class ApiClient {
     }
 
     /**
-     * @param useCookies (optional) 
-     * @param useSessionCookies (optional) 
+     * @param useCookies (optional)
+     * @param useSessionCookies (optional)
      * @return OK
      */
     login(body: LoginRequest, useCookies?: boolean | undefined, useSessionCookies?: boolean | undefined): Observable<AccessTokenResponse> {
@@ -702,7 +702,7 @@ export class ApiClient {
     }
 
     /**
-     * @param changedEmail (optional) 
+     * @param changedEmail (optional)
      * @return OK
      */
     mapIdentityApi_confirmEmail(userId: string, code: string, changedEmail?: string | undefined): Observable<void> {
