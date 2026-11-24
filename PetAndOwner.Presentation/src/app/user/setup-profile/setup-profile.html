@@ -1,1 +1,8 @@
 <p>setup-profile works!</p>
+
+<form #f="ngForm" (ngSubmit)="onSubmit()">
+<input name="userName" type="text" [(ngModel)]="userName">
+<button type="submit" [disabled]="f.invalid">Submit</button>
+
+
+</form>

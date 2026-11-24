@@ -1,7 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, Inject, inject, signal } from '@angular/core';
 import { LoginRequest } from '../../api/api-client';
 import { UserService } from '../user-service';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [FormsModule],
@@ -11,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginUser {
   token = signal<string>('undefined');
+
+  router = inject(Router);
 
   email = '';
   password = '';
@@ -36,6 +39,7 @@ export class LoginUser {
             } else {
               this.navigateUser = '/setup-profile';
             }
+            this.redirectUser();
           },
         });
       },
@@ -43,5 +47,7 @@ export class LoginUser {
     });
   }
 
-  checkUserProfileAndRedirect() {}
+  redirectUser() {
+    this.router.navigate([this.navigateUser])
+  }
 }
