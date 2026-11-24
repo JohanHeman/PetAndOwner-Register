@@ -1,4 +1,3 @@
-<p>register-table works!</p>
 
 <table>
   <thead>
@@ -12,7 +11,7 @@
     @for (item of data(); track $index) {
       <tr>
         @for (col of columns(); track col) {
-          <td>{{ item[col] }}</td> 
+          <td>{{ item[col] }}</td>
         }
       </tr>
     }
