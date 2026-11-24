@@ -29,7 +29,7 @@ export class ApiClient {
      * @return OK
      */
     persons(): Observable<ReturnUserProfileDto[]> {
-        let url_ = this.baseUrl + "/api/persons";
+        let url_ = this.baseUrl + "api/persons";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
