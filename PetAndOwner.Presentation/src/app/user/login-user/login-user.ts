@@ -10,11 +10,10 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './login-user.html',
 })
 export class LoginUser {
+  token = signal<string>('undefined');
 
-  token = signal<string>("undefined");
-
-  email = ""
-  password = "";
+  email = '';
+  password = '';
 
   private userService = inject(UserService);
 
@@ -25,24 +24,19 @@ export class LoginUser {
     };
 
     this.userService.login(request).subscribe({
-    next: (res) => {
+      next: (res) => {
         this.userService.storeToken(res.accessToken!);
         console.log('login successful');
 
         this.userService.setRedirectUserValue()?.subscribe({
           next: (profile) => {
             console.log(profile);
-          }
-        })
-
-    },
-      error: error => console.log(error)
+          },
+        });
+      },
+      error: (error) => console.log(error),
     });
   }
 
-    checkUserProfileAndRedirect(){
-
-
-
-    }
+  checkUserProfileAndRedirect() {}
 }
