@@ -19,9 +19,10 @@ public class UserService : IUserService
         _petRepository = petRepository;
     }
 
-    public async Task<ReturnUserProfileDto> GetUserReturnTypeByIdAsync(Guid id)
+    public async Task<ProfileStatusDto> GetProfileStatusTypeByIdAsync(Guid id)
     {
         var user = await FindUserOrThrowAsync(id);
+        bool profileStatus = false;
         ReturnUserProfileDto dto = new ReturnUserProfileDto()
         {
             Id = user.Id,
@@ -34,6 +35,16 @@ public class UserService : IUserService
             Country = user.City.Country.Name,
             Age = user.Age ?? throw new Exception("User must have age"),
         };
+        
+        //check for null in all the properties
+        bool hasNull = dto.GetType().GetProperties().Any(p => p.GetValue(dto) is null);
+        
+        ProfileStatusDto profileStatusDto = new ProfileStatusDto()
+        {
+            IsCompleted = !hasNull,
+            Profile = dto
+        };
+        
         return dto;
     }
 
