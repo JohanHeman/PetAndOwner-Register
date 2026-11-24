@@ -2,6 +2,7 @@ namespace PetAndOwner.Application.Dto;
 
 public class ReturnUserProfileDto
 {
+    public Guid Id { get; set; }
     public string Name { get; set; }
     public DateOnly BirthDate { get; set; }
     public int Age { get; set; }

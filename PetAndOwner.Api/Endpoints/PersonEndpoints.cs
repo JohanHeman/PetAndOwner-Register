@@ -25,7 +25,7 @@ public static class PersonEndpoints
             {
                 return Results.BadRequest(e.Message);
             }
-        });
+        }).Produces<ReturnUserProfileDto>(StatusCodes.Status200OK);
 
         app.MapPatch("/api/profile/setup", async (ClaimsPrincipal claims, [FromServices] IUserService userService, [FromBody] UpdateUserProfileDto profileDto, [FromServices] ILocationService locationService) =>
         {
