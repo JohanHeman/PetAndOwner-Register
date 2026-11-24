@@ -1,4 +1,4 @@
-import { Component, Inject, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { LoginRequest } from '../../api/api-client';
 import { UserService } from '../user-service';
 import { FormsModule } from '@angular/forms';
@@ -20,6 +20,7 @@ export class LoginUser {
 
   navigateUser = '';
   private userService = inject(UserService);
+  private router = inject(Router);
 
   Login() {
     const request: LoginRequest = {
@@ -31,6 +32,7 @@ export class LoginUser {
       next: (res) => {
         this.userService.storeToken(res.accessToken!);
         console.log('login successful');
+        this.router.navigate(['/home-page']);//navigate to home page when logged in
 
         this.userService.setRedirectUserValue()?.subscribe({
           next: (profile) => {
