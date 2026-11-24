@@ -44,7 +44,7 @@ public class PetService : IPetService
         {
             throw new ArgumentException("User is not owner of pet");
         }
-        
+
         pet.Name = dto.Name ?? pet.Name;
         pet.Age = dto.Age ?? pet.Age;
         pet.Gender = dto.Gender ?? pet.Gender;
@@ -58,7 +58,7 @@ public class PetService : IPetService
         await _typeRepository.CreateAsync(new AnimalType() { Id = Guid.NewGuid(), Name = newTypeName });
         return await _typeRepository.GetByNameAsync(newTypeName);
     }
-    public async Task RemovePetAsync(Guid petId,  Guid userId)
+    public async Task RemovePetAsync(Guid petId, Guid userId)
     {
         var pet = await _petRepository.GetByIdAsync(petId);
 
@@ -66,7 +66,7 @@ public class PetService : IPetService
         {
             throw new ArgumentException("User is not owner of pet");
         }
-        
+
         if (pet == null) throw new Exception("The pet does not exist");
         await _petRepository.DeleteAsync(pet);
     }

@@ -62,7 +62,7 @@ public class PetServiceTests
             Id = petId,
             Name = "Buddy",
             Age = 3,
-            Owners =  new List<ApplicationUser> { user }
+            Owners = new List<ApplicationUser> { user }
         };
 
         _repository.Setup(x => x.GetByIdAsync(petId)).ReturnsAsync(existingPet);

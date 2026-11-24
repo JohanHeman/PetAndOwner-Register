@@ -94,12 +94,12 @@ public static class PetEndpoints
             Guid id) =>
         {
             var identifier = claims.FindFirstValue(ClaimTypes.NameIdentifier);
-            
+
             var pet = await petService.GetPetByIdAsync(id);
-            
+
             await petService.RemovePetAsync(pet.Id, Guid.Parse(identifier));
             return Results.Ok();
-                
+
         });
     }
 }
