@@ -9,7 +9,7 @@
 
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
-import { Injectable, Inject, Optional, InjectionToken} from '@angular/core';
+import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
@@ -28,7 +28,7 @@ export class ApiClient {
     /**
      * @return OK
      */
-    persons(): Observable<UserProfileDto[]> {
+    persons(): Observable<ReturnUserProfileDto[]> {
         let url_ = this.baseUrl + "/api/persons";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -47,14 +47,14 @@ export class ApiClient {
                 try {
                     return this.processPersons(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<UserProfileDto[]>;
+                    return _observableThrow(e) as any as Observable<ReturnUserProfileDto[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<UserProfileDto[]>;
+                return _observableThrow(response_) as any as Observable<ReturnUserProfileDto[]>;
         }));
     }
 
-    protected processPersons(response: HttpResponseBase): Observable<UserProfileDto[]> {
+    protected processPersons(response: HttpResponseBase): Observable<ReturnUserProfileDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -64,7 +64,7 @@ export class ApiClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UserProfileDto[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ReturnUserProfileDto[];
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -72,7 +72,7 @@ export class ApiClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<UserProfileDto[]>([]);
+        return _observableOf<ReturnUserProfileDto[]>([]);
     }
 
     /**
@@ -172,7 +172,7 @@ export class ApiClient {
     /**
      * @return OK
      */
-    setup(body: UserProfileDto): Observable<void> {
+    setup(body: UpdateUserProfileDto): Observable<void> {
         let url_ = this.baseUrl + "/api/profile/setup";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -223,7 +223,7 @@ export class ApiClient {
     /**
      * @return OK
      */
-    update(body: UserProfileDto): Observable<void> {
+    update(body: UpdateUserProfileDto): Observable<void> {
         let url_ = this.baseUrl + "/api/profile/update";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -398,6 +398,110 @@ export class ApiClient {
     }
 
     protected processPets(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    petPATCH(id: string, body: UpdatePetDto): Observable<void> {
+        let url_ = this.baseUrl + "/api/profile/pet/{id}";
+        if (id === undefined || id === null)
+            throw new globalThis.Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPetPATCH(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPetPATCH(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processPetPATCH(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    petDELETE(id: string): Observable<void> {
+        let url_ = this.baseUrl + "/api/profile/pet/{id}";
+        if (id === undefined || id === null)
+            throw new globalThis.Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPetDELETE(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPetDELETE(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processPetDELETE(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1083,10 +1187,24 @@ export interface ResetPasswordRequest {
 }
 
 export interface ReturnPetDto {
+    petId?: string;
     name?: string | undefined;
     age?: number;
     gender?: number;
     animalType?: string | undefined;
+
+    [key: string]: any;
+}
+
+export interface ReturnUserProfileDto {
+    name?: string;
+    birthDate?: Date;
+    age?: number;
+    gender?: string;
+    phoneNumber?: string;
+    cityName?: string;
+    email?: string;
+    country?: string;
 
     [key: string]: any;
 }
@@ -1111,7 +1229,17 @@ export interface TwoFactorResponse {
     [key: string]: any;
 }
 
-export interface UserProfileDto {
+export interface UpdatePetDto {
+    petId?: string;
+    name?: string | undefined;
+    age?: number | undefined;
+    gender?: number | undefined;
+    animalType?: string | undefined;
+
+    [key: string]: any;
+}
+
+export interface UpdateUserProfileDto {
     name?: string;
     birthDate?: Date | undefined;
     gender?: string | undefined;

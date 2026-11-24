@@ -69,24 +69,37 @@ public static class PetEndpoints
             }
         });
 
-        app.MapPut("/api/profile/pet", async (
+        app.MapPatch("/api/profile/pet/{id}", async (
             ClaimsPrincipal claims,
             [FromServices] IPetService petService,
-            [FromBody] UpdatePetDto pet) =>
+            [FromBody] UpdatePetDto pet, Guid id) =>
         {
             var identifier = claims.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (!Guid.TryParse(identifier, out var id))
+            if (!Guid.TryParse(identifier, out var userId))
                 return Results.Unauthorized();
-
             try
             {
-                await petService.UpdatePetAsync(pet);
+                await petService.UpdatePetAsync(pet, userId);
                 return Results.Ok();
             }
             catch (Exception e)
             {
                 return Results.BadRequest(e.Message);
             }
+        });
+
+        app.MapDelete("/api/profile/pet/{id}", async (
+            ClaimsPrincipal claims,
+            [FromServices] IPetService petService,
+            Guid id) =>
+        {
+            var identifier = claims.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var pet = await petService.GetPetByIdAsync(id);
+
+            await petService.RemovePetAsync(pet.Id, Guid.Parse(identifier));
+            return Results.Ok();
+
         });
     }
 }
