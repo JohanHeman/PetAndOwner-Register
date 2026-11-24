@@ -15,6 +15,7 @@ export class LoginUser {
   email = '';
   password = '';
 
+  navigateUser = '';
   private userService = inject(UserService);
 
   Login() {
@@ -30,7 +31,11 @@ export class LoginUser {
 
         this.userService.setRedirectUserValue()?.subscribe({
           next: (profile) => {
-            console.log(profile);
+            if (profile.isCompleted) {
+              this.navigateUser = '/home';
+            } else {
+              this.navigateUser = '/setup-profile';
+            }
           },
         });
       },
