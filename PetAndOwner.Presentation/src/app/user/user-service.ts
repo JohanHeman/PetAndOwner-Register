@@ -30,7 +30,7 @@ export class UserService {
     return this._apiClient.login(request);
   }
 
-  redirectUser()
+  setRedirectUserValue()
   {
     const token = this.token();
     if(token === null)
