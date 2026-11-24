@@ -1,0 +1,19 @@
+
+<table>
+  <thead>
+    <tr>
+      @for (col of columns(); track col) {
+        <th>{{ col }}</th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of data(); track $index) {
+      <tr>
+        @for (col of columns(); track col) {
+          <td>{{ item[col] }}</td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>

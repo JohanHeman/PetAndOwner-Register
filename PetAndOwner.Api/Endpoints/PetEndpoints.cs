@@ -67,7 +67,7 @@ public static class PetEndpoints
             {
                 return Results.BadRequest(e.Message);
             }
-        });
+        }).Produces<IReadOnlyList<ReturnPetDto>>(200);
 
         app.MapPatch("/api/profile/pet/{id}", async (
             ClaimsPrincipal claims,
