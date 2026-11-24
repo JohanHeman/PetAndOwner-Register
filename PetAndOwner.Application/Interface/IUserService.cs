@@ -12,6 +12,6 @@ public interface IUserService
     public Task<List<ReturnUserProfileDto>> GetAllUsersAsync();
     Task<IReadOnlyList<ReturnPetDto>> GetUserPetsAsync(Guid userId);//UserPetsResponseDto instead of return List<Pet> maybe
     public Task<bool> SetupUserProfileAsync(Guid userId, UpdateUserProfileDto profileDto, City city);
-    
+
 
 }

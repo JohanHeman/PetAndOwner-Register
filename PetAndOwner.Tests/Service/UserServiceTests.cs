@@ -13,12 +13,13 @@ public class UserServiceTests
     private readonly Mock<UserManager<ApplicationUser>> _userManager;
     private readonly Mock<IPetRepository> _petRepo;
     private readonly UserService _sut;
-
+    private readonly Mock<IUserRepository> _userRepo;
     public UserServiceTests()
     {
         _userManager = MockUserManager.Create();
         _petRepo = new Mock<IPetRepository>();
-        _sut = new UserService(_userManager.Object, _petRepo.Object); //instanciate a new UserService for the tests using mock repos
+        _userRepo = new Mock<IUserRepository>();
+        _sut = new UserService(_userManager.Object, _petRepo.Object, _userRepo.Object); //instanciate a new UserService for the tests using mock repos
     }
 
     [Fact]

@@ -23,7 +23,7 @@ public class UserService : IUserService
 
     public async Task<ProfileStatusDto> GetProfileStatusByIdAsync(Guid id)
     {
-        var user = await _userRepository.GetByIdIncludingProperties(id); 
+        var user = await _userRepository.GetByIdIncludingProperties(id);
         bool profileStatus = false;
         ReturnUserProfileDto dto = new ReturnUserProfileDto()
         {
@@ -37,16 +37,16 @@ public class UserService : IUserService
             Country = user.City?.Country?.Name,
             Age = user.Age
         };
-        
+
         //check for null in all the properties
         bool hasNull = dto.GetType().GetProperties().Any(p => p.GetValue(dto) is null);
-        
+
         ProfileStatusDto profileStatusDto = new ProfileStatusDto()
         {
             IsCompleted = !hasNull,
             Profile = dto
         };
-        
+
         return profileStatusDto;
     }
 
