@@ -10,7 +10,7 @@ public static class PersonEndpoints
 {
     public static void MapPersonEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/persons", async ([FromServices] IUserService userService) => await userService.GetAllUsersAsync());
+        app.MapGet("/api/persons", async ([FromServices] IUserService userService) => await userService.GetAllUsersAsync()).Produces<IReadOnlyList<ReturnUserProfileDto>>(200);
 
         app.MapGet("/api/profile", async (ClaimsPrincipal claims, [FromServices] IUserService userService) =>
         {
