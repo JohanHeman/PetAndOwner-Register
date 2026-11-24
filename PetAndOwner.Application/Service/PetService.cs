@@ -58,9 +58,15 @@ public class PetService : IPetService
         await _typeRepository.CreateAsync(new AnimalType() { Id = Guid.NewGuid(), Name = newTypeName });
         return await _typeRepository.GetByNameAsync(newTypeName);
     }
-    public async Task RemovePetAsync(Guid petId)
+    public async Task RemovePetAsync(Guid petId,  Guid userId)
     {
         var pet = await _petRepository.GetByIdAsync(petId);
+
+        if (!pet.Owners.Any(x => x.Id == userId))
+        {
+            throw new ArgumentException("User is not owner of pet");
+        }
+        
         if (pet == null) throw new Exception("The pet does not exist");
         await _petRepository.DeleteAsync(pet);
     }

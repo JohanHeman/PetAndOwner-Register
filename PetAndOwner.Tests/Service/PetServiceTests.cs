@@ -49,25 +49,26 @@ public class PetServiceTests
     {
         // Arrange
         var petId = Guid.NewGuid();
-
+        var user = TestUsers.CreateTestUser();
         var dto = new UpdatePetDto
         {
             PetId = petId,
             Name = "Rex",
-            Age = 5
+            Age = 5,
         };
 
         var existingPet = new Pet
         {
             Id = petId,
             Name = "Buddy",
-            Age = 3
+            Age = 3,
+            Owners =  new List<ApplicationUser> { user }
         };
 
         _repository.Setup(x => x.GetByIdAsync(petId)).ReturnsAsync(existingPet);
         // Act
 
-        await _sut.UpdatePetAsync(dto);
+        await _sut.UpdatePetAsync(dto, user.Id);
 
         // Assert
         _repository.Verify(x => x.UpdateAsync(It.Is<Pet>(p =>
@@ -81,9 +82,11 @@ public class PetServiceTests
     {
         // Arrange
         var pet = new Pet();
+        var user = TestUsers.CreateTestUser();
+        pet.Owners = new List<ApplicationUser> { user };
         _repository.Setup(x => x.GetByIdAsync(pet.Id)).ReturnsAsync(pet);
         // Act
-        await _sut.RemovePetAsync(pet.Id);
+        await _sut.RemovePetAsync(pet.Id, user.Id);
 
         // Assert
         _repository.Verify(x => x.DeleteAsync(pet), Times.Once);
@@ -95,8 +98,10 @@ public class PetServiceTests
         // Arrange
         var pet = new Pet();
         var expected = "The pet does not exist";
+        var user = TestUsers.CreateTestUser();
+        pet.Owners = new List<ApplicationUser> { user };
         // Act
-        var actual = Assert.ThrowsAsync<Exception>(() => _sut.RemovePetAsync(pet.Id));
+        var actual = Assert.ThrowsAsync<Exception>(() => _sut.RemovePetAsync(pet.Id, user.Id));
 
         // Assert
         _repository.Verify(x => x.DeleteAsync(pet), Times.Never);
