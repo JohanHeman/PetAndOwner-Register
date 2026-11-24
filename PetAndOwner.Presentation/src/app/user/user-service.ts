@@ -1,7 +1,13 @@
 import { UserClient } from './user-client';
 import { HttpClient } from '@angular/common/http';
 import { inject, signal, Injectable } from '@angular/core';
-import { ApiClient, RegisterRequest, LoginRequest, ReturnUserProfileDto } from '../api/api-client';
+import {
+  ApiClient,
+  RegisterRequest,
+  LoginRequest,
+  ReturnUserProfileDto,
+  UpdateUserProfileDto,
+} from '../api/api-client';
 
 @Injectable({
   providedIn: 'root',
@@ -32,5 +38,13 @@ export class UserService {
       return;
     }
     return this._userClient.getUser(token);
+  }
+
+  setupUserProfile(request: UpdateUserProfileDto) {
+    const token = this.token();
+    if (token === null) {
+      throw new Error("User is not authenticated");
+    }
+    return this._userClient.setupUserProfile(token, request);
   }
 }

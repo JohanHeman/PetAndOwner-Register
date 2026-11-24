@@ -88,7 +88,7 @@ public class UserService : IUserService
         user.Gender = Enum.Parse<Gender>(profileDto.Gender);
         user.PhoneNumber = profileDto.PhoneNumber;
         user.BirthDate = profileDto.BirthDate;
-        user.City = city;
+        user.CityId = city.Id;
 
         await _userManager.UpdateAsync(user);
         return true;

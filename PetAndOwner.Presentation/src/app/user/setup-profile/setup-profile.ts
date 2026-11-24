@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { FormsModule} from '@angular/forms';
-
+import { ReturnPetDto, ReturnUserProfileDto, UpdateUserProfileDto } from './../../api/api-client';
+import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { UserService } from '../user-service';
 
 @Component({
   imports: [FormsModule],
@@ -9,11 +10,19 @@ import { FormsModule} from '@angular/forms';
   templateUrl: './setup-profile.html',
 })
 export class SetupProfile {
+  _userService = inject(UserService);
 
-  userName = ""
+  user: UpdateUserProfileDto = {};
 
-onSubmit() {
-throw new Error('Method not implemented.');
-}
+  onSubmit() {
+    this.setupUserProfile();
+  }
 
+  setupUserProfile() {
+    if (!this.user) return;
+
+    this._userService.setupUserProfile(this.user).subscribe({
+      next: () => console.log('profile setup complete'),
+    });
+  }
 }

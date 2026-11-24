@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { ProfileStatusDto, ReturnUserProfileDto } from '../api/api-client';
+import { ProfileStatusDto, ReturnUserProfileDto, UpdateUserProfileDto } from '../api/api-client';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -10,9 +10,18 @@ export class UserClient {
 
   private _httpClient = inject(HttpClient);
   getUser(token: string) {
-    return this._httpClient.get<ProfileStatusDto>('http://localhost:5253/api/profile', {
+    return this._httpClient.get<ProfileStatusDto>(`${this.url}/api/profile`, {
       headers: {
         Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+  setupUserProfile(token:string, request: UpdateUserProfileDto)
+  {
+    return this._httpClient.patch<void>(`${this.url}/api/profile/setup`, request, {
+      headers: {
+        Authorization: `Bearer ${token}`
       },
     });
   }
