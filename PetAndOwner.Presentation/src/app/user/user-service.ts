@@ -1,44 +1,50 @@
 import { UserClient } from './user-client';
 import { HttpClient } from '@angular/common/http';
 import { inject, signal, Injectable } from '@angular/core';
-import { ApiClient, RegisterRequest, LoginRequest, ReturnUserProfileDto } from '../api/api-client';
+import {
+  ApiClient,
+  RegisterRequest,
+  LoginRequest,
+  ReturnUserProfileDto,
+  UpdateUserProfileDto,
+} from '../api/api-client';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-
-
   private _apiClient = inject(ApiClient);
 
-  private _userClient = inject(UserClient)
+  private _userClient = inject(UserClient);
 
   token = signal<string | null>(localStorage.getItem('token'));
 
-  navigateUser = "";
-
   storeToken(token: string) {
-  this.token.set(token);
-  localStorage.setItem('token', token);
+    this.token.set(token);
+    localStorage.setItem('token', token);
   }
 
-  register(request: RegisterRequest){
+  register(request: RegisterRequest) {
     return this._apiClient.register(request);
   }
 
-  login(request: LoginRequest){
+  login(request: LoginRequest) {
     return this._apiClient.login(request);
   }
 
-  setRedirectUserValue()
-  {
+  setRedirectUserValue() {
     const token = this.token();
-    if(token === null)
-    {
+    if (token === null) {
       return;
     }
-   return this._userClient.getUser(token);
+    return this._userClient.getUser(token);
   }
 
-
+  setupUserProfile(request: UpdateUserProfileDto) {
+    const token = this.token();
+    if (token === null) {
+      throw new Error("User is not authenticated");
+    }
+    return this._userClient.setupUserProfile(token, request);
+  }
 }

@@ -1,1 +1,13 @@
 <p>setup-profile works!</p>
+
+<form #f="ngForm" (ngSubmit)="onSubmit()">
+<input name="userName" type="text" [(ngModel)]="user.name" placeholder="username">
+<input type="date" name="birthDate" [(ngModel)]="user.birthDate" >
+<input type="text" name="gender" [(ngModel)]="user.gender" placeholder="gender">
+<input type="text" name="number" [(ngModel)]="user.phoneNumber" placeholder="phoneNumber">
+<input type="text" name="cityName" [(ngModel)]="user.cityName" placeholder="cityName">
+<input type="text" name="countryName" [(ngModel)]="user.country" placeholder="Country">
+
+
+<button type="submit" [disabled]="f.invalid">Submit</button>
+</form>
