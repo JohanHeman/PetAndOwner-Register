@@ -36,11 +36,15 @@ public class PetService : IPetService
     }
 
 
-    public async Task UpdatePetAsync(UpdatePetDto dto)
+    public async Task UpdatePetAsync(UpdatePetDto dto, Guid userId)
     {
-        //check if owner is right
         var pet = await _petRepository.GetByIdAsync(dto.PetId) ?? throw new Exception("Pet not found.");
 
+        if (!pet.Owners.Any(x => x.Id == userId))
+        {
+            throw new ArgumentException("User is not owner of pet");
+        }
+        
         pet.Name = dto.Name ?? pet.Name;
         pet.Age = dto.Age ?? pet.Age;
         pet.Gender = dto.Gender ?? pet.Gender;
