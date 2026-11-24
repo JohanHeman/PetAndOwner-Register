@@ -15,6 +15,8 @@ export class UserService {
 
   token = signal<string | null>(localStorage.getItem('token'));
 
+  navigateUser = "";
+
   storeToken(token: string) {
   this.token.set(token);
   localStorage.setItem('token', token);
@@ -38,10 +40,12 @@ export class UserService {
     this._userClient.getUser(token).subscribe({
       next: (user) => {
         if(Object.values(user).some(value => value === null)){
-          // redirect to setup profile page
+
+          this.navigateUser = "/setup-profile";
+
         }
         else{
-          // redirect to home page
+          this.navigateUser = "/home";
         }
       }
     })
