@@ -18,7 +18,7 @@ public static class PersonEndpoints
 
             try
             {
-                var user = await userService.GetUserProfileStatusByIdAsync(Guid.Parse(userId));
+                var user = await userService.GetProfileStatusByIdAsync(Guid.Parse(userId));
                 return Results.Ok(user);
             }
             catch (Exception e)

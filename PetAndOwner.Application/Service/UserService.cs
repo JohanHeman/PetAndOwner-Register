@@ -19,7 +19,7 @@ public class UserService : IUserService
         _petRepository = petRepository;
     }
 
-    public async Task<ProfileStatusDto> GetProfileStatusTypeByIdAsync(Guid id)
+    public async Task<ProfileStatusDto> GetProfileStatusByIdAsync(Guid id)
     {
         var user = await FindUserOrThrowAsync(id);
         bool profileStatus = false;
@@ -45,7 +45,7 @@ public class UserService : IUserService
             Profile = dto
         };
         
-        return dto;
+        return profileStatusDto;
     }
 
     public async Task<ApplicationUser> GetUserByIdAsync(Guid userId)
