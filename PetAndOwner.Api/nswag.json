@@ -16,6 +16,7 @@
       "generateOptionalParameters": true,
       "typeStyle": "Interface",
       "dateTimeType": "Date",
+      "injectionTokenType": "InjectionToken",
       "output": "../PetAndOwner.Presentation/src/app/api/api-client.ts"
     }
   }
