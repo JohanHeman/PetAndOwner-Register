@@ -11,4 +11,10 @@ public class UserRepository : BaseRepository<ApplicationUser>, IUserRepository
     public UserRepository(ApplicationDbContext context) : base(context)
     {
     }
+
+    public async Task<ApplicationUser> GetByIdIncludingProperties(Guid id)
+    {
+        return await _context.Users.Include(u => u.City).ThenInclude((c => c.Country))
+            .FirstOrDefaultAsync((u => u.Id == id));
+    }
 }

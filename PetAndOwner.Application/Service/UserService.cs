@@ -12,16 +12,18 @@ public class UserService : IUserService
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IPetRepository _petRepository;
+    private readonly IUserRepository _userRepository;
 
-    public UserService(UserManager<ApplicationUser> manager, IPetRepository petRepository)
+    public UserService(UserManager<ApplicationUser> manager, IPetRepository petRepository, IUserRepository userRepository)
     {
         _userManager = manager;
         _petRepository = petRepository;
+        _userRepository = userRepository;
     }
 
     public async Task<ProfileStatusDto> GetProfileStatusByIdAsync(Guid id)
     {
-        var user = await FindUserOrThrowAsync(id);
+        var user = await _userRepository.GetByIdIncludingProperties(id);
         bool profileStatus = false;
         ReturnUserProfileDto dto = new ReturnUserProfileDto()
         {
@@ -35,16 +37,16 @@ public class UserService : IUserService
             Country = user.City?.Country?.Name,
             Age = user.Age
         };
-        
+
         //check for null in all the properties
         bool hasNull = dto.GetType().GetProperties().Any(p => p.GetValue(dto) is null);
-        
+
         ProfileStatusDto profileStatusDto = new ProfileStatusDto()
         {
             IsCompleted = !hasNull,
             Profile = dto
         };
-        
+
         return profileStatusDto;
     }
 
@@ -75,9 +77,9 @@ public class UserService : IUserService
         return persons;
     }
 
-    public async Task<bool> SetupUserProfileAsync(string userId, UpdateUserProfileDto profileDto, City city)
+    public async Task<bool> SetupUserProfileAsync(Guid userId, UpdateUserProfileDto profileDto, City city)
     {
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await _userRepository.GetByIdIncludingProperties(userId);
 
         if (user == null)
         {
@@ -88,7 +90,7 @@ public class UserService : IUserService
         user.Gender = Enum.Parse<Gender>(profileDto.Gender);
         user.PhoneNumber = profileDto.PhoneNumber;
         user.BirthDate = profileDto.BirthDate;
-        user.CityId = city.Id;
+        user.City = city;
 
         await _userManager.UpdateAsync(user);
         return true;
