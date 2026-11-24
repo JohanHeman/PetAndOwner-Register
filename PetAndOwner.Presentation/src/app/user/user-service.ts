@@ -37,18 +37,7 @@ export class UserService {
     {
       return;
     }
-    this._userClient.getUser(token).subscribe({
-      next: (user) => {
-        if(Object.values(user).some(value => value === null)){
-
-          this.navigateUser = "/setup-profile";
-
-        }
-        else{
-          this.navigateUser = "/home";
-        }
-      }
-    })
+   return this._userClient.getUser(token);
   }
 
 

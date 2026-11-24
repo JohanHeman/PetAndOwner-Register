@@ -18,14 +18,14 @@ public static class PersonEndpoints
 
             try
             {
-                var user = await userService.GetUserByIdAsync(Guid.Parse(userId));
+                var user = await userService.GetProfileStatusByIdAsync(Guid.Parse(userId));
                 return Results.Ok(user);
             }
             catch (Exception e)
             {
                 return Results.BadRequest(e.Message);
             }
-        }).Produces<ReturnUserProfileDto>(StatusCodes.Status200OK);
+        }).Produces<ProfileStatusDto>(StatusCodes.Status200OK).RequireAuthorization();
 
         app.MapPatch("/api/profile/setup", async (ClaimsPrincipal claims, [FromServices] IUserService userService, [FromBody] UpdateUserProfileDto profileDto, [FromServices] ILocationService locationService) =>
         {

@@ -78,7 +78,7 @@ export class ApiClient {
     /**
      * @return OK
      */
-    profileGET(): Observable<ReturnUserProfileDto> {
+    profileGET(): Observable<ProfileStatusDto> {
         let url_ = this.baseUrl + "/api/profile";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -97,14 +97,14 @@ export class ApiClient {
                 try {
                     return this.processProfileGET(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<ReturnUserProfileDto>;
+                    return _observableThrow(e) as any as Observable<ProfileStatusDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<ReturnUserProfileDto>;
+                return _observableThrow(response_) as any as Observable<ProfileStatusDto>;
         }));
     }
 
-    protected processProfileGET(response: HttpResponseBase): Observable<ReturnUserProfileDto> {
+    protected processProfileGET(response: HttpResponseBase): Observable<ProfileStatusDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -114,7 +114,7 @@ export class ApiClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ReturnUserProfileDto;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProfileStatusDto;
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -122,7 +122,7 @@ export class ApiClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ReturnUserProfileDto>(null as any);
+        return _observableOf<ProfileStatusDto>(null as any);
     }
 
     /**
@@ -1162,6 +1162,13 @@ export interface LoginRequest {
     [key: string]: any;
 }
 
+export interface ProfileStatusDto {
+    isCompleted?: boolean;
+    profile?: ReturnUserProfileDto;
+
+    [key: string]: any;
+}
+
 export interface RefreshRequest {
     refreshToken: string;
 
@@ -1201,14 +1208,14 @@ export interface ReturnPetDto {
 
 export interface ReturnUserProfileDto {
     id?: string;
-    name?: string;
-    birthDate?: Date;
-    age?: number;
-    gender?: string;
-    phoneNumber?: string;
-    cityName?: string;
-    email?: string;
-    country?: string;
+    name?: string | undefined;
+    birthDate?: Date | undefined;
+    age?: number | undefined;
+    gender?: string | undefined;
+    phoneNumber?: string | undefined;
+    cityName?: string | undefined;
+    email?: string | undefined;
+    country?: string | undefined;
 
     [key: string]: any;
 }

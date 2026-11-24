@@ -19,22 +19,33 @@ public class UserService : IUserService
         _petRepository = petRepository;
     }
 
-    public async Task<ReturnUserProfileDto> GetUserReturnTypeByIdAsync(Guid id)
+    public async Task<ProfileStatusDto> GetProfileStatusByIdAsync(Guid id)
     {
         var user = await FindUserOrThrowAsync(id);
+        bool profileStatus = false;
         ReturnUserProfileDto dto = new ReturnUserProfileDto()
         {
             Id = user.Id,
             Name = user.Name,
-            BirthDate = user.BirthDate ?? throw new Exception("User must have birthdate"),
-            Gender = user.Gender.ToString(),
+            BirthDate = user.BirthDate,
+            Gender = user.Gender?.ToString(),
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
-            CityName = user.City.Name,
-            Country = user.City.Country.Name,
-            Age = user.Age ?? throw new Exception("User must have age"),
+            CityName = user.City?.Name,
+            Country = user.City?.Country?.Name,
+            Age = user.Age
         };
-        return dto;
+        
+        //check for null in all the properties
+        bool hasNull = dto.GetType().GetProperties().Any(p => p.GetValue(dto) is null);
+        
+        ProfileStatusDto profileStatusDto = new ProfileStatusDto()
+        {
+            IsCompleted = !hasNull,
+            Profile = dto
+        };
+        
+        return profileStatusDto;
     }
 
     public async Task<ApplicationUser> GetUserByIdAsync(Guid userId)
