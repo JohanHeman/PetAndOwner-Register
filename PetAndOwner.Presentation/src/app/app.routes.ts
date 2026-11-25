@@ -6,6 +6,7 @@ import { HomePage } from './home/home-page/home-page';
 import { RegisterView } from './register/register-view/register-view';
 import { SetupProfile } from './user/setup-profile/setup-profile';
 import { MyProfile } from './user/my-profile/my-profile';
+import { Profile } from './user/profile/profile';
 
 export const routes: Routes = [
   {path: "register-user", component: RegisterUser},
@@ -14,5 +15,7 @@ export const routes: Routes = [
   {path: "home-page", component: HomePage},
   {path: "", component: Start},
   {path: "setup-profile", component: SetupProfile},
-  {path: "my-profile", component: MyProfile}
+  {path: "my-profile", component: MyProfile},
+  {path: "profile", component: Profile}
+
 ];
