@@ -52,7 +52,7 @@ public class UserService : IUserService
 
     public async Task<ReturnUserProfileDto> GetUserProfileByIdAsync(Guid id)
     {
-        var user =  await _userRepository.GetByIdIncludingProperties(id);
+        var user = await _userRepository.GetByIdIncludingProperties(id);
 
         ReturnUserProfileDto dto = new ReturnUserProfileDto()
         {
