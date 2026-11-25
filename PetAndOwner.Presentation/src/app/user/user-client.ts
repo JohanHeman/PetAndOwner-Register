@@ -25,4 +25,13 @@ export class UserClient {
       },
     });
   }
+
+  getUserProfile(token: string)
+  {
+    return this._httpClient.get<ReturnUserProfileDto>(`${this.url}/api/user-profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  }
 }

@@ -48,13 +48,12 @@ export class UserService {
     return this._userClient.setupUserProfile(token, request);
   }
 
-  getUserProfile(id: string) {
+  getUserProfile() {
     const token = this.token();
     if (token === null) {
       throw new Error('User is not authenticated');
     }
 
-    return this._apiClient.profileGET();
-
+    return this._userClient.getUserProfile(token);
   }
 }

@@ -1,16 +1,32 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-
+import { Component, inject, signal } from '@angular/core';
+import { UserService } from '../user-service';
+import { ReturnUserProfileDto } from '../../api/api-client';
+import { KeyValuePipe } from '@angular/common';
 
 @Component({
-  imports: [RouterLink],
+  imports: [KeyValuePipe],
   selector: 'app-my-profile',
   styleUrl: './my-profile.css',
   templateUrl: './my-profile.html',
 })
 export class MyProfile {
+  private _userService = inject(UserService);
 
-  // inject user service
-  // create function to trigger the get request from the service to get all the user profiles
+  dto = signal<ReturnUserProfileDto>({});
 
+  ngOnInit(): void {
+    this.getUserProfile();
+  }
+
+  getUserProfile() {
+    this._userService.getUserProfile().subscribe({
+      next: (profile) => {
+        this.dto.set(profile);
+        console.log('retrieved profile');
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 }
