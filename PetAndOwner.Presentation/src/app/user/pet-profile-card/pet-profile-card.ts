@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { UserService } from '../user-service';
 
 @Component({
   imports: [],
@@ -6,4 +7,13 @@ import { Component } from '@angular/core';
   styleUrl: './pet-profile-card.css',
   templateUrl: './pet-profile-card.html',
 })
-export class PetProfileCard {}
+export class PetProfileCard {
+
+  _userService = inject(UserService);
+
+  //pet:  = {};
+
+  getPet(){
+    this._userService.getPetProfile().subscribe
+  }
+}
