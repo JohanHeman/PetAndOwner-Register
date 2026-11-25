@@ -12,10 +12,11 @@ public class PetService : IPetService
     private readonly IAnimalTypeRepository _typeRepository;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public PetService(IPetRepository petRepository, UserManager<ApplicationUser> userManager)
+    public PetService(IPetRepository petRepository, IAnimalTypeRepository typeRepository, UserManager<ApplicationUser> userManager)
     {
         _petRepository = petRepository;
         _userManager = userManager;
+        _typeRepository = typeRepository;
     }
 
     public async Task RegisterPetAsync(ReturnPetDto pet, ApplicationUser user)
@@ -38,25 +39,33 @@ public class PetService : IPetService
 
     public async Task UpdatePetAsync(UpdatePetDto dto, Guid userId)
     {
-        var pet = await _petRepository.GetByIdAsync(dto.PetId) ?? throw new Exception("Pet not found.");
+        var pet = await _petRepository.GetWithOwnerByIdAsync(dto.PetId) ?? throw new Exception("Pet not found.");
 
         if (!pet.Owners.Any(x => x.Id == userId))
         {
             throw new ArgumentException("User is not owner of pet");
         }
 
+        var type = await GetOrCreateTypeAsync(dto.AnimalType);
         pet.Name = dto.Name ?? pet.Name;
         pet.Age = dto.Age ?? pet.Age;
         pet.Gender = dto.Gender ?? pet.Gender;
-        pet.AnimalType = (dto.AnimalType == null) ? pet.AnimalType : await _typeRepository.GetByNameAsync(dto.AnimalType) ?? await CreateAndReturnTypeAsync(dto.AnimalType);
+        pet.AnimalType = type;
 
         await _petRepository.UpdateAsync(pet);
+        Console.WriteLine("");
     }
 
-    private async Task<AnimalType> CreateAndReturnTypeAsync(string newTypeName)
+    private async Task<AnimalType> GetOrCreateTypeAsync(string typeName)
     {
-        await _typeRepository.CreateAsync(new AnimalType() { Id = Guid.NewGuid(), Name = newTypeName });
-        return await _typeRepository.GetByNameAsync(newTypeName);
+        var type = await _typeRepository.GetByNameAsync(typeName);
+        if ( type == null)
+        {
+            await _typeRepository.CreateAsync(new AnimalType() { Id = Guid.NewGuid(), Name = typeName });
+            return await _typeRepository.GetByNameAsync(typeName);
+        }
+
+        return type;
     }
     public async Task RemovePetAsync(Guid petId, Guid userId)
     {
