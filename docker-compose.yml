@@ -8,9 +8,9 @@ services:
       - petandownerapi
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__PetAndOwnerApi=Server=postgres;Port=5432;Database=${POSTGRES_DB};User Id=${POSTGRES_USER}; Password=${POSTGRES_PASSWORD}
+      - ConnectionStrings__DbConnection=Host=postgres;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
     ports:
-      - 5080:8080
+      - 5253:8080
     depends_on:
       postgres:
         condition: service_healthy

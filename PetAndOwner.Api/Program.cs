@@ -50,6 +50,13 @@ builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
 
 var app = builder.Build();
 
+// make sure that db is updated when running in docker.
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+}
+
 app.UseCors("AngularClient");
 
 
