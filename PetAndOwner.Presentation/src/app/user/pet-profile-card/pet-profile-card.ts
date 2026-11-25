@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
+import { ReturnPetDto } from '../../api/api-client';
 import { UserService } from '../user-service';
 
 @Component({
@@ -11,9 +12,5 @@ export class PetProfileCard {
 
   _userService = inject(UserService);
 
-  //pet:  = {};
-
-  getPet(){
-    this._userService.getPetProfile().subscribe
-  }
+  pet = input.required<ReturnPetDto>();
 }
