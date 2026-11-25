@@ -33,8 +33,8 @@ public static class PersonEndpoints
 
             try
             {
-                await userService.GetUserProfileByIdAsync(Guid.Parse(userId));
-                return Results.Ok();
+                var profile = await userService.GetUserProfileByIdAsync(Guid.Parse(userId));
+                return Results.Ok(profile);
             }
             catch (Exception e)
             {
