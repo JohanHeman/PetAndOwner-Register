@@ -40,4 +40,16 @@ export class UserClient {
       },
     });
   }
+
+  deleteUser(token: string)
+  {
+    return this._httpClient.delete(`${this.url}/api/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+
+
 }

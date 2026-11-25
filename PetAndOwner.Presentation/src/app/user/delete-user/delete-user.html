@@ -1,5 +1,5 @@
 <div class="delete-question">
   <p>Are you sure you want to delete?</p>
-  <button>Yes</button>
-  <button>No</button>
+  <button (click)="deleteStatus.emit(true)">Yes</button>
+  <button (click)="deleteStatus.emit(false)">No</button>
 </div>

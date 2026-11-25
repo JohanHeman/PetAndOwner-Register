@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 
 @Component({
   imports: [],
@@ -6,4 +6,8 @@ import { Component } from '@angular/core';
   styleUrl: './delete-user.css',
   templateUrl: './delete-user.html',
 })
-export class DeleteUser {}
+export class DeleteUser {
+
+  deleteStatus = output<boolean>();
+
+}

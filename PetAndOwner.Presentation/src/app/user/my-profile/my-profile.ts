@@ -22,6 +22,17 @@ export class MyProfile {
 
   wantsToDelete = signal(false);
 
+  deleteUser() {
+    this._userService.deleteUser().subscribe({
+      next: () => {
+        console.log('user deleted');
+        this.wantsToDelete.set(false);
+      },
+      error: (err) => {
+        console.error('Failed to delete user', err);
+      },
+    });
+  }
 
   ngOnInit(): void {
     this.getUserProfile();
