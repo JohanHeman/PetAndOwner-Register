@@ -8,6 +8,7 @@ import {
   LoginRequest,
   ReturnUserProfileDto,
   UpdateUserProfileDto,
+  UpdatePetDto
 } from '../api/api-client';
 
 @Injectable({
@@ -77,4 +78,16 @@ export class UserService {
   }
 
 
+
+  getUserPets() {
+    const token = this.token();
+    if (token === null) {
+      throw new Error('User is not authenticated');
+    }
+
+    return this._userClient.getUserPet(token);
+  }
+
+  updateUserPet(update: UpdatePetDto ){
+  }
 }

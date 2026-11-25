@@ -7,6 +7,7 @@ import { RegisterView } from './register/register-view/register-view';
 import { SetupProfile } from './user/setup-profile/setup-profile';
 import { MyProfile } from './user/my-profile/my-profile';
 import { Profile } from './user/profile/profile';
+import { MyPets } from './user/my-pets/my-pets';
 
 export const routes: Routes = [
   {path: "register-user", component: RegisterUser},
@@ -16,6 +17,7 @@ export const routes: Routes = [
   {path: "", component: Start},
   {path: "setup-profile", component: SetupProfile},
   {path: "my-profile", component: MyProfile},
-  {path: "profile", component: Profile}
+  {path: "profile", component: Profile},
+  {path: "my-pets", component: MyPets}
 
 ];
