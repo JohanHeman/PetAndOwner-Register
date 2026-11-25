@@ -88,6 +88,12 @@ export class UserService {
     return this._userClient.getUserPet(token);
   }
 
-  updateUserPet(update: UpdatePetDto ){
+  updateUserPet(dto: UpdatePetDto){
+    const token = this.token();
+    if (token === null) {
+      throw new Error('User is not authenticated');
+    }
+
+    return this._userClient.updateUserPet(token, dto);
   }
 }

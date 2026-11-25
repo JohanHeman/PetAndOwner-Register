@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { ProfileStatusDto, ReturnUserProfileDto, UpdateUserProfileDto, ReturnPetDto } from '../api/api-client';
+import { ProfileStatusDto, ReturnUserProfileDto, UpdateUserProfileDto, ReturnPetDto, UpdatePetDto } from '../api/api-client';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -59,5 +59,14 @@ export class UserClient {
         Authorization: `Bearer ${token}`
       }
     })
+  }
+
+  updateUserPet(token: string, request: UpdatePetDto) {
+    console.log(request.petId)
+    return this._httpClient.patch(`${this.url}/api/profile/pet/${request.petId}`, request, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 }
