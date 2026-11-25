@@ -37,6 +37,7 @@ export class UserClient {
     return this._httpClient.patch(`${this.url}/api/profile/update`, request, {
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
       },
     });
   }

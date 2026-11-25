@@ -64,7 +64,9 @@ export class UserService {
       throw new Error('User is not authenticated');
     }
 
-    this._userClient.updateUserProfile(token, dto);
+    return this._userClient.updateUserProfile(token, dto);
+
+
   }
 
 

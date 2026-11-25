@@ -10,7 +10,6 @@ import { EditProfile } from '../edit-profile/edit-profile';
   styleUrl: './my-profile.css',
   templateUrl: './my-profile.html',
 })
-
 export class MyProfile {
   private _userService = inject(UserService);
 
@@ -18,15 +17,11 @@ export class MyProfile {
 
   updateDto = signal<UpdateUserProfileDto>({});
 
-  valueToEdit = signal("");
-
+  valueToEdit = signal('');
 
   ngOnInit(): void {
     this.getUserProfile();
   }
-
-
-
 
   getUserProfile() {
     this._userService.getUserProfile().subscribe({
@@ -40,7 +35,7 @@ export class MyProfile {
           phoneNumber: profile.phoneNumber,
           cityName: profile.cityName,
           email: profile.email,
-          country: profile.country
+          country: profile.country,
         });
 
         console.log('retrieved profile');
@@ -51,18 +46,27 @@ export class MyProfile {
     });
   }
 
-
-// keyof is the property to change, recieved from the htmlusing the key from KeyValuePipe
-  updateProfile(property: keyof UpdateUserProfileDto, newValue: string){
-    this.dto.update(current => ({
+  // keyof is the property to change, recieved from the htmlusing the key from KeyValuePipe
+  updateProfile(property: keyof UpdateUserProfileDto, newValue: string) {
+    this.updateDto.update((current) => ({
       ...current,
-      [property]: newValue
+      [property]: newValue,
     }));
 
-    this._userService.updateUserProfile(this.updateDto);
+    console.log('Property:', property);
+    console.log('New value:', newValue);
+    console.log('DTO:', this.updateDto());
 
+    this._userService.updateUserProfile(this.updateDto()).subscribe({
+      next: () => {
+        this.valueToEdit.set('');
+        this.getUserProfile();
+      },
+      error: (error) => {
+        console.error('Failed to update profile', error);
+      },
+    });
+
+    this.getUserProfile();
   }
-
-
-
 }
