@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       # only run when files in the presentation layer change
-	    # [**] = any file at any depth below this folder
+      # [**] = any file at any depth below this folder
       - 'PetAndOwner.Presentation/**'
   pull_request:
     paths:
@@ -20,27 +20,29 @@ jobs:
         working-directory: PetAndOwner.Presentation
     steps:
       # download the repository code onto the runner
-      - uses: actions/checkout@v4
+      - name: download
+        uses: actions/checkout@v4
 
       # install Node and cache npm packages between runs
-      - uses: actions/setup-node@v4
+      - name: fix node
+        uses: actions/setup-node@v4
         with:
-          node-version: latest
-          # the cache is not strictly nessesary bit it makes the prosess a bit faster
+          node-version: lts/*
+          # the cache is not strictly necessary but makes the process faster
           cache: npm
-          # package-lock.json records the exact version of every installed npm package. its hash decides if the npm cache is reused. 
-          # It is not in the repo root, so we need to point out the path
+          # package-lock.json pins exact package versions; its hash decides if the npm cache is reused.
+          # It is not in the repo root, so we point to it.
           cache-dependency-path: PetAndOwner.Presentation/package-lock.json
 
       # install dependencies as recorded in package-lock.json
-      - run: npm ci
+      - name: install dependencies
+        run: npm ci
 
       # compile the Angular app
-      - run: npm run build
+      - name: build
+        run: npm run build
 
-  	  #	run the tests in a few diffrent browsers
-  	  # [--watch=false] so that it wont hang or fail because runner has no display
-      # also need to run the tests in headless browsers because again no display
-      - run: npm test -- --watch=false --browsers=ChromeHeadless,FirefoxHeadless
-
-      
+      # run the tests in a few different browsers
+      # [--watch=false] so it won't hang, headless because the runner has no display
+      - name: run tests
+        run: npm test -- --watch=false --browsers=ChromeHeadless,FirefoxHeadless
