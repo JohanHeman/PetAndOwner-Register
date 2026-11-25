@@ -29,7 +29,17 @@ public static class PersonEndpoints
 
         app.MapGet("/api/user-profile", async (ClaimsPrincipal claims, [FromServices] IUserService userService) =>
         {
-        
+            var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            try
+            {
+                await userService.GetUserProfileByIdAsync(Guid.Parse(userId));
+                return Results.Ok();
+            }
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
         });
         
 
