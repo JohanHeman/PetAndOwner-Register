@@ -8,6 +8,7 @@ public interface IUserService
     public Task DeleteUserAsync(Guid userId);
     public Task UpdateUserAsync(UpdateUserProfileDto profileDto, ApplicationUser user, City city);
     public Task<ProfileStatusDto> GetProfileStatusByIdAsync(Guid id);
+    public Task<ReturnUserProfileDto> GetUserProfileByIdAsync(Guid id);
     public Task<ApplicationUser> GetUserByIdAsync(Guid userId);
     public Task<List<ReturnUserProfileDto>> GetAllUsersAsync();
     Task<IReadOnlyList<ReturnPetDto>> GetUserPetsAsync(Guid userId);//UserPetsResponseDto instead of return List<Pet> maybe

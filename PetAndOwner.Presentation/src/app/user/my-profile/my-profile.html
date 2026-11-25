@@ -1,0 +1,15 @@
+<p>my-profile works!</p>
+
+<div class="profile-card">
+  <div class="title">
+    <h3>{{dto().name}}</h3>
+  </div>
+  @for(item of (dto() | keyvalue); track item.key)
+  {
+  @if(item.key !== "name" && item.key !== "id"){
+  <p>{{item.key}}: {{item.value}}</p>
+  }
+  }
+
+</div>
+

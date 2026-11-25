@@ -43,8 +43,17 @@ export class UserService {
   setupUserProfile(request: UpdateUserProfileDto) {
     const token = this.token();
     if (token === null) {
-      throw new Error("User is not authenticated");
+      throw new Error('User is not authenticated');
     }
     return this._userClient.setupUserProfile(token, request);
+  }
+
+  getUserProfile() {
+    const token = this.token();
+    if (token === null) {
+      throw new Error('User is not authenticated');
+    }
+
+    return this._userClient.getUserProfile(token);
   }
 }

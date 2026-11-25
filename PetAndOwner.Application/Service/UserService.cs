@@ -50,6 +50,26 @@ public class UserService : IUserService
         return profileStatusDto;
     }
 
+    public async Task<ReturnUserProfileDto> GetUserProfileByIdAsync(Guid id)
+    {
+        var user =  await _userRepository.GetByIdIncludingProperties(id);
+
+        ReturnUserProfileDto dto = new ReturnUserProfileDto()
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Age = user.Age,
+            BirthDate = user.BirthDate,
+            CityName = user.City?.Name,
+            Country = user.City?.Country?.Name,
+            Gender = user.Gender?.ToString(),
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+        };
+
+        return dto;
+    }
+
     public async Task<ApplicationUser> GetUserByIdAsync(Guid userId)
     {
         return await FindUserOrThrowAsync(userId);

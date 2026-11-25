@@ -27,6 +27,22 @@ public static class PersonEndpoints
             }
         }).Produces<ProfileStatusDto>(StatusCodes.Status200OK).RequireAuthorization();
 
+        app.MapGet("/api/user-profile", async (ClaimsPrincipal claims, [FromServices] IUserService userService) =>
+        {
+            var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            try
+            {
+                var profile = await userService.GetUserProfileByIdAsync(Guid.Parse(userId));
+                return Results.Ok(profile);
+            }
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
+        });
+        
+
         app.MapPatch("/api/profile/setup", async (ClaimsPrincipal claims, [FromServices] IUserService userService, [FromBody] UpdateUserProfileDto profileDto, [FromServices] ILocationService locationService) =>
         {
             var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
