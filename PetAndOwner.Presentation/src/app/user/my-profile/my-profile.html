@@ -8,8 +8,14 @@
   {
   @if(item.key !== "name" && item.key !== "id"){
   <p>{{item.key}}: {{item.value}}</p>
+  <button (click)="valueToEdit.set(item.value)">Edit</button>
+
+    @if(valueToEdit() === item.value)
+    {
+      <app-edit-profile [propToChange]="item.value" />
+    }
+
   }
   }
 
 </div>
-
