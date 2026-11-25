@@ -24,14 +24,15 @@ export class PetProfileCard {
   genderLable(value?: number){
     return this.genders.find(g => g.value === value)?.label
   }
+
   editing = signal(false);
   activeField = signal('');
   draft: string | number = '';
 
-  edit(field: string, currentValue: any) {
+  edit(field: string, currentValue: any)
+  {
     this.activeField.set(field);
     this.draft = currentValue;
-    console.log("current value", currentValue)
   }
 
 
@@ -39,10 +40,9 @@ export class PetProfileCard {
     const field = this.activeField();
 
     const newValue = this.draft
-    const oldValue = (this.pet() as any)[field];
+    const oldValue = this.pet()[field];
     const isUnchanged = newValue === oldValue;
 
-    console.log("newValue", newValue)
     if (isUnchanged) {
       this.activeField.set('');
       return;
@@ -51,7 +51,6 @@ export class PetProfileCard {
     const petUpdate = { ...this.pet() };
     petUpdate[field] = newValue;
 
-    console.log("petUpdate",petUpdate)
     this.saved.emit(petUpdate);
 
     this.activeField.set('');
