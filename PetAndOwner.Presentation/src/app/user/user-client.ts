@@ -30,7 +30,7 @@ export class UserClient {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    });
+    })
   }
 
   updateUserProfile(token: string, request: UpdateUserProfileDto) {
@@ -40,6 +40,17 @@ export class UserClient {
       },
     });
   }
+
+  deleteUser(token: string)
+  {
+    return this._httpClient.delete(`${this.url}/api/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+
 
   getUserPet(token: string)
   {

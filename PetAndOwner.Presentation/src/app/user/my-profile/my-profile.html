@@ -18,4 +18,11 @@
   }
   }
 
+<button (click)="wantsToDelete.set(!wantsToDelete())">Delete user</button>
+@if(wantsToDelete())
+{
+  <app-delete-user (deleteStatus)="$event ? deleteUser() : null"/>
+}
 </div>
+
+

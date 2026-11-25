@@ -1,3 +1,4 @@
+import { DeleteUser } from './delete-user/delete-user';
 import { UserClient } from './user-client';
 import { HttpClient } from '@angular/common/http';
 import { inject, signal, Injectable } from '@angular/core';
@@ -66,8 +67,14 @@ export class UserService {
     }
 
     return this._userClient.updateUserProfile(token, dto);
+  }
 
-
+  deleteUser(){
+    const token = this.token();
+    if (token === null) {
+      throw new Error('User is not authenticated');
+    }
+    return this._userClient.deleteUser(token);
   }
 
 
