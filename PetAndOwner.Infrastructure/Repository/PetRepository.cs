@@ -26,6 +26,14 @@ public class PetRepository : BaseRepository<Pet>, IPetRepository
 
     }
 
+    public async Task<Pet?> GetWithOwnerByIdAsync(Guid petId)
+    {
+        return await _context.Pets
+            .Include(p => p.Owners)
+            .Include(p => p.AnimalType)
+            .FirstOrDefaultAsync(p => p.Id == petId);
+    }
+
     public async Task<IReadOnlyList<ApplicationUser>> GetOwnersByPetIdAsync(Guid petId)
     {
         return await _context.Users.Where(u => u.Pets.Any(p => p.Id == petId)).ToListAsync();
