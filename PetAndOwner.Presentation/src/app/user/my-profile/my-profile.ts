@@ -3,9 +3,10 @@ import { UserService } from '../user-service';
 import { ReturnUserProfileDto, UpdateUserProfileDto } from '../../api/api-client';
 import { KeyValuePipe } from '@angular/common';
 import { EditProfile } from '../edit-profile/edit-profile';
+import { DeleteUser } from '../delete-user/delete-user';
 
 @Component({
-  imports: [KeyValuePipe, EditProfile],
+  imports: [KeyValuePipe, EditProfile, DeleteUser],
   selector: 'app-my-profile',
   styleUrl: './my-profile.css',
   templateUrl: './my-profile.html',
@@ -18,6 +19,9 @@ export class MyProfile {
   updateDto = signal<UpdateUserProfileDto>({});
 
   valueToEdit = signal('');
+
+  wantsToDelete = signal(false);
+
 
   ngOnInit(): void {
     this.getUserProfile();

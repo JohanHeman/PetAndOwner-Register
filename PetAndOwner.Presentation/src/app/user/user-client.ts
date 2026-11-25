@@ -30,7 +30,7 @@ export class UserClient {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    });
+    })
   }
 
   updateUserProfile(token: string, request: UpdateUserProfileDto) {
