@@ -27,6 +27,12 @@ public static class PersonEndpoints
             }
         }).Produces<ProfileStatusDto>(StatusCodes.Status200OK).RequireAuthorization();
 
+        app.MapGet("/api/user-profile", async (ClaimsPrincipal claims, [FromServices] IUserService userService) =>
+        {
+        
+        });
+        
+
         app.MapPatch("/api/profile/setup", async (ClaimsPrincipal claims, [FromServices] IUserService userService, [FromBody] UpdateUserProfileDto profileDto, [FromServices] ILocationService locationService) =>
         {
             var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
