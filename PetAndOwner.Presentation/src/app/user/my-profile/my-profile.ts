@@ -53,10 +53,6 @@ export class MyProfile {
       [property]: newValue,
     }));
 
-    console.log('Property:', property);
-    console.log('New value:', newValue);
-    console.log('DTO:', this.updateDto());
-
     this._userService.updateUserProfile(this.updateDto()).subscribe({
       next: () => {
         this.valueToEdit.set('');
