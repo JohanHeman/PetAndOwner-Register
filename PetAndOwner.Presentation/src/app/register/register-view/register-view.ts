@@ -36,11 +36,11 @@ export class RegisterView {
   }
 
   toggle(){
-    if (this.currentTable() == "persons"){
+    if (this.currentTable() === "persons"){
       this.currentTable.set("pets")
       this.loadPetsTable();
     }
-    else if(this.currentTable() == "pets"){
+    else if(this.currentTable() === "pets"){
       this.currentTable.set("persons")
       this.loadPersonTable();
     }

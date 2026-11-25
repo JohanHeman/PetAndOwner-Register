@@ -29,7 +29,7 @@ export class ApiClient {
      * @return OK
      */
     persons(): Observable<ReturnUserProfileDto[]> {
-        let url_ = this.baseUrl + "api/persons";
+        let url_ = this.baseUrl + "/api/persons";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -376,7 +376,7 @@ export class ApiClient {
      * @return OK
      */
     pets(): Observable<ReturnPetDto[]> {
-        let url_ = this.baseUrl + "api/pets";
+        let url_ = this.baseUrl + "/api/pets";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
