@@ -9,6 +9,7 @@ import { KeyValuePipe } from '@angular/common';
   styleUrl: './my-profile.css',
   templateUrl: './my-profile.html',
 })
+
 export class MyProfile {
   private _userService = inject(UserService);
 
