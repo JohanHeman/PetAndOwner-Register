@@ -2,8 +2,8 @@
 
 
 <form #gForm="ngForm" (ngSubmit)="onSubmit()">
-  <input type="text">
-  <p>Current value</p>
-  <button>Save</button>
-  <button>Cancel</button>
+  <input type="text" name="newValue" [(ngModel)]="newValue" >
+  <p>current value {{valueToChange()}}</p>
+  <button type="submit">Save</button>
+  <button type="submit">Cancel</button>
 </form>

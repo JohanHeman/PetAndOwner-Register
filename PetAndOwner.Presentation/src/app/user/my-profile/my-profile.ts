@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { UserService } from '../user-service';
-import { ReturnUserProfileDto } from '../../api/api-client';
+import { ReturnUserProfileDto, UpdateUserProfileDto } from '../../api/api-client';
 import { KeyValuePipe } from '@angular/common';
 import { EditProfile } from '../edit-profile/edit-profile';
 
@@ -16,6 +16,8 @@ export class MyProfile {
 
   dto = signal<ReturnUserProfileDto>({});
 
+  updateDto = signal<UpdateUserProfileDto>({});
+
   valueToEdit = signal("");
 
 
@@ -23,10 +25,24 @@ export class MyProfile {
     this.getUserProfile();
   }
 
+
+
+
   getUserProfile() {
     this._userService.getUserProfile().subscribe({
       next: (profile) => {
         this.dto.set(profile);
+
+        this.updateDto.set({
+          name: profile.name,
+          birthDate: profile.birthDate,
+          gender: profile.gender,
+          phoneNumber: profile.phoneNumber,
+          cityName: profile.cityName,
+          email: profile.email,
+          country: profile.country
+        });
+
         console.log('retrieved profile');
       },
       error: (err) => {
@@ -35,7 +51,15 @@ export class MyProfile {
     });
   }
 
-  Edit(){
+
+// keyof is the property to change, recieved from the htmlusing the key from KeyValuePipe
+  updateProfile(property: keyof UpdateUserProfileDto, newValue: string){
+    this.dto.update(current => ({
+      ...current,
+      [property]: newValue
+    }));
+
+    this._userService.updateUserProfile(this.updateDto);
 
   }
 

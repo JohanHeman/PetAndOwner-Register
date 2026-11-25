@@ -56,4 +56,16 @@ export class UserService {
 
     return this._userClient.getUserProfile(token);
   }
+
+  updateUserProfile(dto : UpdateUserProfileDto)
+  {
+    const token = this.token();
+    if (token === null) {
+      throw new Error('User is not authenticated');
+    }
+
+    this._userClient.updateUserProfile(token, dto);
+  }
+
+
 }

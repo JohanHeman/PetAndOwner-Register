@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -9,12 +9,22 @@ import { FormsModule } from '@angular/forms';
 })
 export class EditProfile {
 
+
+
+valueToChange = input<string>();
+
+newValue = signal("");
+
+
+sendNewValue = output<string>();
+
 onSubmit()
 {
-
+  this.sendNewValue.emit(this.newValue());
 }
+// take this value
+//set the new value
+// send it out to the parent and create an object from it there
 
-
-propToChange = input<string>();
 
 }
