@@ -1,0 +1,70 @@
+<div class="card">
+  <button (click)="editing.update(e => !e)">edit pet</button>
+  <p>
+    Name:
+    @if (activeField() === 'name') {
+      <form #form="ngForm" (ngSubmit)="save()">
+        <input name="draft" [(ngModel)]="draft" required />
+        <button type="submit" [disabled]="form.invalid">Save</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+      </form>
+    } @else {
+      {{ pet().name }}
+      @if (editing()){
+        <button (click)="edit('name', pet().name)">Edit</button>
+      }
+    }
+  </p>
+
+  <p>
+    Type:
+    @if (activeField() === 'animalType') {
+      <form #form="ngForm" (ngSubmit)="save()">
+        <input name="draft" [(ngModel)]="draft" required />
+        <button type="submit" [disabled]="form.invalid">Save</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+      </form>
+    } @else {
+      {{ pet().animalType }}
+      @if (editing()){
+      <button (click)="edit('animalType', pet().animalType)">Edit</button>
+      }
+    }
+  </p>
+
+  <p>
+    Age:
+    @if (activeField() === 'age') {
+      <form #form="ngForm" (ngSubmit)="save()">
+        <input name="draft" type="number" [(ngModel)]="draft" required />
+        <button type="submit" [disabled]="form.invalid">Save</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+      </form>
+    } @else {
+      {{ pet().age }}
+      @if (editing()){
+      <button (click)="edit('age', pet().age)">Edit</button>
+      }
+    }
+  </p>
+
+  <p>
+    Gender:
+    @if (activeField() === 'gender') {
+      <form #form="ngForm" (ngSubmit)="save()">
+        <select name="draft" [(ngModel)]="draft" required>
+          @for (g of genders; track g.value) {
+            <option [ngValue]="g.value">{{ g.label }}</option>
+          }
+        </select>
+        <button type="submit" [disabled]="form.invalid">Save</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+      </form>
+    } @else {
+      {{ genderLable(pet().gender)}}
+      @if (editing()){
+      <button (click)="edit('gender', pet().gender)">Edit</button>
+      }
+    }
+  </p>
+</div>
