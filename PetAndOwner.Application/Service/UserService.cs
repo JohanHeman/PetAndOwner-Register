@@ -52,7 +52,7 @@ public class UserService : IUserService
 
     public async Task<ReturnUserProfileDto> GetUserProfileByIdAsync(Guid id)
     {
-        var user =  await _userRepository.GetByIdIncludingProperties(id);
+        var user = await _userRepository.GetByIdIncludingProperties(id);
 
         ReturnUserProfileDto dto = new ReturnUserProfileDto()
         {
@@ -130,6 +130,7 @@ public class UserService : IUserService
         existing.PhoneNumber = profileDto.PhoneNumber;
         existing.BirthDate = profileDto.BirthDate;
         existing.City = city;
+        existing.CityId = city.Id;
         var result = await _userManager.UpdateAsync(existing);
         ThrowIfFailed(result, "update user");
     }

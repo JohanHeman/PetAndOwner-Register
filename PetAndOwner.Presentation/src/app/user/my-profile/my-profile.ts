@@ -1,10 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { UserService } from '../user-service';
-import { ReturnUserProfileDto } from '../../api/api-client';
+import { ReturnUserProfileDto, UpdateUserProfileDto } from '../../api/api-client';
 import { KeyValuePipe } from '@angular/common';
+import { EditProfile } from '../edit-profile/edit-profile';
 
 @Component({
-  imports: [KeyValuePipe],
+  imports: [KeyValuePipe, EditProfile],
   selector: 'app-my-profile',
   styleUrl: './my-profile.css',
   templateUrl: './my-profile.html',
@@ -14,6 +15,10 @@ export class MyProfile {
 
   dto = signal<ReturnUserProfileDto>({});
 
+  updateDto = signal<UpdateUserProfileDto>({});
+
+  valueToEdit = signal('');
+
   ngOnInit(): void {
     this.getUserProfile();
   }
@@ -22,11 +27,46 @@ export class MyProfile {
     this._userService.getUserProfile().subscribe({
       next: (profile) => {
         this.dto.set(profile);
+
+        this.updateDto.set({
+          name: profile.name,
+          birthDate: profile.birthDate,
+          gender: profile.gender,
+          phoneNumber: profile.phoneNumber,
+          cityName: profile.cityName,
+          email: profile.email,
+          country: profile.country,
+        });
+
         console.log('retrieved profile');
       },
       error: (err) => {
         console.log(err);
       },
     });
+  }
+
+  // keyof is the property to change, recieved from the htmlusing the key from KeyValuePipe
+  updateProfile(property: keyof UpdateUserProfileDto, newValue: string) {
+    this.updateDto.update((current) => ({
+      ...current,
+      [property]: newValue,
+    }));
+
+    console.log('Property:', property);
+    console.log('New value:', newValue);
+    console.log('DTO:', this.updateDto());
+
+    this._userService.updateUserProfile(this.updateDto()).subscribe({
+      next: () => {
+        this.valueToEdit.set('');
+        this.getUserProfile();
+      },
+      error: (error) => {
+        console.error('Failed to update profile', error);
+      },
+    });
+
+    this.getUserProfile();
   }
 }

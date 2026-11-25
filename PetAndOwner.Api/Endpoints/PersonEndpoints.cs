@@ -41,7 +41,7 @@ public static class PersonEndpoints
                 return Results.BadRequest(e.Message);
             }
         });
-        
+
 
         app.MapPatch("/api/profile/setup", async (ClaimsPrincipal claims, [FromServices] IUserService userService, [FromBody] UpdateUserProfileDto profileDto, [FromServices] ILocationService locationService) =>
         {
@@ -73,7 +73,7 @@ public static class PersonEndpoints
             return Results.NoContent();
         });
 
-        app.MapPatch("/api/profile/update", async (ClaimsPrincipal Claims, [FromServices] IUserService userService, UpdateUserProfileDto profileDto, [FromServices] ILocationService locationService) =>
+        app.MapPatch("/api/profile/update", async (ClaimsPrincipal Claims, [FromServices] IUserService userService, [FromBody] UpdateUserProfileDto profileDto, [FromServices] ILocationService locationService) =>
         {
             var userId = Claims.FindFirstValue(ClaimTypes.NameIdentifier);
 

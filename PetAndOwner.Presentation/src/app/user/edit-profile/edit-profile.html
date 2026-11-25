@@ -1,0 +1,9 @@
+<p>edit-profile works!</p>
+
+
+<form #gForm="ngForm" (ngSubmit)="onSubmit()">
+  <input type="text" name="newValue" [(ngModel)]="newValue" >
+  <p>current value {{valueToChange()}}</p>
+  <button type="submit">Save</button>
+  <button type="submit">Cancel</button>
+</form>
