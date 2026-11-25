@@ -13,6 +13,7 @@ namespace PetAndOwner.Tests.Service;
 public class PetServiceTests
 {
     private readonly Mock<IPetRepository> _repository;
+    private readonly Mock<IAnimalTypeRepository> _typerepository;
     private readonly PetService _sut;
     private readonly Mock<UserManager<ApplicationUser>> _userManager;
     public PetServiceTests()
@@ -21,7 +22,7 @@ public class PetServiceTests
         var store = new Mock<IUserStore<ApplicationUser>>();
 
         _userManager = MockUserManager.Create();
-        _sut = new PetService(_repository.Object, _userManager.Object);
+        _sut = new PetService(_repository.Object, _typerepository.Object, _userManager.Object);
     }
 
     [Fact]
