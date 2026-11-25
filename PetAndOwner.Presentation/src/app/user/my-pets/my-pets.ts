@@ -33,7 +33,15 @@ export class MyPets {
 
 
   onSaved(petUpdate: UpdatePetDto) {
-    this._userService.updateUserPet(petUpdate)
-    this.loadUserPets();
+    this._userService.updateUserPet(petUpdate).subscribe({
+      next: () => {
+        console.log("success")
+        this.loadUserPets();
+      },
+      error: (error) => {
+        console.error('Failed to update', error);
+      },
+    })
+
   }
 }
