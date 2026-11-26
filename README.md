@@ -66,7 +66,7 @@ Make sure you have the following installed:
 #### Setup Instructions
 
 1. Create a `.env` file in the solution's root folder.
-2. Copy the following environment variables into the file and replace the placeholders with your own values. Remember to remove the brackets.
+2. Copy the following environment variables into the file and replace the placeholders with your own values.
 
    ```env
    POSTGRES_DB=DBNAME
