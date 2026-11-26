@@ -1,7 +1,13 @@
 
 
 <form #gForm="ngForm" (ngSubmit)="onSubmit()">
+  @if(isDate()){
+    <input type="date" name="newValue" [(ngModel)]="newValue" >
+  }
+  @else {
+
   <input type="text" name="newValue" [(ngModel)]="newValue" >
+  }
   <p>current value {{valueToChange()}}</p>
   <button type="submit">Save</button>
   <button type="submit">Cancel</button>

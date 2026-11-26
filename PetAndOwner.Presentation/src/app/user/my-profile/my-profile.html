@@ -15,7 +15,7 @@
 
   @if(valueToEdit() === item.value)
   {
-  <app-edit-profile [valueToChange]="item.value" (sendNewValue)="updateProfile(item.key, $event)" />
+  <app-edit-profile [valueToChange]="item.value" [isDate]="item.key === 'birthDate' " (sendNewValue)="updateProfile(item.key, $event)" />
   }
 
 

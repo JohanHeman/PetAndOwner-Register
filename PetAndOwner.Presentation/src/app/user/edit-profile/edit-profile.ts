@@ -14,6 +14,8 @@ export class EditProfile {
 
   sendNewValue = output<string>();
 
+  isDate = input<boolean>()
+
   onSubmit() {
     this.sendNewValue.emit(this.newValue());
   }
