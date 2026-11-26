@@ -1,7 +1,7 @@
 import { Component, inject, input, output, signal } from '@angular/core';
 import { ReturnPetDto, UpdatePetDto } from '../../api/api-client';
-import { UserService } from '../user-service';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../user/user-service';
 
 @Component({
   imports: [FormsModule],

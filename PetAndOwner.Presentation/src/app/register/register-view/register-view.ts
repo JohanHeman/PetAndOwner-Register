@@ -1,6 +1,7 @@
-import { ApiClient } from '../../api/api-client';
+import { PetService } from '../../pet/pet-service';
+import { UserService } from '../../user/user-service';
 import { RegisterTable } from './../register-table/register-table';
-import { Component, signal, inject} from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 
 @Component({
   imports: [RegisterTable],
@@ -9,44 +10,41 @@ import { Component, signal, inject} from '@angular/core';
   templateUrl: './register-view.html',
 })
 export class RegisterView {
+  tableData = signal<Record<string, unknown>[]>([]);
 
-  private apiClient = inject(ApiClient);
+  currentTable = signal<string>('persons');
 
-  tableData = signal<Record<string, unknown>[]>([])
+  private _petService = inject(PetService);
 
-  currentTable = signal<string>("persons")
-
+  private _userService = inject(UserService);
 
   ngOnInit() {
     this.loadPersonTable();
   }
 
   loadPetsTable() {
-    return this.apiClient.pets().subscribe({
+    return this._petService.getAllPets().subscribe({
       next: (data) => this.tableData.set(data),
       error: (err) => console.log(err),
     });
   }
 
-  loadPersonTable(){
-    return this.apiClient.persons().subscribe({
+  loadPersonTable() {
+    return this._userService.getAllUsers().subscribe({
       next: (data) => this.tableData.set(data),
       error: (err) => console.log(err),
     });
   }
 
-  toggle(){
-    if (this.currentTable() === "persons"){
-      this.currentTable.set("pets")
+  toggle() {
+    if (this.currentTable() === 'persons') {
+      this.currentTable.set('pets');
       this.loadPetsTable();
-    }
-    else if(this.currentTable() === "pets"){
-      this.currentTable.set("persons")
+    } else if (this.currentTable() === 'pets') {
+      this.currentTable.set('persons');
       this.loadPersonTable();
-    }
-    else{
+    } else {
       //error
     }
   }
-
 }

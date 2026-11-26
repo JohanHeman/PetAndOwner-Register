@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { UserService } from '../user-service';
 import { ReturnPetDto, UpdatePetDto } from '../../api/api-client';
-import { PetProfileCard } from '../pet-profile-card/pet-profile-card';
+import { PetProfileCard } from '../../pet/pet-profile-card/pet-profile-card';
 
 @Component({
   imports: [PetProfileCard],
