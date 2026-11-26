@@ -3,14 +3,10 @@ name: build and test
 
 on:
   push:
-    paths-ignore:
-      - "PetAndOwner.Presentation/**"
 
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - "PetAndOwner.Presentation/**"
 
 jobs:
   build:
