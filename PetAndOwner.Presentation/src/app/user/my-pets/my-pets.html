@@ -1,5 +1,5 @@
-<p>my-pets works!</p>
-<button (click)="addPetClicked()">{{ showForm() ? 'x' : '+' }}</button>
+<h2 class="pad">Pets</h2>
+<button class="pad" (click)="addPetClicked()">{{ showForm() ? 'x' : '+' }}</button>
 @if(showForm()){
   <app-new-pet-form (saved)="saveNewPet($event)" (canceled)="showForm.set(false)"></app-new-pet-form>
 }

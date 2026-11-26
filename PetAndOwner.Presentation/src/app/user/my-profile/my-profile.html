@@ -2,30 +2,24 @@
   <div class="title">
     <h3>{{dto().name}}</h3>
   </div>
-  @for(item of (dto() | keyvalue); track item.key)
-  {
-  @if(item.key !== "name" && item.key !== "id" && item.key){
-  <p>{{item.key}}: {{item.value}}</p>
-
-
-  @if(item.key !== "age")
-  {
-
-  <button (click)="valueToEdit.set(item.value)">Edit</button>
-
-  @if(valueToEdit() === item.value)
-  {
-  <app-edit-profile [valueToChange]="item.value" [isDate]="item.key === 'birthDate' " (sendNewValue)="updateProfile(item.key, $event)" />
+  @for(item of (dto() | keyvalue); track item.key){
+    @if(item.key !== "name" && item.key !== "id" && item.key)
+    {
+      <p>{{item.key}}: {{item.value}}</p>
+      @if(item.key !== "age")
+      {
+        <button (click)="valueToEdit.set(item.value)">Edit</button>
+        @if(valueToEdit() === item.value)
+        {
+        <app-edit-profile [valueToChange]="item.value" [isDate]="item.key === 'birthDate' " (sendNewValue)="updateProfile(item.key, $event)" />
+        }
+      }
+    }
   }
 
-
-  }
-  }
-  }
-
-  <button (click)="wantsToDelete.set(!wantsToDelete())">Delete user</button>
+  <button class="pad" (click)="wantsToDelete.set(!wantsToDelete())">Delete user</button>
   @if(wantsToDelete())
   {
-  <app-delete-user (deleteStatus)="$event ? deleteUser() : null" />
+    <app-delete-user (deleteStatus)="$event ? deleteUser() : null" />
   }
 </div>
