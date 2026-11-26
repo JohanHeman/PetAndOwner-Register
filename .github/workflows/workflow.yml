@@ -10,37 +10,22 @@ on:
     paths-ignore: 
       - "PetAndOwner.Presentation/**"
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-        - name: checkout
-          uses: actions/checkout@v6
 
-        - name: Setup dotnet 
-          uses: actions/setup-dotnet@v4
-          with:
-            dotnet-version: |
-              8.0.x
-              9.0.x
-              10.0.x
-        - name: build project
-          run: dotnet build
-  format_and_test:
-    
-    needs: build
+jobs:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v6
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-              9.0.x
-              10.0.x
+            8.0.x
+            9.0.x
+            10.0.x
           cache: true
           cache-dependency-path: "**/packages.lock.json"
+
       - name: restore
         run: dotnet restore
 
