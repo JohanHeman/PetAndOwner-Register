@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { UserService } from '../user-service';
+import { PetService } from '../../pet/pet-service';
 import { ReturnPetDto, UpdatePetDto } from '../../api/api-client';
 import { PetProfileCard } from '../../pet/pet-profile-card/pet-profile-card';
 import { NewPetForm } from '../../pet/new-pet-form/new-pet-form';
@@ -11,7 +11,7 @@ import { NewPetForm } from '../../pet/new-pet-form/new-pet-form';
   templateUrl: './my-pets.html',
 })
 export class MyPets {
-  _userService = inject(UserService);
+  _petService = inject(PetService);
 
 
   pets = signal<ReturnPetDto[]>([]);
@@ -21,7 +21,7 @@ export class MyPets {
   }
 
   loadUserPets(){
-    this._userService.getUserPets().subscribe({
+    this._petService.getUserPets().subscribe({
       next: (pets) => {
         this.pets.set(pets);
         console.log('retrieved pets');
@@ -34,7 +34,7 @@ export class MyPets {
 
 
   onSave(petUpdate: UpdatePetDto) {
-    this._userService.updateUserPet(petUpdate).subscribe({
+    this._petService.updateUserPet(petUpdate).subscribe({
       next: () => {
         console.log(`${petUpdate.name} updated`)
         this.loadUserPets();
@@ -54,7 +54,7 @@ export class MyPets {
   }
 
   saveNewPet(newPet: UpdatePetDto){
-    this._userService.createUserPet(newPet).subscribe({
+    this._petService.createUserPet(newPet).subscribe({
       next: () => {
         console.log("new pet saved");
         this.showForm.set(false)
@@ -65,7 +65,7 @@ export class MyPets {
 
   onPetDeleted(petId: string){
     console.log("pet delete clicked")
-    this._userService.deleteUserPet(petId).subscribe({
+    this._petService.deleteUserPet(petId).subscribe({
       next: () => {
         console.log("pet deleted");
         this.loadUserPets();
