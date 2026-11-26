@@ -27,7 +27,6 @@ export class SetupProfile {
   }
 
   setupUserProfile() {
-    if (!this.user) return;
 
     this._userService.setupUserProfile(this.user).subscribe({
       next: () => {

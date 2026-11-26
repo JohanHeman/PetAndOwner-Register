@@ -29,6 +29,7 @@ public class LocationService : ILocationService
                 Country = country,
             };
             await _cityRepository.CreateAsync(newCity);
+            return newCity;
         }
         return city;
     }
