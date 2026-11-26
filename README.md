@@ -19,32 +19,36 @@ Make sure you have the following installed:
 
 1. Clone the repository.
 2. Open `appsettings.json` and configure the connection string to connect to your PostgreSQL database.
-3. Open a terminal and navigate to the API project.
-4. Run the following command to create/update the database using the Code First approach:
+3. Cd into solution folder and run
+4. ```bash
+   dotnet restore
+   ```
+5. Open a terminal and navigate to the API project.
+6. Run the following command to create/update the database using the Code First approach:
 
    ```bash
    dotnet ef database update --project ../PetAndOwner.Infrastructure/PetAndOwner.Infrastructure.csproj
    ```
 
-5. Navigate to the presentation project:
+7. Navigate to the presentation project:
 
    ```bash
    cd ../PetAndOwner.Presentation
    ```
 
-6. Install the dependencies:
+8. Install the dependencies:
 
    ```bash
    npm install
    ```
 
-7. Navigate to the API project:
+9. Navigate to the API project:
 
    ```bash
    cd ../PetAndOwner.Api
    ```
 
-8. Start the API using:
+10. Start the API using:
 
    ```bash
    dotnet run
@@ -52,7 +56,7 @@ Make sure you have the following installed:
 
    Alternatively, you can start the API directly from your IDE.
 
-9. Navigate back to the presentation project and start the frontend:
+11. Navigate back to the presentation project and start the frontend:
 
    ```bash
    cd ../PetAndOwner.Presentation
