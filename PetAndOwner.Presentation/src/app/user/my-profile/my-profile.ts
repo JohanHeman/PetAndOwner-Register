@@ -4,6 +4,7 @@ import { ReturnUserProfileDto, UpdateUserProfileDto } from '../../api/api-client
 import { KeyValuePipe } from '@angular/common';
 import { EditProfile } from '../edit-profile/edit-profile';
 import { DeleteUser } from '../delete-user/delete-user';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [KeyValuePipe, EditProfile, DeleteUser],
@@ -18,6 +19,8 @@ export class MyProfile {
 
   updateDto = signal<UpdateUserProfileDto>({});
 
+  private router = inject(Router);
+
   valueToEdit = signal('');
 
   wantsToDelete = signal(false);
@@ -27,6 +30,7 @@ export class MyProfile {
       next: () => {
         console.log('user deleted');
         this.wantsToDelete.set(false);
+        this.router.navigate(["/"]);
       },
       error: (err) => {
         console.error('Failed to delete user', err);
