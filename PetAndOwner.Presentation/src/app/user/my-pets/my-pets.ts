@@ -63,4 +63,14 @@ export class MyPets {
     })
   }
 
+  onPetDeleted(petId: string){
+    console.log("pet delete clicked")
+    this._userService.deleteUserPet(petId).subscribe({
+      next: () => {
+        console.log("pet deleted");
+        this.loadUserPets();
+      }
+    })
+  }
+
 }

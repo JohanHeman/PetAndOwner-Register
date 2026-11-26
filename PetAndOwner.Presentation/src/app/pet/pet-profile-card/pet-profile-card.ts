@@ -15,6 +15,7 @@ export class PetProfileCard {
 
   pet = input.required<ReturnPetDto>();
   saved = output<UpdatePetDto>();
+  deleted = output<string>();
 
   genders = [
   {  label: 'Male', value: 0 },
@@ -58,5 +59,11 @@ export class PetProfileCard {
 
   cancel() {
     this.activeField.set('');
+  }
+
+  delete(){
+    const id = this.pet().petId;
+    if (id) this.deleted.emit(id)
+    else this.deleted.emit("unexpected error pet id unkown")
   }
 }

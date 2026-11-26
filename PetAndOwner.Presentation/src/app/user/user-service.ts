@@ -105,4 +105,12 @@ export class UserService {
     }
     return this._userClient.createNewPet(token, newPet)
   }
+
+  deleteUserPet(id: string){
+    const token = this.token();
+    if (token === null) {
+      throw new Error('User is not authenticated');
+    }
+    return this._userClient.deletePet(token, id)
+  }
 }

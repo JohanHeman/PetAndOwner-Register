@@ -5,6 +5,9 @@
 }
 <div class="pet-card-container">
   @for (pet of pets(); track pet.petId) {
-    <app-pet-profile-card [pet]="pet" (saved)="onSave($event)" />
+    <app-pet-profile-card
+      [pet]="pet"
+      (saved)="onSave($event)"
+      (deleted)="onPetDeleted($event)" />
   }
 </div>
