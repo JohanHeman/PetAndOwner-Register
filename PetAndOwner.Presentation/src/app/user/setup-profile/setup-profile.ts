@@ -1,5 +1,5 @@
 import { ReturnPetDto, ReturnUserProfileDto, UpdateUserProfileDto } from './../../api/api-client';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../user-service';
 import { Router } from '@angular/router';
@@ -14,6 +14,9 @@ export class SetupProfile {
   _userService = inject(UserService);
 
   user: UpdateUserProfileDto = {};
+
+
+  statusMessage = signal("");
 
   genders = [
   {  label: 'Male'},
@@ -30,8 +33,11 @@ export class SetupProfile {
 
     this._userService.setupUserProfile(this.user).subscribe({
       next: () => {
-        console.log('profile setup complete');
         this._router.navigate(["/"]);
+      },
+      error: (error) => {
+        this.statusMessage.set('Registration failed. See console for more info');
+        console.log(error);
       }
     });
   }

@@ -31,7 +31,7 @@ export class RegisterView {
 
   loadPersonTable() {
     return this._userService.getAllUsers().subscribe({
-      next: (data) => this.tableData.set(data),
+      next: (data) => this.tableData.set(data.map(({ id, ...person }) => person)),
       error: (err) => console.log(err),
     });
   }
