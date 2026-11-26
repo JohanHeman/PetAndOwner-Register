@@ -15,6 +15,7 @@ export class SetupProfile {
 
   user: UpdateUserProfileDto = {};
 
+
   statusMessage = signal("");
 
   genders = [
