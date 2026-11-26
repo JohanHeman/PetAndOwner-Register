@@ -1,16 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
 
-.center {
+.center-middle {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
 }
 
+.center-standing{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .pad{
   padding: 10px;
   margin: 10px;
 }
+
+.gap {
+  gap: 10px;
+}
+
 
 button{
   height: 33px;

@@ -1,6 +1,6 @@
 
 
-<form #gForm="ngForm" (ngSubmit)="onSubmit()">
+<form class="pad center-standing" #gForm="ngForm" (ngSubmit)="onSubmit()">
   @if(isDate()){
     <input type="date" name="newValue" [(ngModel)]="newValue" >
   }
@@ -9,6 +9,6 @@
   <input type="text" name="newValue" [(ngModel)]="newValue" >
   }
   <p>current value {{valueToChange()}}</p>
-  <button type="submit">Save</button>
+  <button class="pad" type="submit">Save</button>
   <button type="submit">Cancel</button>
 </form>
