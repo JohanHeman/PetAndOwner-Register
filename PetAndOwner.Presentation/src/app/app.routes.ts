@@ -7,7 +7,7 @@ import { SetupProfile } from './user/setup-profile/setup-profile';
 import { MyProfile } from './user/my-profile/my-profile';
 import { Profile } from './user/profile/profile';
 import { MyPets } from './user/my-pets/my-pets';
-import { RegistryView } from './registry/register-view/registry-view';
+import { RegistryView } from './registry/registry-view/registry-view';
 
 export const routes: Routes = [
   {path: "register-user", component: RegisterUser},
