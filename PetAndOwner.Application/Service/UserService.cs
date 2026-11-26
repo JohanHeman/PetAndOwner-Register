@@ -82,17 +82,27 @@ public class UserService : IUserService
         List<ReturnUserProfileDto> persons = new List<ReturnUserProfileDto>();
         foreach (var user in users)
         {
-            persons.Add(new ReturnUserProfileDto()
+            if (user.BirthDate is null ||
+                user.Age is null ||
+                user.City?.Country is null ||
+                user.Name is null ||
+                user.Email is null ||
+                user.PhoneNumber is null) continue;
+
+            var person = new ReturnUserProfileDto()
             {
                 Name = user.Name,
-                BirthDate = user.BirthDate ?? throw new Exception("User must have birthdate"),
+                BirthDate = user.BirthDate,
                 Gender = user.Gender.ToString(),
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 CityName = user.City.Name,
                 Country = user.City.Country.Name,
-                Age = user.Age ?? throw new Exception("User must have age"),
-            });
+                Age = user.Age
+            };
+
+            persons.Add(person);
+
         }
         return persons;
     }

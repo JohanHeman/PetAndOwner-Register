@@ -77,7 +77,7 @@ public static class PetEndpoints
             var identifier = claims.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!Guid.TryParse(identifier, out var userId))
                 return Results.Unauthorized();
-            
+
             try
             {
                 await petService.UpdatePetAsync(pet, userId);

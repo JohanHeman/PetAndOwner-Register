@@ -8,7 +8,7 @@ import {
   LoginRequest,
   ReturnUserProfileDto,
   UpdateUserProfileDto,
-  UpdatePetDto
+  UpdatePetDto,
 } from '../api/api-client';
 
 @Injectable({
@@ -59,8 +59,7 @@ export class UserService {
     return this._userClient.getUserProfile(token);
   }
 
-  updateUserProfile(dto : UpdateUserProfileDto)
-  {
+  updateUserProfile(dto: UpdateUserProfileDto) {
     const token = this.token();
     if (token === null) {
       throw new Error('User is not authenticated');
@@ -69,15 +68,13 @@ export class UserService {
     return this._userClient.updateUserProfile(token, dto);
   }
 
-  deleteUser(){
+  deleteUser() {
     const token = this.token();
     if (token === null) {
       throw new Error('User is not authenticated');
     }
     return this._userClient.deleteUser(token);
   }
-
-
 
   getUserPets() {
     const token = this.token();
@@ -88,12 +85,16 @@ export class UserService {
     return this._userClient.getUserPet(token);
   }
 
-  updateUserPet(dto: UpdatePetDto){
+  updateUserPet(dto: UpdatePetDto) {
     const token = this.token();
     if (token === null) {
       throw new Error('User is not authenticated');
     }
 
     return this._userClient.updateUserPet(token, dto);
+  }
+
+  getAllUsers() {
+    return this._apiClient.persons();
   }
 }

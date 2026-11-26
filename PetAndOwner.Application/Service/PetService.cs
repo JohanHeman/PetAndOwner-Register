@@ -59,7 +59,7 @@ public class PetService : IPetService
     private async Task<AnimalType> GetOrCreateTypeAsync(string typeName)
     {
         var type = await _typeRepository.GetByNameAsync(typeName);
-        if ( type == null)
+        if (type == null)
         {
             await _typeRepository.CreateAsync(new AnimalType() { Id = Guid.NewGuid(), Name = typeName });
             return await _typeRepository.GetByNameAsync(typeName);

@@ -10,4 +10,7 @@ export class DeleteUser {
 
   deleteStatus = output<boolean>();
 
+
+
+
 }
