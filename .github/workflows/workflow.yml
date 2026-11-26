@@ -22,6 +22,8 @@ jobs:
             dotnet-version: |
               9.0.x
               10.0.x
+        - name: restore
+          run: dotnet restore
         - name: build project
           run: dotnet build --no-restore
   format_and_test:
