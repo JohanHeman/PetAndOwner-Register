@@ -10,7 +10,7 @@ export class UserClient {
 
   private _httpClient = inject(HttpClient);
   getUser(token: string) {
-    return this._httpClient.get<ProfileStatusDto>(`${this.url}/api/profile`, {
+    return this._httpClient.get<ProfileStatusDto>(`${this.url}/api/profilestatus`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

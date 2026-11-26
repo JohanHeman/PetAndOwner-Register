@@ -12,7 +12,7 @@ public static class PersonEndpoints
     {
         app.MapGet("/api/persons", async ([FromServices] IUserService userService) => await userService.GetAllUsersAsync()).Produces<IReadOnlyList<ReturnUserProfileDto>>(200);
 
-        app.MapGet("/api/profile", async (ClaimsPrincipal claims, [FromServices] IUserService userService) =>
+        app.MapGet("/api/profilestatus", async (ClaimsPrincipal claims, [FromServices] IUserService userService) =>
         {
             var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
 
