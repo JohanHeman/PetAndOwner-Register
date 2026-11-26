@@ -3,8 +3,8 @@ import { Component, inject, computed, input } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-register-table',
-  styleUrl: './register-table.css',
-  templateUrl: './register-table.html',
+  styleUrl: './registry-table.css',
+  templateUrl: './registry-table.html',
 })
 export class RegisterTable {
 
