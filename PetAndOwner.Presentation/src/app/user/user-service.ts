@@ -76,6 +76,10 @@ export class UserService {
     return this._userClient.deleteUser(token);
   }
 
+  getAllUsers() {
+    return this._apiClient.persons();
+  }
+
   getUserPets() {
     const token = this.token();
     if (token === null) {
@@ -94,7 +98,11 @@ export class UserService {
     return this._userClient.updateUserPet(token, dto);
   }
 
-  getAllUsers() {
-    return this._apiClient.persons();
+  createUserPet(newPet: UpdatePetDto){
+    const token = this.token();
+    if (token === null) {
+      throw new Error('User is not authenticated');
+    }
+    return this._userClient.createNewPet(token, newPet)
   }
 }
