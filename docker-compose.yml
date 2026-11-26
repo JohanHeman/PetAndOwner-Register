@@ -33,6 +33,17 @@ services:
       timeout: 5s
       retries: 5
 
+    
+  angular:
+    image: jojodevdocker/petandowner-frontend
+    pull_policy: always
+    container_name: petandowner-frontend
+    networks:
+      - petandownerapi
+    ports:
+      - "4200:80"
+    restart: on-failure
+
 volumes:
   postgresdata:
 
