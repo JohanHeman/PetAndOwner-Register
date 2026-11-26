@@ -1,15 +1,15 @@
 import { PetService } from '../../pet/pet-service';
 import { UserService } from '../../user/user-service';
-import { RegisterTable } from './../register-table/register-table';
 import { Component, signal, inject } from '@angular/core';
+import { RegistryTable } from '../registry-table/registry-table';
 
 @Component({
-  imports: [RegisterTable],
-  selector: 'app-register-view',
-  styleUrl: './register-view.css',
-  templateUrl: './register-view.html',
+  imports: [RegistryTable],
+  selector: 'app-registry-view',
+  styleUrl: './registry-view.css',
+  templateUrl: './registry-view.html',
 })
-export class RegisterView {
+export class RegistryView {
   tableData = signal<Record<string, unknown>[]>([]);
 
   currentTable = signal<string>('persons');

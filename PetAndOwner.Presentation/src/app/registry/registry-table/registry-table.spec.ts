@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RegisterTable } from './register-table';
+import { RegisterTable } from './registry-table';
 
 describe('RegisterTable', () => {
   let component: RegisterTable;
