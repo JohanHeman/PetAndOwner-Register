@@ -88,7 +88,7 @@ public class UserService : IUserService
                 user.Name is null ||
                 user.Email is null ||
                 user.PhoneNumber is null) continue;
-            
+
             var person = new ReturnUserProfileDto()
             {
                 Name = user.Name,
@@ -100,9 +100,9 @@ public class UserService : IUserService
                 Country = user.City.Country.Name,
                 Age = user.Age
             };
-            
+
             persons.Add(person);
-            
+
         }
         return persons;
     }
