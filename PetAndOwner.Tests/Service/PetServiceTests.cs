@@ -94,7 +94,7 @@ public class PetServiceTests
         var pet = new Pet();
         var user = TestUsers.CreateTestUser();
         pet.Owners = new List<ApplicationUser> { user };
-        _repository.Setup(x => x.GetByIdAsync(pet.Id)).ReturnsAsync(pet);
+        _repository.Setup(x => x.GetWithOwnerByIdAsync(pet.Id)).ReturnsAsync(pet);
         // Act
         await _sut.RemovePetAsync(pet.Id, user.Id);
 
