@@ -70,7 +70,7 @@ public class PetService : IPetService
     public async Task RemovePetAsync(Guid petId, Guid userId)
     {
         var pet = await _petRepository.GetWithOwnerByIdAsync(petId);
-    
+
         if (!pet.Owners.Any(x => x.Id == userId))
         {
             throw new ArgumentException("User is not owner of pet");
