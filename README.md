@@ -81,23 +81,7 @@ Make sure you have the following installed:
    docker compose up -d
    ```
 
-5. Check your containers in Docker Desktop. The API and database should now be running in Docker.
-6. Navigate to the presentation project:
+5. Check your containers in Docker Desktop. The API, database and angular project should now be running in Docker.
 
-   ```bash
-   cd PetAndOwner.Presentation
-   ```
-
-7. Install the dependencies if you haven't already:
-
-   ```bash
-   npm install
-   ```
-
-8. Start the frontend:
-
-   ```bash
-   npm start
-   ```
 
 The application should now be up and running.
