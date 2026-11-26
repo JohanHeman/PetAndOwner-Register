@@ -1,0 +1,32 @@
+.form-container {
+  max-width: 320px;
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px solid #000000;
+  border-radius: 12px;
+
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+input,
+select {
+  padding: 0.4rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+  align-self: flex-start;
+}
+
+

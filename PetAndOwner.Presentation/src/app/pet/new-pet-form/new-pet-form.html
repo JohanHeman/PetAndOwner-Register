@@ -1,0 +1,16 @@
+<div class="form-container">
+  <form #form="ngForm" (ngSubmit)="onSubmit()">
+    <input type="text" name="name"  [(ngModel)]="pet().name" placeholder="name" required>
+    <input type="number" name="age" [(ngModel)]="pet().age" placeholder="age" required>
+    <select name="gender" [(ngModel)]="pet().gender" required>
+          @for (g of genders; track g.value) {
+            <option [ngValue]="g.value">{{ g.label }}</option>
+          }
+    </select>
+    <input type="text" name="type" [(ngModel)]="pet().animalType" placeholder="type of animal ex: dog or chicken">
+    <div class="buttons">
+      <button type="submit" [disabled]="form.invalid">Submit</button>
+      <button type="button" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+</div>

@@ -1,4 +1,10 @@
 <p>my-pets works!</p>
-@for (pet of pets(); track pet.petId) {
-  <app-pet-profile-card [pet]="pet" (saved)="onSaved($event)" />
+<button (click)="addPetClicked()">{{ showForm() ? 'x' : '+' }}</button>
+@if(showForm()){
+  <app-new-pet-form (saved)="saveNewPet($event)" (canceled)="showForm.set(false)"></app-new-pet-form>
 }
+<div class="pet-card-container">
+  @for (pet of pets(); track pet.petId) {
+    <app-pet-profile-card [pet]="pet" (saved)="onSave($event)" />
+  }
+</div>
