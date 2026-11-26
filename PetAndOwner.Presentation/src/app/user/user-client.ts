@@ -78,7 +78,7 @@ export class UserClient {
 
   deletePet(token: string, petId: string)
   {
-    return this._httpClient.delete(`${this.url}/api/profile/pet`, {
+    return this._httpClient.delete(`${this.url}/api/profile/pet/${petId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
