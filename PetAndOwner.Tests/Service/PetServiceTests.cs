@@ -12,16 +12,19 @@ namespace PetAndOwner.Tests.Service;
 
 public class PetServiceTests
 {
+    private readonly PetService _sut;
+    
+    private readonly Mock<UserManager<ApplicationUser>> _userManager;
     private readonly Mock<IPetRepository> _repository;
     private readonly Mock<IAnimalTypeRepository> _typerepository;
-    private readonly PetService _sut;
-    private readonly Mock<UserManager<ApplicationUser>> _userManager;
+
     public PetServiceTests()
     {
         _repository = new Mock<IPetRepository>();
+        _typerepository = new Mock<IAnimalTypeRepository>();
         var store = new Mock<IUserStore<ApplicationUser>>();
-
         _userManager = MockUserManager.Create();
+        
         _sut = new PetService(_repository.Object, _typerepository.Object, _userManager.Object);
     }
 
@@ -51,11 +54,15 @@ public class PetServiceTests
         // Arrange
         var petId = Guid.NewGuid();
         var user = TestUsers.CreateTestUser();
+        
+        var type = new AnimalType { Name = "chicken" };
+        
         var dto = new UpdatePetDto
         {
             PetId = petId,
             Name = "Rex",
             Age = 5,
+            AnimalType = "chicken"
         };
 
         var existingPet = new Pet
@@ -63,10 +70,11 @@ public class PetServiceTests
             Id = petId,
             Name = "Buddy",
             Age = 3,
-            Owners = new List<ApplicationUser> { user }
+            Owners = new List<ApplicationUser> { user },
         };
-
-        _repository.Setup(x => x.GetByIdAsync(petId)).ReturnsAsync(existingPet);
+        
+        _repository.Setup(x => x.GetWithOwnerByIdAsync(petId)).ReturnsAsync(existingPet);
+        _typerepository.Setup(x => x.GetByNameAsync("chicken")).ReturnsAsync(type);
         // Act
 
         await _sut.UpdatePetAsync(dto, user.Id);
@@ -75,7 +83,8 @@ public class PetServiceTests
         _repository.Verify(x => x.UpdateAsync(It.Is<Pet>(p =>
             p.Id == petId &&
             p.Name == "Rex" &&
-            p.Age == 5)), Times.Once);
+            p.Age == 5 && 
+            p.AnimalType == type)), Times.Once);
     }
 
     [Fact]
