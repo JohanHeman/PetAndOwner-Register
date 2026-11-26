@@ -3,7 +3,7 @@ import { RegisterUser } from './user/register-user/register-user';
 import { LoginUser } from './user/login-user/login-user';
 import { Start } from './home/start/start';
 import { HomePage } from './home/home-page/home-page';
-import { RegisterView } from './register/register-view/register-view';
+import { RegisterView } from './registry/register-view/registry-view';
 import { SetupProfile } from './user/setup-profile/setup-profile';
 import { MyProfile } from './user/my-profile/my-profile';
 import { Profile } from './user/profile/profile';

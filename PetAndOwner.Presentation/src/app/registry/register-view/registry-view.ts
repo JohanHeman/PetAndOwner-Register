@@ -1,13 +1,13 @@
 import { PetService } from '../../pet/pet-service';
 import { UserService } from '../../user/user-service';
-import { RegisterTable } from './../register-table/register-table';
+import { RegisterTable } from '../register-table/registry-table';
 import { Component, signal, inject } from '@angular/core';
 
 @Component({
   imports: [RegisterTable],
   selector: 'app-register-view',
-  styleUrl: './register-view.css',
-  templateUrl: './register-view.html',
+  styleUrl: './registry-view.css',
+  templateUrl: './registry-view.html',
 })
 export class RegisterView {
   tableData = signal<Record<string, unknown>[]>([]);
