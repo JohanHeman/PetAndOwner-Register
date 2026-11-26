@@ -15,6 +15,11 @@ export class SetupProfile {
 
   user: UpdateUserProfileDto = {};
 
+  genders = [
+  {  label: 'Male'},
+  {  label: 'Female'},
+  {  label: 'Unknown'}];
+
   private _router = inject(Router)
 
   onSubmit() {
