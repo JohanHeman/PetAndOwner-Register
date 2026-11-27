@@ -19,6 +19,8 @@
       </select>
   }
   <p>current value {{valueToChange()}}</p>
+
   <button class="pad" type="submit">Save</button>
-  <button type="submit">Cancel</button>
+  <button (click)="onCansel()" type="button">Cancel</button>
 </form>
+
