@@ -3,17 +3,19 @@
     <h3>{{dto().name}}</h3>
   </div>
   @for(item of (dto() | keyvalue); track item.key){
-    @if(item.key !== "name" && item.key !== "id" && item.key)
+    @if(item.key !== "name" && item.key !== "id")
     {
       <p>{{item.key}}: {{item.value}}</p>
-      @if(item.key !== "age")
+      @if(item.key !== "age" )
       {
-        <button (click)="valueToEdit.set(item.value)">Edit</button>
-        @if(valueToEdit() === item.value)
+        <button (click)="valueToEdit.set(item.key)">Edit</button>
+
+        @if(valueToEdit() === item.key)
         {
-        <app-edit-profile [valueToChange]="item.value" [isDate]="item.key === 'birthDate' " (sendNewValue)="updateProfile(item.key, $event)" />
+        <app-edit-profile [valueToChange]="item.key" [currentValue]="item.value" [isDate]="item.key === 'birthDate' " (sendNewValue)="updateProfile(item.key, $event)" />
         }
       }
+
     }
   }
 

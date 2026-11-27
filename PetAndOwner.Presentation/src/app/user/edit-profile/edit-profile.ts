@@ -10,7 +10,14 @@ import { FormsModule } from '@angular/forms';
 export class EditProfile {
   valueToChange = input<string>();
 
+  currentValue = input<any>();
+
   newValue = signal('');
+
+  genders = [
+  {  label: 'Male'},
+  {  label: 'Female'},
+  {  label: 'Unknown'}];
 
   sendNewValue = output<string>();
 

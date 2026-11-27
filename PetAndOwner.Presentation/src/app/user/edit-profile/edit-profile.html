@@ -1,12 +1,22 @@
-
-
 <form class="pad center-standing" #gForm="ngForm" (ngSubmit)="onSubmit()">
-  @if(isDate()){
-    <input type="date" name="newValue" [(ngModel)]="newValue" >
+  @if(valueToChange() !== "gender")
+  {
+    @if(isDate()){
+    <input type="date" name="newValue" [(ngModel)]="newValue">
   }
-  @else {
+    @else
+    {
+      <input type="text" name="newValue" [(ngModel)]="newValue">
+    }
+  }
 
-  <input type="text" name="newValue" [(ngModel)]="newValue" >
+  @if(valueToChange() === "gender")
+  {
+      <select name="gender" [(ngModel)]="newValue" required>
+        @for (g of genders; track g.label) {
+        <option [ngValue]="g.label">{{ g.label }}</option>
+        }
+      </select>
   }
   <p>current value {{valueToChange()}}</p>
   <button class="pad" type="submit">Save</button>
