@@ -12,10 +12,10 @@
 
         @if(valueToEdit() === item.key)
         {
-        <app-edit-profile [valueToChange]="item.key" [currentValue]="item.value" [isDate]="item.key === 'birthDate' " (sendNewValue)="updateProfile(item.key, $event)" />
+        <app-edit-profile [valueToChange]="item.key" [currentValue]="item.value" [isDate]="item.key === 'birthDate' " (sendNewValue)="updateProfile(item.key, $event)"
+        (canceld)="valueToEdit.set($event)"/>
         }
       }
-
     }
   }
 

@@ -20,10 +20,15 @@ export class EditProfile {
   {  label: 'Unknown'}];
 
   sendNewValue = output<string>();
+  canceld = output<string>();
 
   isDate = input<boolean>()
 
   onSubmit() {
     this.sendNewValue.emit(this.newValue());
+  }
+
+  onCansel(){
+    this.canceld.emit("");
   }
 }
