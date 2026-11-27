@@ -24,7 +24,7 @@ export class RegistryView {
 
   loadPetsTable() {
     return this._petService.getAllPets().subscribe({
-      next: (data) => this.tableData.set(data),
+      next: (data) => this.tableData.set(data.map(({petId, ...pet}) => pet)),
       error: (err) => console.log(err),
     });
   }
