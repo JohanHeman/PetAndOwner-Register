@@ -133,13 +133,13 @@ public class UserService : IUserService
         if (existing == null) throw new Exception("User not found");
 
         // only change values that are allowed to change
-        existing.Name = profileDto.Name;
-        existing.BirthDate = profileDto.BirthDate;
+        existing.Name = profileDto.Name ?? existing.Name;
+        existing.BirthDate = profileDto.BirthDate ?? existing.BirthDate;
         existing.Gender = Enum.Parse<Gender>(profileDto.Gender);
-        existing.Email = profileDto.Email;
-        existing.PhoneNumber = profileDto.PhoneNumber;
-        existing.BirthDate = profileDto.BirthDate;
-        existing.City = city;
+        existing.Email = profileDto.Email ??  existing.Email;
+        existing.PhoneNumber = profileDto.PhoneNumber ??  existing.PhoneNumber;
+        existing.BirthDate = profileDto.BirthDate ?? existing.BirthDate;
+        existing.City = city ??  existing.City;
         existing.CityId = city.Id;
         var result = await _userManager.UpdateAsync(existing);
         ThrowIfFailed(result, "update user");
