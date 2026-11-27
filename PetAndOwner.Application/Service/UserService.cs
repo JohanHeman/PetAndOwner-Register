@@ -136,10 +136,10 @@ public class UserService : IUserService
         existing.Name = profileDto.Name ?? existing.Name;
         existing.BirthDate = profileDto.BirthDate ?? existing.BirthDate;
         existing.Gender = Enum.Parse<Gender>(profileDto.Gender);
-        existing.Email = profileDto.Email ??  existing.Email;
-        existing.PhoneNumber = profileDto.PhoneNumber ??  existing.PhoneNumber;
+        existing.Email = profileDto.Email ?? existing.Email;
+        existing.PhoneNumber = profileDto.PhoneNumber ?? existing.PhoneNumber;
         existing.BirthDate = profileDto.BirthDate ?? existing.BirthDate;
-        existing.City = city ??  existing.City;
+        existing.City = city ?? existing.City;
         existing.CityId = city.Id;
         var result = await _userManager.UpdateAsync(existing);
         ThrowIfFailed(result, "update user");
